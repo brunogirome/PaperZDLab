@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
- #include "ActorC.h"
- #include "HeroS.h"
+#include "ActorC.h"
+#include "HeroS.h"
 
 #include "HeroC.generated.h"
 
@@ -18,12 +18,10 @@ class PAPERZDLAB_API UHeroC : public UActorC
 public:
 	GENERATED_BODY()
 
-	UFUNCTION(BlueprintCallable)
-	FHeroS getHeroS();
-
-	FHeroS* HeroS;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	FHeroS HeroS;
 
 	UHeroC();
 
-	UHeroC(FHeroS* heroS);
+	UHeroC(FHeroS heroS);
 };

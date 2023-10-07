@@ -5,20 +5,14 @@
 
 bool UActorC::isDead()
 {
-	return this->ActorS->Hp <= 0;
-}
-
-FActorS UActorC::getActorS()
-{
-	return *this->ActorS;
+	return this->ActorS.Hp <= 0;
 }
 
 UActorC::UActorC()
 {
 }
 
-UActorC::UActorC(FActorS* actorS)
+UActorC::UActorC(FActorS actorS)
 {
 	this->ActorS = actorS;
 }
-

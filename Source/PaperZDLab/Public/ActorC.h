@@ -21,15 +21,13 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool isDead();
 
-	UFUNCTION(BlueprintCallable)
-	FActorS getActorS();
-
-	FActorS* ActorS;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	FActorS ActorS;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	int32 HpTotal;
 
 	UActorC();
 
-	UActorC(FActorS* actorS);
+	UActorC(FActorS actorS);
 };
