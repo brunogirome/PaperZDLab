@@ -1,0 +1,19 @@
+#pragma once
+
+#include "CoreMinimal.h"
+#include "BuffEnum.generated.h"
+
+UENUM(BlueprintType)
+enum BuffEnum
+{
+  PHYISICAL_DAMAGE_BUFF UMETA(DisplayName = "PHYISICAL_DAMAGE_BUFF"),
+  PHYSICAL_DEFENSE_BUFF UMETA(DisplayName = "PHYSICAL_DEFENSE_BUFF"),
+  MAGIC_DAMAGE_BUFF UMETA(DisplayName = "MAGIC_DAMAGE_BUFF"),
+  MAGIC_DEFENSE_BUFF UMETA(DisplayName = "MAGIC_DEFENSE_BUFF"),
+  SPEED_BUFF UMETA(DisplayName = "SPEED_BUFF"),
+  STAMINA_BUFF UMETA(DisplayName = "STAMINA_BUFF"),
+  EVASION_BUFF UMETA(DisplayName = "EVASION_BUFF"),
+  STRENGHT_BUFF UMETA(DisplayName = "STRENGHT_BUFF"),
+  AGILITY_BUFF UMETA(DisplayName = "AGILITY_BUFF"),
+  INTELIGENCE_BUFF UMETA(DisplayName = "INTELIGENCE_BUFF")
+};
