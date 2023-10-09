@@ -1,3 +1,0 @@
-,XpDrop,Id,Name,Description,TypeOfActor,CombatType,Element,Strength,Agility,Inteligence,PhysicalDamageBase,MagicDamageBase,PhysicalDefenseBase,MagicDefenseBase,HpBase,ManaBase,SpeedBase,EvasionBase,StaminaBase
-Goblin,100,1,Goblin,Mischivious creature from the forests,ENEMY,AGILITY,EARTH,30,18,5,45,15,25,30,75,10,12,1,6
-DemonEye,120,2,Demon Eye,A bat demon with a giant eye,ENEMY,INTELIGENCE,FIRE,15,22,25,10,35,20,30,65,50,25,2,6

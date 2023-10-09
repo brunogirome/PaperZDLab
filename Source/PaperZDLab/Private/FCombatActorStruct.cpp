@@ -6,7 +6,7 @@ FCombatActorStruct::FCombatActorStruct()
 {
 }
 
-FCombatActorStruct::FCombatActorStruct(int32 id, FString name, FString description, TEnumAsByte<TypeOfActorEnum> typeOfActor, TEnumAsByte<CombatTypeEnum> combatType, TEnumAsByte<ElementEnum> element, int32 strength, int32 agility, int32 inteligence, int32 hpBase, int32 manaBase, int32 speedBase, int32 evasionBase, int32 staminaBase, int32 physicalDamageBase, int32 magicDamageBase, int32 physicalDefenseBase, int32 magicDefenseBase)
+FCombatActorStruct::FCombatActorStruct(int32 id, FString name, FString description, TEnumAsByte<TypeOfActorEnum> typeOfActor, TEnumAsByte<CombatTypeEnum> combatType, TEnumAsByte<ElementEnum> element, int32 strengthBase, int32 agilityBase, int32 inteligenceBase, int32 hpBase, int32 manaBase, int32 speedBase, int32 evasionBase, int32 staminaBase, int32 physicalDamageBase, int32 magicDamageBase, int32 physicalDefenseBase, int32 magicDefenseBase)
 {
   this->Id = id;
   this->Name = name;
@@ -16,9 +16,9 @@ FCombatActorStruct::FCombatActorStruct(int32 id, FString name, FString descripti
   this->CombatType = combatType;
   this->Element = element;
 
-  this->Strength = strength;
-  this->Agility = agility;
-  this->Inteligence = inteligence;
+  this->StrengthBase = strengthBase;
+  this->AgilityBase = agilityBase;
+  this->InteligenceBase = inteligenceBase;
 
   this->PhysicalDamageBase = physicalDamageBase;
   this->MagicDamageBase = magicDamageBase;
