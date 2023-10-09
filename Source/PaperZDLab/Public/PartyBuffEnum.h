@@ -1,10 +1,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "PartyBuff.generated.h"
+#include "PartyBuffEnum.generated.h"
 
 UENUM(BlueprintType)
-enum PartyBuff
+enum PartyBuffEnum
 {
   SIGHT_PARTY_BUFF UMETA(DisplayName = "SIGHT_PARTY_BUFF")
 };

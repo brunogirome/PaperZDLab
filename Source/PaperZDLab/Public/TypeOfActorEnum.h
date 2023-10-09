@@ -1,10 +1,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ActorTypeEnum.generated.h"
+#include "TypeOfActorEnum.generated.h"
 
 UENUM(BlueprintType)
-enum ActorTypeEnum
+enum TypeOfActorEnum
 {
   HERO UMETA(DisplayName = "HERO"),
   ENEMY UMETA(DisplayName = "ENEMY")
