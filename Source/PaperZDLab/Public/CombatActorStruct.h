@@ -4,7 +4,7 @@
 #include "ElementEnum.h"
 #include "TypeOfActorEnum.h"
 
-#include "FCombatActorStruct.generated.h"
+#include "CombatActorStruct.generated.h"
 
 USTRUCT(BlueprintType)
 struct FCombatActorStruct : public FTableRowBase

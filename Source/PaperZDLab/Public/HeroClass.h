@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "CombatActorClass.h"
 
-#include "FHeroStruct.h"
+#include "HeroStruct.h"
 
 #include "HeroClass.generated.h"
 

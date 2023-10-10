@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 
-#include "FCombatActorStruct.h"
+#include "CombatActorStruct.h"
 
 #include "CombatActorClass.generated.h"
 
@@ -13,7 +13,7 @@
  *
  */
 UCLASS(BlueprintType)
-class UCombatActorClass : public UObject
+class PAPERZDLAB_API UCombatActorClass : public UObject
 {
 	GENERATED_BODY()
 

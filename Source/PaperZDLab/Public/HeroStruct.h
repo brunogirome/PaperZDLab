@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "FCombatActorStruct.h"
+#include "CombatActorStruct.h"
 
-#include "FHeroStruct.generated.h"
+#include "HeroStruct.generated.h"
 
 /**
  *
