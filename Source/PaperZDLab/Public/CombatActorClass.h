@@ -31,9 +31,11 @@ class PAPERZDLAB_API UCombatActorClass : public UObject
 
 	int32 calculateAttribute(int32 baseValue, float multiplier, int32 combatTypeValue, TEnumAsByte<CombatTypeEnum> combatTypeBonus, float buffValue = 0);
 
+protected:
+	void init(FCombatActorStruct *combatActorStructPointer);
+
 public:
-	UPROPERTY(BlueprintReadWrite)
-	FCombatActorStruct CombatActorStruct;
+	FCombatActorStruct *CombatActorStructPointer;
 
 	UPROPERTY(BlueprintReadWrite)
 	int32 Strength;
@@ -79,11 +81,12 @@ public:
 
 	UCombatActorClass();
 
-	UCombatActorClass(FCombatActorStruct combatActorStruct);
-
 	UFUNCTION(BlueprintCallable)
 	void calculateStats();
 
 	UFUNCTION(BluePrintCallable)
 	bool isDead();
+
+	UFUNCTION(BluePrintCallable)
+	FCombatActorStruct GetActorStruct();
 };

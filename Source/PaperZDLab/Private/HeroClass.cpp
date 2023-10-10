@@ -2,18 +2,15 @@
 
 #include "HeroClass.h"
 
-void UHeroClass::Init(FHeroStruct heroStructParam)
+void UHeroClass::Init(FHeroStruct *heroStructPointer, int32 level)
 {
-    this->HeroStruct = heroStructParam;
-    this->CombatActorStruct = heroStructParam;
+    FHeroStruct heroStructRef(heroStructPointer, level);
 
-    this->calculateStats();
+    this->HeroStruct = heroStructRef;
+
+    this->Level = level;
+
+    this->UCombatActorClass::init(&this->HeroStruct);
 }
 
 UHeroClass::UHeroClass() {}
-
-UHeroClass::UHeroClass(FHeroStruct heroStruct)
-    : UCombatActorClass(heroStruct)
-{
-    this->HeroStruct = heroStruct;
-}

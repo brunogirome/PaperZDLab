@@ -68,6 +68,4 @@ struct FCombatActorStruct : public FTableRowBase
 	FCombatActorStruct();
 
 	FCombatActorStruct(FCombatActorStruct *FCombatActorStructPointer);
-
-	FCombatActorStruct(int32 id, FString name, FString description, TEnumAsByte<TypeOfActorEnum> typeOfActor, TEnumAsByte<CombatTypeEnum> combatType, TEnumAsByte<ElementEnum> element, int32 strengthBase, int32 agilityBase, int32 inteligenceBase, int32 physicalDamageBase, int32 magicDamageBase, int32 physicalDefenseBase, int32 magicDefenseBase, int32 hpBase, int32 manaBase, int32 speedBase, int32 evasionBase, int32 staminaBase);
 };

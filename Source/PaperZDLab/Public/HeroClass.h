@@ -27,10 +27,7 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	int32 Level;
 
-	UFUNCTION(BlueprintCallable)
-	void Init(FHeroStruct heroStructParam);
+	void Init(FHeroStruct *heroStructPointer, int32 level);
 
 	UHeroClass();
-
-	UHeroClass(FHeroStruct heroStruct);
 };

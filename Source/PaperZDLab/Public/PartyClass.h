@@ -22,14 +22,9 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	TArray<UHeroClass *> Members;
 
-	UPROPERTY(BlueprintReadWrite)
-	TArray<FName> MembersRowName;
-
 	UDataTable *HeroesDataTable;
 
 	UPartyClass();
-
-	UPartyClass(TArray<FName> initialMembersNames);
 
 	UFUNCTION(BlueprintCallable)
 	void LoadMembers();

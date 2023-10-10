@@ -54,7 +54,5 @@ struct FHeroStruct : public FCombatActorStruct
 
 	FHeroStruct(FHeroStruct *FHeroStructPointer, int32 level);
 
-	FHeroStruct(int32 id, FString name, FString description, TEnumAsByte<CombatTypeEnum> combatType, TEnumAsByte<ElementEnum> element, int32 strengthBase, int32 agilityBase, int32 inteligenceBase, int32 physicalDamageBase, int32 magicDamageBase, int32 physicalDefenseBase, int32 magicDefenseBase, int32 hpBase, int32 manaBase, int32 speedBase, int32 evasionBase, int32 staminaBase, float strengthScale, float agilityScale, float inteligenceScale, float physicalDamageScale, float magicDamageScale, float physicalDefenseScale, float magicDefenseScale, float hpScale, float manaScale, float speedScale, float evasionScale, float staminaScale, int32 level);
-
 	void levelUp(int32 level);
 };

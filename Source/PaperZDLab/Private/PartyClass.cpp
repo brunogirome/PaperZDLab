@@ -10,11 +10,6 @@ UPartyClass::UPartyClass()
     HeroesDataTable = Heroes_DataTable_Ref.Object;
 }
 
-UPartyClass::UPartyClass(TArray<FName> initialMembersNames)
-{
-    this->MembersRowName = initialMembersNames;
-}
-
 void UPartyClass::LoadMembers()
 {
     std::vector<FName> initialParty;
@@ -30,11 +25,9 @@ void UPartyClass::LoadMembers()
 
         FHeroStruct *heroStructPointer = this->HeroesDataTable->FindRow<FHeroStruct>(memberName, "", true);
 
-        FHeroStruct heroStructRef(heroStructPointer, level);
-
         UHeroClass *heroInstance = NewObject<UHeroClass>(UHeroClass::StaticClass());
 
-        heroInstance->Init(heroStructRef);
+        heroInstance->Init(heroStructPointer, level);
 
         this->Members.Emplace(heroInstance);
     }
