@@ -4,14 +4,33 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+
+#include "Engine/DataTable.h"
+
+#include "HeroClass.h"
+
 #include "PartyClass.generated.h"
 
 /**
- * 
+ *
  */
-UCLASS()
+UCLASS(BlueprintType)
 class PAPERZDLAB_API UPartyClass : public UObject
 {
 	GENERATED_BODY()
-	
+public:
+	UPROPERTY(BlueprintReadOnly)
+	TArray<UHeroClass *> Members;
+
+	UPROPERTY(BlueprintReadWrite)
+	TArray<FName> MembersRowName;
+
+	UDataTable *HeroesDataTable;
+
+	UPartyClass();
+
+	UPartyClass(TArray<FName> initialMembersNames);
+
+	UFUNCTION(BlueprintCallable)
+	void LoadMembers();
 };

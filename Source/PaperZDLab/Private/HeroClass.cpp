@@ -2,10 +2,12 @@
 
 #include "HeroClass.h"
 
-void UHeroClass::TempInitHeroStruct(FHeroStruct heroStructParam)
+void UHeroClass::Init(FHeroStruct heroStructParam)
 {
     this->HeroStruct = heroStructParam;
     this->CombatActorStruct = heroStructParam;
+
+    this->calculateStats();
 }
 
 UHeroClass::UHeroClass() {}

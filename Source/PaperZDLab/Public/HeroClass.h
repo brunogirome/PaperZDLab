@@ -28,7 +28,7 @@ public:
 	int32 Level;
 
 	UFUNCTION(BlueprintCallable)
-	void TempInitHeroStruct(FHeroStruct heroStructParam);
+	void Init(FHeroStruct heroStructParam);
 
 	UHeroClass();
 
