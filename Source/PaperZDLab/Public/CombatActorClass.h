@@ -29,61 +29,61 @@ class UCombatActorClass : public UObject
 	const int EVASION_BONUS = 0.5f;
 	const int STAMINA_BONUS = 0.25f;
 
+	int32 calculateAttribute(int32 baseValue, float multiplier, int32 combatTypeValue, TEnumAsByte<CombatTypeEnum> combatTypeBonus, float buffValue = 0);
+
 public:
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadWrite)
 	FCombatActorStruct CombatActorStruct;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadWrite)
 	int32 Strength;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadWrite)
 	int32 Agility;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadWrite)
 	int32 Inteligence;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadWrite)
 	int32 PhysicalDamage;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadWrite)
 	int32 MagicDamage;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadWrite)
 	int32 PhysicalDefense;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadWrite)
 	int32 MagicDefense;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadWrite)
 	int32 Hp;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadWrite)
 	int32 Mana;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadWrite)
 	int32 Speed;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadWrite)
 	int32 Evasion;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadWrite)
 	int32 Stamina;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadWrite)
 	int32 HpCurrent;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadWrite)
 	int32 ManaCurrent;
 
 	UCombatActorClass();
 
-	// UCombatActorClass(FCombatActorStruct combatActorStruct);
-	// UPROPERTY(BluePrintCallable)
-	// bool IsDead();
+	UCombatActorClass(FCombatActorStruct combatActorStruct);
 
-	// UPROPERTY(BluePrintCallable)
-	// void Heal(int32 amount);
+	UFUNCTION(BlueprintCallable)
+	void calculateStats();
 
-	// UPROPERTY(BluePrintCallable)
-	// void CalculateStatus();
+	UFUNCTION(BluePrintCallable)
+	bool isDead();
 };

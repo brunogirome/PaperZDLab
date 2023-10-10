@@ -4,14 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "LabGameMode.generated.h"
+#include "GM_Lab.generated.h"
 
 /**
- * 
+ *
  */
-UCLASS()
-class PAPERZDLAB_API ALabGameMode : public AGameModeBase
+UCLASS(BlueprintType)
+class PAPERZDLAB_API AGM_Lab : public AGameModeBase
 {
 	GENERATED_BODY()
-	
 };
