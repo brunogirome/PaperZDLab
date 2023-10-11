@@ -7,11 +7,10 @@
 #include "BattleClass.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class PAPERZDLAB_API ABattleClass : public AGameStateBase
 {
 	GENERATED_BODY()
-	
 };

@@ -6,5 +6,5 @@
 UENUM(BlueprintType)
 enum PartyBuffEnum
 {
-  SIGHT_PARTY_BUFF UMETA(DisplayName = "SIGHT_PARTY_BUFF")
+  SIGHT_PARTY_BUFF
 };

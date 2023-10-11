@@ -6,8 +6,8 @@
 UENUM(BlueprintType)
 enum ItemEnum
 {
-  ARTIFACT_PART UMETA(DisplayName = "ARTIFACT_PART"),
-  ARTIFACT UMETA(DisplayName = "ARTIFACT"),
-  CONSUMABLE UMETA(DisplayName = "CONSUMABLE"),
-  KEY UMETA(DisplayName = "KEY")
+  ARTIFACT_PART,
+  ARTIFACT,
+  CONSUMABLE,
+  KEY
 };

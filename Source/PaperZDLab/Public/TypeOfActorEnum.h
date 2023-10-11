@@ -6,6 +6,6 @@
 UENUM(BlueprintType)
 enum TypeOfActorEnum
 {
-  HERO UMETA(DisplayName = "HERO"),
-  ENEMY UMETA(DisplayName = "ENEMY")
+  HERO,
+  ENEMY
 };

@@ -6,8 +6,8 @@
 UENUM(BlueprintType)
 enum SpellEnum
 {
-  DAMAGE UMETA(DisplayName = "DAMAGE"),
-  BUFF UMETA(DisplayName = "BUFF"),
-  SUPPORT UMETA(DisplayName = "SUPPORT"),
-  HEALING UMETA(DisplayName = "HEALING")
+  DAMAGE,
+  BUFF,
+  SUPPORT,
+  HEALING
 };

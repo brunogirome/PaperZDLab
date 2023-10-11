@@ -6,7 +6,7 @@
 UENUM(BlueprintType)
 enum CombatTypeEnum
 {
-  STRENGTH UMETA(DisplayName = "STRENGTH"),
-  AGILITY UMETA(DisplayName = "AGILITY"),
-  INTELIGENCE UMETA(DisplayName = "INTELIGENCE")
+  STRENGTH,
+  AGILITY,
+  INTELIGENCE
 };
