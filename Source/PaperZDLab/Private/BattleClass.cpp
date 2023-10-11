@@ -10,6 +10,8 @@ ActorAttackOrder::ActorAttackOrder(int32 position, UCombatActorClass *actorClass
 
   this->IsDead = actorClass->IsDead();
 
+  this->Name = actorClass->CombatActorStructPointer->Name;
+
   this->TypeOfActor = actorClass->CombatActorStructPointer->TypeOfActor;
 }
 
@@ -45,6 +47,45 @@ void ABattleClass::PrintNames()
   for (auto *enemy : this->EnemyParty)
   {
     GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Purple, enemy->EnemyStruct->Name);
+  }
+}
+
+void ABattleClass::SortTurn()
+{
+  this->attackOrder.Empty();
+
+  int32 index = 0;
+
+  for (auto *hero : *this->Party)
+  {
+    ActorAttackOrder attackActor(index, hero);
+
+    this->attackOrder.Emplace(attackActor);
+
+    index++;
+  }
+
+  index = 0;
+
+  for (auto *enemy : this->EnemyParty)
+  {
+    ActorAttackOrder attackActor(index, enemy);
+
+    this->attackOrder.Emplace(attackActor);
+
+    index++;
+  }
+
+  this->attackOrder.Sort(
+      [](const ActorAttackOrder &A, const ActorAttackOrder &B)
+      { return A.Speed < B.Speed; });
+}
+
+void ABattleClass::PrintSort()
+{
+  for (auto actor : attackOrder)
+  {
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Yellow, actor.Name + TEXT(", ") + FString::FromInt(actor.Speed));
   }
 }
 

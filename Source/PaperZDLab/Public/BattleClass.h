@@ -22,6 +22,8 @@ struct ActorAttackOrder
 
 	bool IsDead;
 
+	FString Name;
+
 	TEnumAsByte<TypeOfActorEnum> TypeOfActor;
 
 	ActorAttackOrder(int32 position, UCombatActorClass *actorClass);
@@ -43,6 +45,8 @@ public:
 
 	TArray<UEnemyClass *> EnemyParty;
 
+	TArray<ActorAttackOrder> attackOrder;
+
 	UDataTable *EnemiesDataTable;
 
 	ABattleClass();
@@ -55,4 +59,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void PrintNames();
+
+	UFUNCTION(BlueprintCallable)
+	void SortTurn();
+
+	UFUNCTION(BlueprintCallable)
+	void PrintSort();
 };
