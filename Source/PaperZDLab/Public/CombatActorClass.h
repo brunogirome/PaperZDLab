@@ -85,7 +85,7 @@ public:
 	void calculateStats();
 
 	UFUNCTION(BluePrintCallable)
-	bool isDead();
+	bool IsDead();
 
 	UFUNCTION(BluePrintCallable)
 	FCombatActorStruct GetActorStruct();

@@ -9,9 +9,11 @@ FEnemyStruct UEnemyClass::GetEnemyStruct()
   return *this->EnemyStruct;
 }
 
-void UEnemyClass::Init(FEnemyStruct *enemyStructPointer, int32 xpDrop)
+void UEnemyClass::Init(FEnemyStruct *enemyStructPointer)
 {
-  this->XpDrop = xpDrop;
+  this->EnemyStruct = enemyStructPointer;
+
+  this->XpDrop = enemyStructPointer->XpDrop;
 
   this->UCombatActorClass::init(this->EnemyStruct);
 }

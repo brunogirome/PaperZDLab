@@ -43,7 +43,7 @@ void UCombatActorClass::calculateStats()
     this->MagicDefense = calculateAttribute(this->CombatActorStructPointer->MagicDefenseBase, this->MAGIC_DEFENSE_BONUS, this->Inteligence, INTELIGENCE);
 }
 
-bool UCombatActorClass::isDead()
+bool UCombatActorClass::IsDead()
 {
     return this->HpCurrent <= 0;
 }

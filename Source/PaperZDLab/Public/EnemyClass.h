@@ -28,5 +28,5 @@ public:
 	UFUNCTION(BlueprintCallable)
 	FEnemyStruct GetEnemyStruct();
 
-	void Init(FEnemyStruct *enemyStructPointer, int32 xpDrop);
+	void Init(FEnemyStruct *enemyStructPointer);
 };
