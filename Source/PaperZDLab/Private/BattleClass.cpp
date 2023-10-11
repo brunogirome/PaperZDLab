@@ -35,6 +35,8 @@ void ABattleClass::Init(UPartyClass *GameParty, TArray<FName> enemiesRowNames)
 
     this->EnemyParty.Emplace(enemyInstance);
   }
+
+  this->turnSize = this->Party->Num() + this->EnemyParty.Num();
 }
 
 void ABattleClass::PrintNames()
@@ -52,6 +54,7 @@ void ABattleClass::PrintNames()
 
 void ABattleClass::SortTurn()
 {
+  // Sorting the turn
   this->attackOrder.Empty();
 
   int32 index = 0;
@@ -78,15 +81,53 @@ void ABattleClass::SortTurn()
 
   this->attackOrder.Sort(
       [](const ActorAttackOrder &A, const ActorAttackOrder &B)
-      { return A.Speed < B.Speed; });
+      { return A.Speed > B.Speed; });
+
+  // Deciding the next attacker
+  bool validActor = false;
+
+  while (!validActor)
+  {
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Blue, TEXT("CurrentActorPointer: ") + FString::FromInt(this->CurrentActorPointer));
+
+    ActorAttackOrder currentAttacker = this->attackOrder[this->CurrentActorPointer];
+
+    if (currentAttacker.IsDead)
+    {
+      this->IncrementActorPointer();
+
+      continue;
+    }
+
+    this->currentActor =
+        currentAttacker.TypeOfActor == HERO
+            ? (UCombatActorClass *)(*Party)[currentAttacker.Position]
+            : (UCombatActorClass *)EnemyParty[currentAttacker.Position];
+
+    validActor = true;
+  }
+
+  GEngine->AddOnScreenDebugMessage(-1, 20.f, FColor::White, TEXT("The first attacker is: ") + currentActor->CombatActorStructPointer->Name);
+}
+
+void ABattleClass::IncrementActorPointer()
+{
+  this->CurrentActorPointer++;
+
+  this->CurrentActorPointer = this->CurrentActorPointer >= this->turnSize ? 0 : this->CurrentActorPointer;
 }
 
 void ABattleClass::PrintSort()
 {
+
   for (auto actor : attackOrder)
   {
-    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Yellow, actor.Name + TEXT(", ") + FString::FromInt(actor.Speed));
+    FString isDead = actor.IsDead ? "true" : "false";
+
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Yellow, actor.Name + TEXT(", Speed: ") + FString::FromInt(actor.Speed) + TEXT(", Position: ") + FString::FromInt(actor.Position) + TEXT(", IsDead: ") + isDead);
   }
+
+  GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Red, TEXT("TurnSize: ") + FString::FromInt(turnSize));
 }
 
 ABattleClass::ABattleClass()

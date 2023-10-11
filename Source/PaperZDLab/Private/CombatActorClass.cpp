@@ -20,6 +20,10 @@ void UCombatActorClass::init(FCombatActorStruct *combatActorStructPointer)
     this->CombatActorStructPointer = combatActorStructPointer;
 
     this->calculateStats();
+
+    this->HpCurrent = this->Hp;
+
+    this->ManaCurrent = this->Mana;
 }
 
 void UCombatActorClass::calculateStats()

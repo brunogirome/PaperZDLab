@@ -37,6 +37,11 @@ class PAPERZDLAB_API ABattleClass : public AGameStateBase
 {
 	GENERATED_BODY()
 
+private:
+	int32 turnSize;
+
+	
+
 public:
 	UPROPERTY(BlueprintReadWrite)
 	TEnumAsByte<BattleStateEnum> CurrentState;
@@ -48,6 +53,10 @@ public:
 	TArray<ActorAttackOrder> attackOrder;
 
 	UDataTable *EnemiesDataTable;
+
+	int32 CurrentActorPointer = 0;
+
+	UCombatActorClass *currentActor;
 
 	ABattleClass();
 
@@ -65,4 +74,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void PrintSort();
+
+	UFUNCTION(BlueprintCallable)
+	void IncrementActorPointer();
 };
