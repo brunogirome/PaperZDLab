@@ -20,5 +20,8 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	TArray<UHeroClass *> Members;
 
+	UPROPERTY(BlueprintCallable)
+	void Init();
+
 	UPartyClass();
 };

@@ -30,7 +30,7 @@
 					"PaperZDLab",
 					"Win64",
 					"Debug",
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject",
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -47,7 +47,7 @@
 					"PaperZDLab",
 					"Win64",
 					"Debug",
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject",
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -67,7 +67,7 @@
 					"PaperZDLab",
 					"Win64",
 					"Debug",
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject",
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -84,7 +84,7 @@
 					"PaperZDLab",
 					"Win64",
 					"DebugGame",
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject",
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -101,7 +101,7 @@
 					"PaperZDLab",
 					"Win64",
 					"DebugGame",
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject",
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -121,7 +121,7 @@
 					"PaperZDLab",
 					"Win64",
 					"DebugGame",
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject",
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -138,7 +138,7 @@
 					"PaperZDLab",
 					"Win64",
 					"Development",
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject",
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -155,7 +155,7 @@
 					"PaperZDLab",
 					"Win64",
 					"Development",
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject",
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -175,7 +175,7 @@
 					"PaperZDLab",
 					"Win64",
 					"Development",
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject",
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -192,7 +192,7 @@
 					"PaperZDLab",
 					"Win64",
 					"Test",
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject",
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -209,7 +209,7 @@
 					"PaperZDLab",
 					"Win64",
 					"Test",
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject",
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -229,7 +229,7 @@
 					"PaperZDLab",
 					"Win64",
 					"Test",
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject",
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -246,7 +246,7 @@
 					"PaperZDLab",
 					"Win64",
 					"Shipping",
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject",
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -263,7 +263,7 @@
 					"PaperZDLab",
 					"Win64",
 					"Shipping",
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject",
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -283,7 +283,7 @@
 					"PaperZDLab",
 					"Win64",
 					"Shipping",
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject",
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -300,7 +300,7 @@
 					"PaperZDLabEditor",
 					"Win64",
 					"Debug",
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject",
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -317,7 +317,7 @@
 					"PaperZDLabEditor",
 					"Win64",
 					"Debug",
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject",
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -337,7 +337,7 @@
 					"PaperZDLabEditor",
 					"Win64",
 					"Debug",
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject",
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -354,7 +354,7 @@
 					"PaperZDLabEditor",
 					"Win64",
 					"DebugGame",
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject",
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -371,7 +371,7 @@
 					"PaperZDLabEditor",
 					"Win64",
 					"DebugGame",
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject",
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -391,7 +391,7 @@
 					"PaperZDLabEditor",
 					"Win64",
 					"DebugGame",
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject",
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -408,7 +408,7 @@
 					"PaperZDLabEditor",
 					"Win64",
 					"Development",
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject",
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -425,7 +425,7 @@
 					"PaperZDLabEditor",
 					"Win64",
 					"Development",
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject",
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -445,7 +445,7 @@
 					"PaperZDLabEditor",
 					"Win64",
 					"Development",
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject",
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -462,7 +462,7 @@
 			{
 				"name": "Launch PaperZDLab (Debug)",
 				"request": "launch",
-				"program": "G:\\Unreal Projects\\PaperZDLab\\Binaries\\Win64\\UnrealGame-Win64-Debug.exe",
+				"program": "G:\\Unreal Projects\\Clone\\PaperZDLab\\Binaries\\Win64\\UnrealGame-Win64-Debug.exe",
 				"preLaunchTask": "PaperZDLab Win64 Debug Build",
 				"args": [
 				],
@@ -478,7 +478,7 @@
 			{
 				"name": "Launch PaperZDLab (DebugGame)",
 				"request": "launch",
-				"program": "G:\\Unreal Projects\\PaperZDLab\\Binaries\\Win64\\UnrealGame-Win64-DebugGame.exe",
+				"program": "G:\\Unreal Projects\\Clone\\PaperZDLab\\Binaries\\Win64\\UnrealGame-Win64-DebugGame.exe",
 				"preLaunchTask": "PaperZDLab Win64 DebugGame Build",
 				"args": [
 				],
@@ -494,7 +494,7 @@
 			{
 				"name": "Launch PaperZDLab (Development)",
 				"request": "launch",
-				"program": "G:\\Unreal Projects\\PaperZDLab\\Binaries\\Win64\\UnrealGame.exe",
+				"program": "G:\\Unreal Projects\\Clone\\PaperZDLab\\Binaries\\Win64\\UnrealGame.exe",
 				"preLaunchTask": "PaperZDLab Win64 Development Build",
 				"args": [
 				],
@@ -510,7 +510,7 @@
 			{
 				"name": "Launch PaperZDLab (Test)",
 				"request": "launch",
-				"program": "G:\\Unreal Projects\\PaperZDLab\\Binaries\\Win64\\UnrealGame-Win64-Test.exe",
+				"program": "G:\\Unreal Projects\\Clone\\PaperZDLab\\Binaries\\Win64\\UnrealGame-Win64-Test.exe",
 				"preLaunchTask": "PaperZDLab Win64 Test Build",
 				"args": [
 				],
@@ -526,7 +526,7 @@
 			{
 				"name": "Launch PaperZDLab (Shipping)",
 				"request": "launch",
-				"program": "G:\\Unreal Projects\\PaperZDLab\\Binaries\\Win64\\UnrealGame-Win64-Shipping.exe",
+				"program": "G:\\Unreal Projects\\Clone\\PaperZDLab\\Binaries\\Win64\\UnrealGame-Win64-Shipping.exe",
 				"preLaunchTask": "PaperZDLab Win64 Shipping Build",
 				"args": [
 				],
@@ -545,7 +545,7 @@
 				"program": "G:\\EpicGamesLibrary\\UE_5.3\\Engine\\Binaries\\Win64\\UnrealEditor-Win64-Debug.exe",
 				"preLaunchTask": "PaperZDLabEditor Win64 Debug Build",
 				"args": [
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject"
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject"
 				],
 				"cwd": "G:\\EpicGamesLibrary\\UE_5.3",
 				"stopAtEntry": false,
@@ -562,7 +562,7 @@
 				"program": "G:\\EpicGamesLibrary\\UE_5.3\\Engine\\Binaries\\Win64\\UnrealEditor-Win64-DebugGame.exe",
 				"preLaunchTask": "PaperZDLabEditor Win64 DebugGame Build",
 				"args": [
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject"
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject"
 				],
 				"cwd": "G:\\EpicGamesLibrary\\UE_5.3",
 				"stopAtEntry": false,
@@ -579,7 +579,7 @@
 				"program": "G:\\EpicGamesLibrary\\UE_5.3\\Engine\\Binaries\\Win64\\UnrealEditor.exe",
 				"preLaunchTask": "PaperZDLabEditor Win64 Development Build",
 				"args": [
-					"G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject"
+					"G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject"
 				],
 				"cwd": "G:\\EpicGamesLibrary\\UE_5.3",
 				"stopAtEntry": false,
@@ -599,7 +599,7 @@
 				"args": [
 					"-projectfiles",
 					"-vscode",
-					"-project=G:\\Unreal Projects\\PaperZDLab\\PaperZDLab.uproject",
+					"-project=G:\\Unreal Projects\\Clone\\PaperZDLab\\PaperZDLab.uproject",
 					"-game",
 					"-engine",
 					"-dotnet"
