@@ -7,6 +7,8 @@
 
 #include "PartyClass.h"
 
+#include "GameStateEnum.h"
+
 #include "MyGameModeBase.generated.h"
 
 /**
@@ -18,11 +20,14 @@ class PAPERZDLAB_API AMyGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadOnly)
 	UPartyClass *Party;
 
 	UPROPERTY(BluePrintReadWrite)
 	TArray<FName> HeroesNames;
+
+	UPROPERTY(BluePrintReadWrite)
+	TEnumAsByte<GameStateEnum> CurrentGameState = OVERWORLD;
 
 	UDataTable *HeroesDataTable;
 
@@ -32,4 +37,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void Start(TArray<FName> initialHeroes);
+
+	// Debug function
+	UFUNCTION(BlueprintCallable)
+	void PrintGameState();
 };

@@ -23,3 +23,26 @@ void AMyGameModeBase::Start(TArray<FName> initialHeroes)
 
   this->Party->Init(this->HeroesNames, this->HeroesDataTable);
 }
+
+void AMyGameModeBase::PrintGameState()
+{
+  FString state;
+
+  switch (this->CurrentGameState)
+  {
+  case OVERWORLD:
+    state = TEXT("Overworld");
+    break;
+  case BATTLE:
+    state = TEXT("Battle");
+    break;
+  case MENU:
+    state = TEXT("Menu");
+    break;
+  case PAUSE:
+    state = TEXT("Pause");
+    break;
+  }
+
+  GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Yellow, TEXT("Current GameState: ") + state);
+}

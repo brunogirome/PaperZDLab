@@ -104,6 +104,7 @@ void ABattleClass::IncrementActorPointer()
   this->CurrentActorPointer = this->CurrentActorPointer >= this->turnSize ? 0 : this->CurrentActorPointer;
 }
 
+// Debug Functions
 void ABattleClass::PrintSort()
 {
   for (auto actor : attackOrder)

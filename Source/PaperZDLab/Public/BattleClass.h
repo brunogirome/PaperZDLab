@@ -63,7 +63,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SortTurn();
 
-	// Temporarily functions
+	// Debug functions
 	UFUNCTION(BlueprintCallable)
 	void PrintSort();
 
