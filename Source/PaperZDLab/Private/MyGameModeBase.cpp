@@ -20,4 +20,6 @@ void AMyGameModeBase::Start(TArray<FName> initialHeroes)
   this->HeroesNames = initialHeroes;
 
   this->Party = NewObject<UPartyClass>(UPartyClass::StaticClass());
+
+  this->Party->Init(this->HeroesNames, this->HeroesDataTable);
 }

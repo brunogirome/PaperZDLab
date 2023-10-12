@@ -21,7 +21,11 @@ public:
 	TArray<UHeroClass *> Members;
 
 	UFUNCTION(BlueprintCallable)
-	void Init();
+	void Init(TArray<FName> partyRowNames, UDataTable *heroesDataDatable);
+
+	// Debug functions
+	UFUNCTION(BlueprintCallable)
+	void PrintHeroes();
 
 	UPartyClass();
 };

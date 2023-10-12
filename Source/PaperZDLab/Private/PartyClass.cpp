@@ -2,20 +2,10 @@
 
 #include "PartyClass.h"
 
-#include "Kismet/GameplayStatics.h"
-
-#include "MyGameModeBase.h"
-
 UPartyClass::UPartyClass() {}
 
-void UPartyClass::Init()
+void UPartyClass::Init(TArray<FName> partyRowNames, UDataTable *heroesDataDatable)
 {
-    AMyGameModeBase *game = Cast<AMyGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-
-    TArray<FName> partyRowNames = game->HeroesNames;
-
-    UDataTable *heroesDataDatable = game->HeroesDataTable;
-
     for (FName memberName : partyRowNames)
     {
         int32 level = 1;
@@ -27,5 +17,13 @@ void UPartyClass::Init()
         heroInstance->Init(heroStructPointer, level);
 
         this->Members.Emplace(heroInstance);
+    }
+}
+
+void UPartyClass::PrintHeroes()
+{
+    for (auto *hero : this->Members)
+    {
+        GEngine->AddOnScreenDebugMessage(-1, 35.0f, FColor::Yellow, hero->HeroStruct.Name);
     }
 }
