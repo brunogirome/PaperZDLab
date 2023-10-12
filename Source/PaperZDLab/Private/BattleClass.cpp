@@ -2,6 +2,10 @@
 
 #include "BattleClass.h"
 
+#include "Kismet/GameplayStatics.h"
+
+#include "MyGameModeBase.h"
+
 ActorAttackOrder::ActorAttackOrder(int32 position, UCombatActorClass *actorClass)
 {
   this->Position = position;
@@ -15,19 +19,17 @@ ActorAttackOrder::ActorAttackOrder(int32 position, UCombatActorClass *actorClass
   this->TypeOfActor = actorClass->CombatActorStructPointer->TypeOfActor;
 }
 
-TArray<UHeroClass *> ABattleClass::GetParty()
+void ABattleClass::Init(TArray<FName> enemyNames)
 {
-  return *this->Party;
-}
+  AMyGameModeBase *game = Cast<AMyGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 
-void ABattleClass::Init(UPartyClass *GameParty, TArray<FName> enemiesRowNames)
-{
-  this->Party = &GameParty->Members;
+  this->Party = &game->Party->Members;
 
-  for (FName enemyRowName : enemiesRowNames)
+  UDataTable *enemiesDataTable = game->EnemiesDataTable;
+
+  for (FName enemyRowName : enemyNames)
   {
-
-    FEnemyStruct *enemyStructPointer = this->EnemiesDataTable->FindRow<FEnemyStruct>(enemyRowName, "", true);
+    FEnemyStruct *enemyStructPointer = enemiesDataTable->FindRow<FEnemyStruct>(enemyRowName, "", true);
 
     UEnemyClass *enemyInstance = NewObject<UEnemyClass>(UEnemyClass::StaticClass());
 
@@ -37,19 +39,8 @@ void ABattleClass::Init(UPartyClass *GameParty, TArray<FName> enemiesRowNames)
   }
 
   this->turnSize = this->Party->Num() + this->EnemyParty.Num();
-}
 
-void ABattleClass::PrintNames()
-{
-  for (auto *hero : *this->Party)
-  {
-    GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Turquoise, hero->HeroStruct.Name);
-  }
-
-  for (auto *enemy : this->EnemyParty)
-  {
-    GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Purple, enemy->EnemyStruct->Name);
-  }
+  this->CurrentState = START_STEP;
 }
 
 void ABattleClass::SortTurn()
@@ -88,8 +79,6 @@ void ABattleClass::SortTurn()
 
   while (!validActor)
   {
-    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Blue, TEXT("CurrentActorPointer: ") + FString::FromInt(this->CurrentActorPointer));
-
     ActorAttackOrder currentAttacker = this->attackOrder[this->CurrentActorPointer];
 
     if (currentAttacker.IsDead)
@@ -106,8 +95,6 @@ void ABattleClass::SortTurn()
 
     validActor = true;
   }
-
-  GEngine->AddOnScreenDebugMessage(-1, 20.f, FColor::White, TEXT("The first attacker is: ") + currentActor->CombatActorStructPointer->Name);
 }
 
 void ABattleClass::IncrementActorPointer()
@@ -119,21 +106,25 @@ void ABattleClass::IncrementActorPointer()
 
 void ABattleClass::PrintSort()
 {
-
   for (auto actor : attackOrder)
   {
     FString isDead = actor.IsDead ? "true" : "false";
 
     GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Yellow, actor.Name + TEXT(", Speed: ") + FString::FromInt(actor.Speed) + TEXT(", Position: ") + FString::FromInt(actor.Position) + TEXT(", IsDead: ") + isDead);
   }
-
-  GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Red, TEXT("TurnSize: ") + FString::FromInt(turnSize));
 }
 
-ABattleClass::ABattleClass()
+void ABattleClass::PrintNames()
 {
-  static ConstructorHelpers::FObjectFinder<UDataTable>
-      Enemies_DataTable_Ref(TEXT("DataTable'/Game/DataTables/Enemies_DataTable.Enemies_DataTable'"));
+  for (auto *hero : *this->Party)
+  {
+    GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Turquoise, hero->HeroStruct.Name);
+  }
 
-  EnemiesDataTable = Enemies_DataTable_Ref.Object;
+  for (auto *enemy : this->EnemyParty)
+  {
+    GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Purple, enemy->EnemyStruct->Name);
+  }
 }
+
+ABattleClass::ABattleClass() {}

@@ -2,28 +2,23 @@
 
 #include "PartyClass.h"
 
+#include "Kismet/GameplayStatics.h"
+
+#include "MyGameModeBase.h"
+
 UPartyClass::UPartyClass()
 {
-    static ConstructorHelpers::FObjectFinder<UDataTable>
-        Heroes_DataTable_Ref(TEXT("DataTable'/Game/DataTables/Heroes_DataTable.Heroes_DataTable'"));
+    AMyGameModeBase *Game = Cast<AMyGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 
-    HeroesDataTable = Heroes_DataTable_Ref.Object;
-}
+    TArray<FName> partyRowNames = Game->HeroesNames;
 
-void UPartyClass::LoadMembers()
-{
-    std::vector<FName> initialParty;
+    UDataTable *heroesDataDatable = Game->HeroesDataTable;
 
-    initialParty.push_back(FName(TEXT("Karina")));
-    initialParty.push_back(FName(TEXT("Winter")));
-    initialParty.push_back(FName(TEXT("Giselle")));
-    initialParty.push_back(FName(TEXT("NingNing")));
-
-    for (FName memberName : initialParty)
+    for (FName memberName : partyRowNames)
     {
         int32 level = 1;
 
-        FHeroStruct *heroStructPointer = this->HeroesDataTable->FindRow<FHeroStruct>(memberName, "", true);
+        FHeroStruct *heroStructPointer = heroesDataDatable->FindRow<FHeroStruct>(memberName, "", true);
 
         UHeroClass *heroInstance = NewObject<UHeroClass>(UHeroClass::StaticClass());
 

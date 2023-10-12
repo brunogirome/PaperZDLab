@@ -5,9 +5,8 @@
 #include "CoreMinimal.h"
 
 #include "GameFramework/GameStateBase.h"
-#include "Engine/DataTable.h"
 
-#include "PartyClass.h"
+#include "HeroClass.h"
 #include "EnemyClass.h"
 
 #include "BattleStateEnum.h"
@@ -40,7 +39,7 @@ class PAPERZDLAB_API ABattleClass : public AGameStateBase
 private:
 	int32 turnSize;
 
-	
+	void IncrementActorPointer();
 
 public:
 	UPROPERTY(BlueprintReadWrite)
@@ -52,8 +51,6 @@ public:
 
 	TArray<ActorAttackOrder> attackOrder;
 
-	UDataTable *EnemiesDataTable;
-
 	int32 CurrentActorPointer = 0;
 
 	UCombatActorClass *currentActor;
@@ -61,20 +58,15 @@ public:
 	ABattleClass();
 
 	UFUNCTION(BlueprintCallable)
-	TArray<UHeroClass *> GetParty();
-
-	UFUNCTION(BlueprintCallable)
-	void Init(UPartyClass *GameParty, TArray<FName> enemiesRowNames);
-
-	UFUNCTION(BlueprintCallable)
-	void PrintNames();
+	void Init(TArray<FName> enemyNames);
 
 	UFUNCTION(BlueprintCallable)
 	void SortTurn();
 
+	// Temporarily functions
 	UFUNCTION(BlueprintCallable)
 	void PrintSort();
 
 	UFUNCTION(BlueprintCallable)
-	void IncrementActorPointer();
+	void PrintNames();
 };

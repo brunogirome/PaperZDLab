@@ -5,8 +5,6 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 
-#include "Engine/DataTable.h"
-
 #include "HeroClass.h"
 
 #include "PartyClass.generated.h"
@@ -22,10 +20,5 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	TArray<UHeroClass *> Members;
 
-	UDataTable *HeroesDataTable;
-
 	UPartyClass();
-
-	UFUNCTION(BlueprintCallable)
-	void LoadMembers();
 };
