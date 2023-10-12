@@ -2,28 +2,28 @@
 
 #include "PartyClass.h"
 
-#include "Kismet/GameplayStatics.h"
+// #include "Kismet/GameplayStatics.h"
 
-#include "MyGameModeBase.h"
+// #include "MyGameModeBase.h"
 
 UPartyClass::UPartyClass()
 {
-    AMyGameModeBase *Game = Cast<AMyGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+    // AMyGameModeBase *game = Cast<AMyGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 
-    TArray<FName> partyRowNames = Game->HeroesNames;
+    // TArray<FName> partyRowNames = game->HeroesNames;
 
-    UDataTable *heroesDataDatable = Game->HeroesDataTable;
+    // UDataTable *heroesDataDatable = game->HeroesDataTable;
 
-    for (FName memberName : partyRowNames)
-    {
-        int32 level = 1;
+    // for (FName memberName : partyRowNames)
+    // {
+    //     int32 level = 1;
 
-        FHeroStruct *heroStructPointer = heroesDataDatable->FindRow<FHeroStruct>(memberName, "", true);
+    //     FHeroStruct *heroStructPointer = heroesDataDatable->FindRow<FHeroStruct>(memberName, "", true);
 
-        UHeroClass *heroInstance = NewObject<UHeroClass>(UHeroClass::StaticClass());
+    //     UHeroClass *heroInstance = NewObject<UHeroClass>(UHeroClass::StaticClass());
 
-        heroInstance->Init(heroStructPointer, level);
+    //     heroInstance->Init(heroStructPointer, level);
 
-        this->Members.Emplace(heroInstance);
-    }
+    //     this->Members.Emplace(heroInstance);
+    // }
 }
