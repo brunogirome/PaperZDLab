@@ -47,6 +47,7 @@ public:
 
 	TArray<UHeroClass *> *Party;
 
+	UPROPERTY(BluePrintReadOnly)
 	TArray<UEnemyClass *> EnemyParty;
 
 	TArray<ActorAttackOrder> attackOrder;
