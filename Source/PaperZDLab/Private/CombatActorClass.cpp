@@ -56,3 +56,10 @@ FCombatActorStruct UCombatActorClass::GetActorStruct()
 {
     return *this->CombatActorStructPointer;
 }
+
+void UCombatActorClass::TakeDamage(int32 amount)
+{
+    int32 damageTaken = amount > this->HpCurrent ? this->HpCurrent : amount;
+
+    this->HpCurrent -= damageTaken;
+}

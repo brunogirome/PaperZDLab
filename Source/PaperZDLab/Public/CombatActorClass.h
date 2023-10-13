@@ -89,4 +89,7 @@ public:
 
 	UFUNCTION(BluePrintCallable)
 	FCombatActorStruct GetActorStruct();
+
+	UFUNCTION(BluePrintCallable)
+	void TakeDamage(int32 amount);
 };
