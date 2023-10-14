@@ -6,6 +6,7 @@
 UENUM(BlueprintType)
 enum ElementEnum
 {
+  NO_ELEMENT,
   FIRE,
   WATER,
   EARTH,

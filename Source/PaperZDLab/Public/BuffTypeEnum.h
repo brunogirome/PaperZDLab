@@ -1,11 +1,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BuffEnum.generated.h"
+#include "BuffTypeEnum.generated.h"
 
 UENUM(BlueprintType)
-enum BuffEnum
+enum BuffTypeEnum
 {
+  NOT_BUFF,
   PHYISICAL_DAMAGE_BUFF,
   PHYSICAL_DEFENSE_BUFF,
   MAGIC_DAMAGE_BUFF,

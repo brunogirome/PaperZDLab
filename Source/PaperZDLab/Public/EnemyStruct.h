@@ -14,7 +14,7 @@ struct FEnemyStruct : public FCombatActorStruct
 {
 	GENERATED_BODY()
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(EditAnywhere)
 	int32 XpDrop;
 
 	FEnemyStruct();

@@ -1,10 +1,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "PartyBuffEnum.generated.h"
+#include "PartyBuffTypeEnum.generated.h"
 
 UENUM(BlueprintType)
-enum PartyBuffEnum
+enum PartyBuffTypeEnum
 {
+  NOT_PARTY_BUFF,
   SIGHT_PARTY_BUFF
 };

@@ -1,13 +1,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "SpellEnum.generated.h"
+#include "ItemEnum.generated.h"
 
 UENUM(BlueprintType)
-enum SpellEnum
+enum ItemEnum
 {
-  DAMAGE,
-  BUFF,
-  SUPPORT,
-  HEALING
+  ARTIFACT_PART,
+  ARTIFACT,
+  CONSUMABLE,
+  KEY
 };
