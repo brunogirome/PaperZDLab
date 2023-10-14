@@ -62,6 +62,9 @@ struct FCombatActorStruct : public FTableRowBase
 	UPROPERTY(EditAnywhere)
 	int32 StaminaBase;
 
+	UPROPERTY(EditAnywhere)
+	TArray<FName> SpellsName;
+
 	FCombatActorStruct();
 
 	FCombatActorStruct(FCombatActorStruct *FCombatActorStructPointer);

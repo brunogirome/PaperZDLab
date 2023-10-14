@@ -8,6 +8,6 @@ enum SpellTypeEnum
 {
   DAMAGE,
   BUFF,
-  SUPPORT,
+  PARTY_BUFF,
   HEALING
 };
