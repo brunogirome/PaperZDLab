@@ -43,7 +43,7 @@ private:
 
 public:
 	UPROPERTY(BlueprintReadWrite)
-	TEnumAsByte<BattleStateEnum> CurrentState;
+	TEnumAsByte<BattleStateEnum> BattleState;
 
 	TArray<UHeroClass *> *Party;
 

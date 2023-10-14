@@ -40,7 +40,7 @@ void ABattleClass::Init(TArray<FName> enemyNames)
 
   this->turnSize = this->Party->Num() + this->EnemyParty.Num();
 
-  this->CurrentState = START_STEP;
+  this->BattleState = START_STEP;
 }
 
 void ABattleClass::SortTurn()
@@ -88,10 +88,18 @@ void ABattleClass::SortTurn()
       continue;
     }
 
-    this->currentActor =
-        currentAttacker.TypeOfActor == HERO
-            ? (UCombatActorClass *)(*Party)[currentAttacker.Position]
-            : (UCombatActorClass *)EnemyParty[currentAttacker.Position];
+    if (currentAttacker.TypeOfActor == HERO)
+    {
+      this->currentActor = (UCombatActorClass *)(*Party)[currentAttacker.Position];
+
+      this->BattleState = HERO_TURN;
+    }
+    else
+    {
+      this->currentActor = (UCombatActorClass *)EnemyParty[currentAttacker.Position];
+
+      this->BattleState = ENEMY_TURN;
+    }
 
     validActor = true;
   }
