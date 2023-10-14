@@ -24,6 +24,6 @@ void UPartyClass::PrintHeroes()
 {
     for (auto *hero : this->Members)
     {
-        GEngine->AddOnScreenDebugMessage(-1, 35.0f, FColor::Yellow, hero->HeroStruct.Name);
+        GEngine->AddOnScreenDebugMessage(-1, 35.0f, FColor::Yellow, hero->Name);
     }
 }

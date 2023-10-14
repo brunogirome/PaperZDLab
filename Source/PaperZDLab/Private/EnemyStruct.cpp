@@ -2,6 +2,4 @@
 
 #include "EnemyStruct.h"
 
-FEnemyStruct::FEnemyStruct()
-{
-}
+FEnemyStruct::FEnemyStruct() {}

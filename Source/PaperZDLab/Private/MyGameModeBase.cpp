@@ -17,11 +17,11 @@ AMyGameModeBase::AMyGameModeBase()
 
 void AMyGameModeBase::Start(TArray<FName> initialHeroes)
 {
-  this->HeroesNames = initialHeroes;
+  this->HeroesRowNames = initialHeroes;
 
   this->Party = NewObject<UPartyClass>(UPartyClass::StaticClass());
 
-  this->Party->Init(this->HeroesNames, this->HeroesDataTable);
+  this->Party->Init(this->HeroesRowNames, this->HeroesDataTable);
 }
 
 void AMyGameModeBase::PrintGameState()

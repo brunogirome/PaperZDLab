@@ -17,9 +17,8 @@ class PAPERZDLAB_API UHeroClass : public UCombatActorClass
 {
 	GENERATED_BODY()
 
-public:
-	UPROPERTY(BlueprintReadOnly)
 	FHeroStruct HeroStruct;
+public:
 
 	UPROPERTY(BlueprintReadWrite)
 	int32 Xp;

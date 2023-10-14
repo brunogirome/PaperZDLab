@@ -2,18 +2,13 @@
 
 #include "EnemyClass.h"
 
+void UEnemyClass::Init(FEnemyStruct *enemyStructPointerParam)
+{
+  this->EnemyStructPointer = enemyStructPointerParam;
+
+  this->XpDrop = enemyStructPointerParam->XpDrop;
+
+  this->UCombatActorClass::init(this->EnemyStructPointer);
+}
+
 UEnemyClass::UEnemyClass() {}
-
-FEnemyStruct UEnemyClass::GetEnemyStruct()
-{
-  return *this->EnemyStruct;
-}
-
-void UEnemyClass::Init(FEnemyStruct *enemyStructPointer)
-{
-  this->EnemyStruct = enemyStructPointer;
-
-  this->XpDrop = enemyStructPointer->XpDrop;
-
-  this->UCombatActorClass::init(this->EnemyStruct);
-}

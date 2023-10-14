@@ -6,7 +6,6 @@ FCombatActorStruct::FCombatActorStruct() {}
 
 FCombatActorStruct::FCombatActorStruct(FCombatActorStruct *FCombatActorStructPointer)
 {
-  this->Id = FCombatActorStructPointer->Id;
   this->Name = FCombatActorStructPointer->Name;
   this->Description = FCombatActorStructPointer->Description;
 

@@ -14,9 +14,9 @@ ActorAttackOrder::ActorAttackOrder(int32 position, UCombatActorClass *actorClass
 
   this->IsDead = actorClass->IsDead();
 
-  this->Name = actorClass->CombatActorStructPointer->Name;
+  this->Name = actorClass->Name;
 
-  this->TypeOfActor = actorClass->CombatActorStructPointer->TypeOfActor;
+  this->TypeOfActor = actorClass->TypeOfActor;
 }
 
 void ABattleClass::Init(TArray<FName> enemyNames)
@@ -127,12 +127,12 @@ void ABattleClass::PrintNames()
 {
   for (auto *hero : *this->Party)
   {
-    GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Turquoise, hero->HeroStruct.Name);
+    GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Turquoise, hero->Name);
   }
 
   for (auto *enemy : this->EnemyParty)
   {
-    GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Purple, enemy->EnemyStruct->Name);
+    GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Purple, enemy->Name);
   }
 }
 

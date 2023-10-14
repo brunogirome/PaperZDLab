@@ -24,7 +24,7 @@ public:
 	UPartyClass *Party;
 
 	UPROPERTY(BluePrintReadWrite)
-	TArray<FName> HeroesNames;
+	TArray<FName> HeroesRowNames;
 
 	UPROPERTY(BluePrintReadWrite)
 	TEnumAsByte<GameStateEnum> CurrentGameState = OVERWORLD;
@@ -33,10 +33,10 @@ public:
 
 	UDataTable *EnemiesDataTable;
 
-	AMyGameModeBase();
-
 	UFUNCTION(BlueprintCallable)
 	void Start(TArray<FName> initialHeroes);
+
+	AMyGameModeBase();
 
 	// Debug function
 	UFUNCTION(BlueprintCallable)

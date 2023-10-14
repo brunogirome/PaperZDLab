@@ -2,22 +2,25 @@
 
 #include "CombatActorClass.h"
 
-int32 UCombatActorClass::calculateAttribute(int32 baseValue, float multiplier, int32 combatTypeValue, TEnumAsByte<CombatTypeEnum> combatTypeBonus, float buffValue)
-{
-    const int32 typeBonus = this->CombatActorStructPointer->CombatType == combatTypeBonus ? 2 : 1;
-
-    float convertedBuffValue = 1 + buffValue;
-
-    float combatTypeBonusValue = multiplier * combatTypeValue * typeBonus;
-
-    return (int32)round((baseValue + combatTypeBonusValue) * convertedBuffValue);
-}
-
-UCombatActorClass::UCombatActorClass() {}
-
 void UCombatActorClass::init(FCombatActorStruct *combatActorStructPointer)
 {
     this->CombatActorStructPointer = combatActorStructPointer;
+
+    this->Name = combatActorStructPointer->Name;
+
+    this->Description = combatActorStructPointer->Description;
+
+    this->TypeOfActor = combatActorStructPointer->TypeOfActor;
+
+    this->CombatType = combatActorStructPointer->CombatType;
+
+    this->Element = combatActorStructPointer->Element;
+
+    this->Strength = combatActorStructPointer->StrengthBase;
+
+    this->Inteligence = combatActorStructPointer->InteligenceBase;
+
+    this->Agility = combatActorStructPointer->AgilityBase;
 
     this->calculateStats();
 
@@ -28,6 +31,17 @@ void UCombatActorClass::init(FCombatActorStruct *combatActorStructPointer)
 
 void UCombatActorClass::calculateStats()
 {
+    auto calculateAttribute = [&](int32 baseValue, float multiplier, int32 combatTypeValue, TEnumAsByte<CombatTypeEnum> combatTypeBonus, float buffValue = 0)
+    {
+        const int32 typeBonus = this->CombatType == combatTypeBonus ? 2 : 1;
+
+        float convertedBuffValue = 1 + buffValue;
+
+        float combatTypeBonusValue = multiplier * combatTypeValue * typeBonus;
+
+        return (int32)round((baseValue + combatTypeBonusValue) * convertedBuffValue);
+    };
+
     this->Hp = calculateAttribute(this->CombatActorStructPointer->HpBase, this->HP_BONUS, this->Strength, STRENGTH);
 
     this->Mana = calculateAttribute(this->CombatActorStructPointer->ManaBase, this->MANA_BONUS, this->Inteligence, INTELIGENCE);
@@ -52,14 +66,11 @@ bool UCombatActorClass::IsDead()
     return this->HpCurrent <= 0;
 }
 
-FCombatActorStruct UCombatActorClass::GetActorStruct()
-{
-    return *this->CombatActorStructPointer;
-}
-
 void UCombatActorClass::TakeDamage(int32 amount)
 {
     int32 damageTaken = amount > this->HpCurrent ? this->HpCurrent : amount;
 
     this->HpCurrent -= damageTaken;
 }
+
+UCombatActorClass::UCombatActorClass() {}

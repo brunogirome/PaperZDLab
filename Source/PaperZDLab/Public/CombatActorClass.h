@@ -29,54 +29,67 @@ class PAPERZDLAB_API UCombatActorClass : public UObject
 	const int EVASION_BONUS = 0.5f;
 	const int STAMINA_BONUS = 0.25f;
 
-	int32 calculateAttribute(int32 baseValue, float multiplier, int32 combatTypeValue, TEnumAsByte<CombatTypeEnum> combatTypeBonus, float buffValue = 0);
+	FCombatActorStruct *CombatActorStructPointer;
 
 protected:
 	void init(FCombatActorStruct *combatActorStructPointer);
 
 public:
-	FCombatActorStruct *CombatActorStructPointer;
+	UPROPERTY(BlueprintReadOnly)
+	FString Name;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadOnly)
+	FString Description;
+
+	UPROPERTY(BlueprintReadOnly)
+	TEnumAsByte<TypeOfActorEnum> TypeOfActor;
+
+	UPROPERTY(BlueprintReadOnly)
+	TEnumAsByte<CombatTypeEnum> CombatType;
+
+	UPROPERTY(BlueprintReadOnly)
+	TEnumAsByte<ElementEnum> Element;
+
+	UPROPERTY(BluePrintReadOnly)
 	int32 Strength;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BluePrintReadOnly)
 	int32 Agility;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BluePrintReadOnly)
 	int32 Inteligence;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BluePrintReadOnly)
 	int32 PhysicalDamage;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BluePrintReadOnly)
 	int32 MagicDamage;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BluePrintReadOnly)
 	int32 PhysicalDefense;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BluePrintReadOnly)
 	int32 MagicDefense;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BluePrintReadOnly)
 	int32 Hp;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BluePrintReadOnly)
 	int32 Mana;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BluePrintReadOnly)
 	int32 Speed;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BluePrintReadOnly)
 	int32 Evasion;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BluePrintReadOnly)
 	int32 Stamina;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BluePrintReadOnly)
 	int32 HpCurrent;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BluePrintReadOnly)
 	int32 ManaCurrent;
 
 	UCombatActorClass();
@@ -86,9 +99,6 @@ public:
 
 	UFUNCTION(BluePrintCallable)
 	bool IsDead();
-
-	UFUNCTION(BluePrintCallable)
-	FCombatActorStruct GetActorStruct();
 
 	UFUNCTION(BluePrintCallable)
 	void TakeDamage(int32 amount);

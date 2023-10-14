@@ -2,10 +2,8 @@
 
 #include "HeroStruct.h"
 
-FHeroStruct::FHeroStruct() {}
-
 FHeroStruct::FHeroStruct(FHeroStruct *FHeroStructPointer, int32 level)
-	: FCombatActorStruct(FHeroStructPointer)
+		: FCombatActorStruct(FHeroStructPointer)
 {
 	this->StrengthScale = FHeroStructPointer->StrengthScale;
 	this->AgilityScale = FHeroStructPointer->AgilityScale;
@@ -38,3 +36,5 @@ void FHeroStruct::levelUp(int32 level)
 	this->EvasionBase *= (1 + (this->EvasionScale * level));
 	this->StaminaBase *= (1 + (this->StaminaScale * level));
 }
+
+FHeroStruct::FHeroStruct() {}

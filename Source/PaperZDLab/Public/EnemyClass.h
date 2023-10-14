@@ -17,16 +17,13 @@ class PAPERZDLAB_API UEnemyClass : public UCombatActorClass
 {
 	GENERATED_BODY()
 
+	FEnemyStruct *EnemyStructPointer;
+
 public:
 	UPROPERTY(BlueprintReadOnly)
 	int32 XpDrop;
 
-	FEnemyStruct *EnemyStruct;
-
 	UEnemyClass();
 
-	UFUNCTION(BlueprintCallable)
-	FEnemyStruct GetEnemyStruct();
-
-	void Init(FEnemyStruct *enemyStructPointer);
+	void Init(FEnemyStruct *enemyStructPointerParam);
 };

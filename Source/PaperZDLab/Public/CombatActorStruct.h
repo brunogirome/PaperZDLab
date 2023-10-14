@@ -12,9 +12,6 @@ struct FCombatActorStruct : public FTableRowBase
 	GENERATED_BODY()
 
 	UPROPERTY(BlueprintReadOnly)
-	int32 Id;
-
-	UPROPERTY(BlueprintReadOnly)
 	FString Name;
 
 	UPROPERTY(BlueprintReadOnly)
