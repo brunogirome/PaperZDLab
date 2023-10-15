@@ -6,6 +6,7 @@
 #include "UObject/NoExportTypes.h"
 
 #include "CombatActorStruct.h"
+#include "SpellClass.h"
 
 #include "CombatActorClass.generated.h"
 
@@ -32,7 +33,7 @@ class PAPERZDLAB_API UCombatActorClass : public UObject
 	FCombatActorStruct *CombatActorStructPointer;
 
 protected:
-	void init(FCombatActorStruct *combatActorStructPointer);
+	void init(FCombatActorStruct *combatActorStructPointer, UDataTable *spellsDataTable);
 
 public:
 	UPROPERTY(BlueprintReadOnly)
@@ -91,6 +92,9 @@ public:
 
 	UPROPERTY(BluePrintReadOnly)
 	int32 ManaCurrent;
+
+	UPROPERTY(BluePrintReadOnly)
+	TArray<USpellClass *> Spells;
 
 	UCombatActorClass();
 

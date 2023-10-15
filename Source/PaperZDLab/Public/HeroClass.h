@@ -18,15 +18,15 @@ class PAPERZDLAB_API UHeroClass : public UCombatActorClass
 	GENERATED_BODY()
 
 	FHeroStruct HeroStruct;
-public:
 
+public:
 	UPROPERTY(BlueprintReadWrite)
 	int32 Xp;
 
 	UPROPERTY(BlueprintReadWrite)
 	int32 Level;
 
-	void Init(FHeroStruct *heroStructPointer, int32 level);
+	void Init(FHeroStruct *heroStructPointer, int32 level, UDataTable *spellsDataTable);
 
 	UHeroClass();
 };

@@ -27,4 +27,6 @@ FCombatActorStruct::FCombatActorStruct(FCombatActorStruct *FCombatActorStructPoi
   this->SpeedBase = FCombatActorStructPointer->SpeedBase;
   this->EvasionBase = FCombatActorStructPointer->EvasionBase;
   this->StaminaBase = FCombatActorStructPointer->StaminaBase;
+
+  this->SpellsName = FCombatActorStructPointer->SpellsName;
 }

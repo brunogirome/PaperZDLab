@@ -2,7 +2,7 @@
 
 #include "HeroClass.h"
 
-void UHeroClass::Init(FHeroStruct *heroStructPointer, int32 level)
+void UHeroClass::Init(FHeroStruct *heroStructPointer, int32 level, UDataTable *spellsDataTable)
 {
     FHeroStruct heroStructRef(heroStructPointer, level);
 
@@ -10,7 +10,7 @@ void UHeroClass::Init(FHeroStruct *heroStructPointer, int32 level)
 
     this->Level = level;
 
-    this->UCombatActorClass::init(&this->HeroStruct);
+    this->UCombatActorClass::init(&this->HeroStruct, spellsDataTable);
 }
 
 UHeroClass::UHeroClass() {}

@@ -33,6 +33,8 @@ public:
 
 	UDataTable *EnemiesDataTable;
 
+	UDataTable *SpellsDataTable;
+
 	UFUNCTION(BlueprintCallable)
 	void Start(TArray<FName> initialHeroes);
 

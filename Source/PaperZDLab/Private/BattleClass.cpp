@@ -33,7 +33,7 @@ void ABattleClass::Init(TArray<FName> enemyNames)
 
     UEnemyClass *enemyInstance = NewObject<UEnemyClass>(UEnemyClass::StaticClass());
 
-    enemyInstance->Init(enemyStructPointer);
+    enemyInstance->Init(enemyStructPointer, game->SpellsDataTable);
 
     this->EnemyParty.Emplace(enemyInstance);
   }

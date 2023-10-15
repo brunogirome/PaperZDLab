@@ -2,7 +2,11 @@
 
 #include "CombatActorClass.h"
 
-void UCombatActorClass::init(FCombatActorStruct *combatActorStructPointer)
+// #include "Kismet/GameplayStatics.h"
+
+#include "MyGameModeBase.h"
+
+void UCombatActorClass::init(FCombatActorStruct *combatActorStructPointer, UDataTable *spellsDataTable)
 {
     this->CombatActorStructPointer = combatActorStructPointer;
 
@@ -27,6 +31,19 @@ void UCombatActorClass::init(FCombatActorStruct *combatActorStructPointer)
     this->HpCurrent = this->Hp;
 
     this->ManaCurrent = this->Mana;
+
+    // AMyGameModeBase *game = Cast<AMyGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+
+    for (FName spellName : combatActorStructPointer->SpellsName)
+    {
+        FSpellStruct *spellStruct = spellsDataTable->FindRow<FSpellStruct>(spellName, "", true);
+
+        USpellClass *spellInstance = NewObject<USpellClass>(USpellClass::StaticClass());
+
+        spellInstance->Init(spellStruct);
+
+        this->Spells.Emplace(spellInstance);
+    }
 }
 
 void UCombatActorClass::calculateStats()
