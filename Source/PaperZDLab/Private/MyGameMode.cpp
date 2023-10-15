@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "BattleClass.h"
+#include "MyGameMode.h"
 
 #include "Kismet/GameplayStatics.h"
 
-#include "MyGameModeBase.h"
+#include "MyGameInstance.h"
 
 ActorAttackOrder::ActorAttackOrder(int32 position, UCombatActorClass *actorClass)
 {
@@ -19,38 +19,43 @@ ActorAttackOrder::ActorAttackOrder(int32 position, UCombatActorClass *actorClass
   this->TypeOfActor = actorClass->TypeOfActor;
 }
 
-void ABattleClass::Init(TArray<FName> enemyNames)
+void AMyGameMode::IncrementActorPointer()
 {
-  AMyGameModeBase *game = Cast<AMyGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+  this->CurrentActorPointer++;
 
-  this->Party = &game->Party->Members;
+  this->CurrentActorPointer = this->CurrentActorPointer >= this->turnSize ? 0 : this->CurrentActorPointer;
+}
 
-  UDataTable *enemiesDataTable = game->EnemiesDataTable;
+void AMyGameMode::StartBattle(TArray<FName> enemyNames)
+{
+  UMyGameInstance *gameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+  this->HeroParty = &(gameInstance->Party->Members);
 
   for (FName enemyRowName : enemyNames)
   {
-    FEnemyStruct *enemyStructPointer = enemiesDataTable->FindRow<FEnemyStruct>(enemyRowName, "", true);
+    FEnemyStruct *enemyStructPointer = gameInstance->EnemiesDataTable->FindRow<FEnemyStruct>(enemyRowName, "", true);
 
     UEnemyClass *enemyInstance = NewObject<UEnemyClass>(UEnemyClass::StaticClass());
 
-    enemyInstance->Init(enemyStructPointer, game->SpellsDataTable);
+    enemyInstance->Init(enemyStructPointer);
 
     this->EnemyParty.Emplace(enemyInstance);
   }
 
-  this->turnSize = this->Party->Num() + this->EnemyParty.Num();
+  this->turnSize = this->HeroParty->Num() + this->EnemyParty.Num();
 
   this->BattleState = START_STEP;
 }
 
-void ABattleClass::SortTurn()
+void AMyGameMode::SortTurn()
 {
   // Sorting the turn
   this->attackOrder.Empty();
 
   int32 index = 0;
 
-  for (auto *hero : *this->Party)
+  for (auto *hero : *this->HeroParty)
   {
     ActorAttackOrder attackActor(index, hero);
 
@@ -90,7 +95,7 @@ void ABattleClass::SortTurn()
 
     if (currentAttacker.TypeOfActor == HERO)
     {
-      this->currentActor = (UCombatActorClass *)(*Party)[currentAttacker.Position];
+      this->currentActor = (UCombatActorClass *)(*HeroParty)[currentAttacker.Position];
 
       this->BattleState = HERO_TURN;
     }
@@ -105,15 +110,8 @@ void ABattleClass::SortTurn()
   }
 }
 
-void ABattleClass::IncrementActorPointer()
-{
-  this->CurrentActorPointer++;
-
-  this->CurrentActorPointer = this->CurrentActorPointer >= this->turnSize ? 0 : this->CurrentActorPointer;
-}
-
 // Debug Functions
-void ABattleClass::PrintSort()
+void AMyGameMode::PrintSort()
 {
   for (auto actor : attackOrder)
   {
@@ -123,9 +121,9 @@ void ABattleClass::PrintSort()
   }
 }
 
-void ABattleClass::PrintNames()
+void AMyGameMode::PrintNames()
 {
-  for (auto *hero : *this->Party)
+  for (auto *hero : *this->HeroParty)
   {
     GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Turquoise, hero->Name);
   }
@@ -136,4 +134,4 @@ void ABattleClass::PrintNames()
   }
 }
 
-ABattleClass::ABattleClass() {}
+AMyGameMode::AMyGameMode() {}

@@ -3,15 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
-#include "GameFramework/GameStateBase.h"
+#include "GameFramework/GameModeBase.h"
 
 #include "HeroClass.h"
 #include "EnemyClass.h"
 
 #include "BattleStateEnum.h"
 
-#include "BattleClass.generated.h"
+#include "MyGameMode.generated.h"
 
 struct ActorAttackOrder
 {
@@ -31,37 +30,35 @@ struct ActorAttackOrder
 /**
  *
  */
-UCLASS(BlueprintType)
-class PAPERZDLAB_API ABattleClass : public AGameStateBase
+UCLASS()
+class PAPERZDLAB_API AMyGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 
-	int32 turnSize;
-
-	void IncrementActorPointer();
-
-	TArray<UHeroClass *> *Party;
-
 	TArray<ActorAttackOrder> attackOrder;
-
-	int32 CurrentActorPointer = 0;
 
 	UCombatActorClass *currentActor;
 
-public:
-	UPROPERTY(BlueprintReadWrite)
-	TEnumAsByte<BattleStateEnum> BattleState;
+	int32 turnSize;
 
-	UPROPERTY(BluePrintReadOnly)
+	int32 CurrentActorPointer = 0;
+
+	void IncrementActorPointer();
+
+public:
+	TArray<UHeroClass *> *HeroParty;
+
 	TArray<UEnemyClass *> EnemyParty;
 
+	TEnumAsByte<BattleStateEnum> BattleState;
+
 	UFUNCTION(BlueprintCallable)
-	void Init(TArray<FName> enemyNames);
+	void StartBattle(TArray<FName> enemyPartyNames);
 
 	UFUNCTION(BlueprintCallable)
 	void SortTurn();
 
-	ABattleClass();
+	AMyGameMode();
 
 	// Debug functions
 	UFUNCTION(BlueprintCallable)

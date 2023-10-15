@@ -7,8 +7,6 @@
 
 #include "EnemyStruct.h"
 
-#include "MyGameModeBase.h"
-
 #include "EnemyClass.generated.h"
 
 /**
@@ -27,5 +25,5 @@ public:
 
 	UEnemyClass();
 
-	void Init(FEnemyStruct *enemyStructPointerParam, UDataTable *spellsDataTable);
+	void Init(FEnemyStruct *enemyStructPointerParam);
 };

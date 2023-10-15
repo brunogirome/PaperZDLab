@@ -2,19 +2,25 @@
 
 #include "PartyClass.h"
 
+#include "Kismet/GameplayStatics.h"
+
+#include "MyGameInstance.h"
+
 UPartyClass::UPartyClass() {}
 
-void UPartyClass::Init(TArray<FName> partyRowNames, UDataTable *heroesDataDatable, UDataTable *spellsDataTable)
+void UPartyClass::Init(TArray<FName> partyRowNames)
 {
+    UMyGameInstance *gameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
     for (FName memberName : partyRowNames)
     {
         int32 level = 1;
 
-        FHeroStruct *heroStructPointer = heroesDataDatable->FindRow<FHeroStruct>(memberName, "", true);
+        FHeroStruct *heroStructPointer = gameInstance->HeroesDataTable->FindRow<FHeroStruct>(memberName, "", true);
 
         UHeroClass *heroInstance = NewObject<UHeroClass>(UHeroClass::StaticClass());
 
-        heroInstance->Init(heroStructPointer, level, spellsDataTable);
+        heroInstance->Init(heroStructPointer, level);
 
         this->Members.Emplace(heroInstance);
     }

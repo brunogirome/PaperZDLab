@@ -1,10 +1,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameStateEnum.generated.h"
+#include "CurrentGameState.generated.h"
 
 UENUM(BlueprintType)
-enum GameStateEnum
+enum CurrentGameState
 {
   OVERWORLD,
   BATTLE,

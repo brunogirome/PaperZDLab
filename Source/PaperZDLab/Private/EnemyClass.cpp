@@ -2,13 +2,13 @@
 
 #include "EnemyClass.h"
 
-void UEnemyClass::Init(FEnemyStruct *enemyStructPointerParam, UDataTable *spellsDataTable)
+void UEnemyClass::Init(FEnemyStruct *enemyStructPointerParam)
 {
   this->EnemyStructPointer = enemyStructPointerParam;
 
   this->XpDrop = enemyStructPointerParam->XpDrop;
 
-  this->UCombatActorClass::init(this->EnemyStructPointer, spellsDataTable);
+  this->UCombatActorClass::init(this->EnemyStructPointer);
 }
 
 UEnemyClass::UEnemyClass() {}

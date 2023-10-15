@@ -33,7 +33,7 @@ class PAPERZDLAB_API UCombatActorClass : public UObject
 	FCombatActorStruct *CombatActorStructPointer;
 
 protected:
-	void init(FCombatActorStruct *combatActorStructPointer, UDataTable *spellsDataTable);
+	void init(FCombatActorStruct *combatActorStructPointer);
 
 public:
 	UPROPERTY(BlueprintReadOnly)
