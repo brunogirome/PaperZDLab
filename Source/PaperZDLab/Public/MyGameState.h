@@ -35,7 +35,13 @@ public:
 	TEnumAsByte<CurrentGameState> GetCurrentGameState();
 
 	UFUNCTION(BlueprintCallable)
+	void SetCurrentGameMode(CurrentGameState newCurrentGameState);
+
+	UFUNCTION(BlueprintCallable)
 	TEnumAsByte<BattleStateEnum> GetBattleState();
+
+	UFUNCTION(BlueprintCallable)
+	virtual void BeginPlay();
 
 	AMyGameState();
 };

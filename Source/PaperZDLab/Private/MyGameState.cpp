@@ -19,14 +19,23 @@ TEnumAsByte<CurrentGameState> AMyGameState::GetCurrentGameState()
   return this->GameInstance->CurrentGameState;
 }
 
+void AMyGameState::SetCurrentGameMode(CurrentGameState newCurrentGameState)
+{
+  this->GameInstance->CurrentGameState = newCurrentGameState;
+}
+
 TEnumAsByte<BattleStateEnum> AMyGameState::GetBattleState()
 {
   return this->GameMode->BattleState;
 }
 
-AMyGameState::AMyGameState()
+void AMyGameState::BeginPlay()
 {
+  Super::BeginPlay();
+
   this->GameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
   this->GameMode = Cast<AMyGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 }
+
+AMyGameState::AMyGameState() {}
