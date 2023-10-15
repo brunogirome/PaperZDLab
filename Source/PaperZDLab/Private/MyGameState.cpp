@@ -29,6 +29,11 @@ TEnumAsByte<BattleStateEnum> AMyGameState::GetBattleState()
   return this->GameMode->BattleState;
 }
 
+void AMyGameState::SetBattleState(BattleStateEnum newBattleState)
+{
+  this->GameMode->BattleState = newBattleState;
+}
+
 void AMyGameState::BeginPlay()
 {
   Super::BeginPlay();

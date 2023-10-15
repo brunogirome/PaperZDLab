@@ -41,6 +41,9 @@ public:
 	TEnumAsByte<BattleStateEnum> GetBattleState();
 
 	UFUNCTION(BlueprintCallable)
+	void SetBattleState(BattleStateEnum newBattleState);
+
+	UFUNCTION(BlueprintCallable)
 	virtual void BeginPlay();
 
 	AMyGameState();
