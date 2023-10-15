@@ -52,6 +52,8 @@ public:
 
 	TEnumAsByte<BattleStateEnum> BattleState;
 
+	UDataTable *EnemiesDataTable;
+
 	UFUNCTION(BlueprintCallable)
 	void StartBattle(TArray<FName> enemyPartyNames);
 

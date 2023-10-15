@@ -20,12 +20,6 @@ class PAPERZDLAB_API UMyGameInstance : public UGameInstance
 	GENERATED_BODY()
 
 public:
-	UDataTable *HeroesDataTable;
-
-	UDataTable *EnemiesDataTable;
-
-	UDataTable *SpellsDataTable;
-
 	UPartyClass *Party;
 
 	UMyGameInstance();

@@ -6,6 +6,14 @@
 
 #include "MyGameInstance.h"
 
+AMyGameMode::AMyGameMode()
+{
+  static ConstructorHelpers::FObjectFinder<UDataTable>
+      Enemies_DataTable_Ref(TEXT("DataTable'/Game/DataTables/Enemies_DataTable.Enemies_DataTable'"));
+
+  this->EnemiesDataTable = Enemies_DataTable_Ref.Object;
+}
+
 ActorAttackOrder::ActorAttackOrder(int32 position, UCombatActorClass *actorClass)
 {
   this->Position = position;
@@ -34,7 +42,7 @@ void AMyGameMode::StartBattle(TArray<FName> enemyNames)
 
   for (FName enemyRowName : enemyNames)
   {
-    FEnemyStruct *enemyStructPointer = gameInstance->EnemiesDataTable->FindRow<FEnemyStruct>(enemyRowName, "", true);
+    FEnemyStruct *enemyStructPointer = this->EnemiesDataTable->FindRow<FEnemyStruct>(enemyRowName, "", true);
 
     UEnemyClass *enemyInstance = NewObject<UEnemyClass>(UEnemyClass::StaticClass());
 
@@ -133,5 +141,3 @@ void AMyGameMode::PrintNames()
     GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Purple, enemy->Name);
   }
 }
-
-AMyGameMode::AMyGameMode() {}

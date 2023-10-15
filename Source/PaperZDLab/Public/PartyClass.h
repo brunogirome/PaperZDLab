@@ -16,6 +16,9 @@ UCLASS(BlueprintType)
 class PAPERZDLAB_API UPartyClass : public UObject
 {
 	GENERATED_BODY()
+
+	UDataTable *HeroesDataTable;
+
 public:
 	UPROPERTY(BlueprintReadOnly)
 	TArray<UHeroClass *> Members;

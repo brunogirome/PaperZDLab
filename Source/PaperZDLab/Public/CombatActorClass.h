@@ -32,6 +32,8 @@ class PAPERZDLAB_API UCombatActorClass : public UObject
 
 	FCombatActorStruct *CombatActorStructPointer;
 
+	UDataTable *SpellsDataTable;
+
 protected:
 	void init(FCombatActorStruct *combatActorStructPointer);
 

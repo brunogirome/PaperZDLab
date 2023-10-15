@@ -32,11 +32,15 @@ void UCombatActorClass::init(FCombatActorStruct *combatActorStructPointer)
 
     this->ManaCurrent = this->Mana;
 
-    UMyGameInstance *gameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+    TArray<FString> spellsArray;
 
-    for (FName spellName : combatActorStructPointer->SpellsName)
+    combatActorStructPointer->SpellsName[0].ToString().ParseIntoArray(spellsArray, TEXT(","), true);
+
+    for (auto spellName : spellsArray)
     {
-        FSpellStruct *spellStruct = gameInstance->SpellsDataTable->FindRow<FSpellStruct>(spellName, "", true);
+        // GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::White, TEXT("'") + spellName.TrimStartAndEnd() + TEXT("'"));
+
+        FSpellStruct *spellStruct = this->SpellsDataTable->FindRow<FSpellStruct>(FName(spellName.TrimStartAndEnd()), "", true);
 
         USpellClass *spellInstance = NewObject<USpellClass>(USpellClass::StaticClass());
 
@@ -90,4 +94,10 @@ void UCombatActorClass::TakeDamage(int32 amount)
     this->HpCurrent -= damageTaken;
 }
 
-UCombatActorClass::UCombatActorClass() {}
+UCombatActorClass::UCombatActorClass()
+{
+    static ConstructorHelpers::FObjectFinder<UDataTable>
+        Spells_DataTable_Ref(TEXT("DataTable'/Game/DataTables/Spells_DataTable.Spells_DataTable'"));
+
+    this->SpellsDataTable = Spells_DataTable_Ref.Object;
+}

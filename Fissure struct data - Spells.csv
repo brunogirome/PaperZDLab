@@ -1,7 +1,7 @@
 ---,Name,Description,ManaCost,SpellType,BuffType,Element,PartyBuffType,Amount,Round,Multiplier
 AquaBall,Aqua Ball,Hurls a large sphere of water at opponent.,15,DAMAGE,NOT_BUFF,WATER,NOT_PARTY_BUFF,30,0,0
-Heal,Cure,Restores a small amount of HP,10,HEALING,NOT_BUFF,LIGHT,NOT_PARTY_BUFF,30,0,0
+Cure,Cure,Restores a small amount of HP,10,HEALING,NOT_BUFF,LIGHT,NOT_PARTY_BUFF,30,0,0
 Sight,Sight,Reveal the enemies HP,20,PARTY_BUFF,NOT_BUFF,LIGHT,SIGHT_PARTY_BUFF,0,3,0
-Berserk,Bersek,Increase ally physical damage,25,BUFF,PHYSICAL_DAMAGE_BUFF,FIRE,NOT_PARTY_BUFF,0,10,1.8
+Bersek,Bersek,Increase ally physical damage,25,BUFF,PHYSICAL_DAMAGE_BUFF,FIRE,NOT_PARTY_BUFF,0,10,1.8
 Spark,Spark,Hurls spheres of flames at enemy ,10,DAMAGE,NOT_BUFF,FIRE,NOT_PARTY_BUFF,35,0,0
 Haste,Haste,Increase ally speed,25,BUFF,SPEED_BUFF,WIND,NOT_PARTY_BUFF,0,10,1.8

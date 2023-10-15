@@ -2,21 +2,13 @@
 
 #include "PartyClass.h"
 
-#include "Kismet/GameplayStatics.h"
-
-#include "MyGameInstance.h"
-
-UPartyClass::UPartyClass() {}
-
 void UPartyClass::Init(TArray<FName> partyRowNames)
 {
-    UMyGameInstance *gameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-
     for (FName memberName : partyRowNames)
     {
         int32 level = 1;
 
-        FHeroStruct *heroStructPointer = gameInstance->HeroesDataTable->FindRow<FHeroStruct>(memberName, "", true);
+        FHeroStruct *heroStructPointer = this->HeroesDataTable->FindRow<FHeroStruct>(memberName, "", true);
 
         UHeroClass *heroInstance = NewObject<UHeroClass>(UHeroClass::StaticClass());
 
@@ -45,4 +37,12 @@ void UPartyClass::PrintHeroes()
 
         GEngine->AddOnScreenDebugMessage(-1, 35.0f, FColor::Blue, spells);
     }
+}
+
+UPartyClass::UPartyClass()
+{
+    static ConstructorHelpers::FObjectFinder<UDataTable>
+        Heroes_DataTable_Ref(TEXT("DataTable'/Game/DataTables/Heroes_DataTable.Heroes_DataTable'"));
+
+    this->HeroesDataTable = Heroes_DataTable_Ref.Object;
 }
