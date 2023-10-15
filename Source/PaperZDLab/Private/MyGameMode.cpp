@@ -6,14 +6,6 @@
 
 #include "MyGameInstance.h"
 
-AMyGameMode::AMyGameMode()
-{
-  static ConstructorHelpers::FObjectFinder<UDataTable>
-      Enemies_DataTable_Ref(TEXT("DataTable'/Game/DataTables/Enemies_DataTable.Enemies_DataTable'"));
-
-  this->EnemiesDataTable = Enemies_DataTable_Ref.Object;
-}
-
 ActorAttackOrder::ActorAttackOrder(int32 position, UCombatActorClass *actorClass)
 {
   this->Position = position;
@@ -54,6 +46,8 @@ void AMyGameMode::StartBattle(TArray<FName> enemyNames)
   this->turnSize = this->HeroParty->Num() + this->EnemyParty.Num();
 
   this->BattleState = START_STEP;
+
+  gameInstance->CurrentGameState = BATTLE;
 }
 
 void AMyGameMode::SortTurn()
@@ -116,6 +110,18 @@ void AMyGameMode::SortTurn()
 
     validActor = true;
   }
+}
+
+// void AMyGameMode::BeginPlay()
+// {
+// }
+
+AMyGameMode::AMyGameMode()
+{
+  static ConstructorHelpers::FObjectFinder<UDataTable>
+      Enemies_DataTable_Ref(TEXT("DataTable'/Game/DataTables/Enemies_DataTable.Enemies_DataTable'"));
+
+  this->EnemiesDataTable = Enemies_DataTable_Ref.Object;
 }
 
 // Debug Functions

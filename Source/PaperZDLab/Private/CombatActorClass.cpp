@@ -32,14 +32,17 @@ void UCombatActorClass::init(FCombatActorStruct *combatActorStructPointer)
 
     this->ManaCurrent = this->Mana;
 
+    if (combatActorStructPointer->SpellsName.Num() == 0)
+    {
+        return;
+    }
+
     TArray<FString> spellsArray;
 
     combatActorStructPointer->SpellsName[0].ToString().ParseIntoArray(spellsArray, TEXT(","), true);
 
     for (auto spellName : spellsArray)
     {
-        // GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::White, TEXT("'") + spellName.TrimStartAndEnd() + TEXT("'"));
-
         FSpellStruct *spellStruct = this->SpellsDataTable->FindRow<FSpellStruct>(FName(spellName.TrimStartAndEnd()), "", true);
 
         USpellClass *spellInstance = NewObject<USpellClass>(USpellClass::StaticClass());

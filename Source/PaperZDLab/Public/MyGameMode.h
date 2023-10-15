@@ -9,6 +9,7 @@
 #include "EnemyClass.h"
 
 #include "BattleStateEnum.h"
+// #include "MyGameInstance.h"
 
 #include "MyGameMode.generated.h"
 
@@ -39,6 +40,8 @@ class PAPERZDLAB_API AMyGameMode : public AGameModeBase
 
 	UCombatActorClass *currentActor;
 
+	// UMyGameInstance GameInstance;
+
 	int32 turnSize;
 
 	int32 CurrentActorPointer = 0;
@@ -59,6 +62,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SortTurn();
+
+	// UFUNCTION(BlueprintCallable)
+	// virtual void BeginPlay();
 
 	AMyGameMode();
 
