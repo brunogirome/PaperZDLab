@@ -4,6 +4,9 @@
 
 #include "Kismet/GameplayStatics.h"
 
+#include "MyGameInstance.h"
+#include "MyGameMode.h"
+
 TArray<UHeroClass *> AMyGameState::GetPartyMembers()
 {
   return this->GameInstance->Party->Members;

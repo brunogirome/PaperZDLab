@@ -17,14 +17,11 @@ class PAPERZDLAB_API UPartyClass : public UObject
 {
 	GENERATED_BODY()
 
-	UDataTable *HeroesDataTable;
-
 public:
 	UPROPERTY(BlueprintReadOnly)
 	TArray<UHeroClass *> Members;
-
-	UFUNCTION(BlueprintCallable)
-	void Init(TArray<FName> partyRowNames);
+	
+	void Init(class UMyGameInstance *myGameInstance);
 
 	// Debug functions
 	UFUNCTION(BlueprintCallable)

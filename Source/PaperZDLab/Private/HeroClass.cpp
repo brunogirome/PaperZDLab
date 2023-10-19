@@ -2,7 +2,9 @@
 
 #include "HeroClass.h"
 
-void UHeroClass::Init(FHeroStruct *heroStructPointer, int32 level)
+#include "MyGameInstance.h"
+
+void UHeroClass::Init(FHeroStruct *heroStructPointer, int32 level, UMyGameInstance *myGameInstance)
 {
     FHeroStruct heroStructRef(heroStructPointer, level);
 
@@ -10,7 +12,9 @@ void UHeroClass::Init(FHeroStruct *heroStructPointer, int32 level)
 
     this->Level = level;
 
-    this->UCombatActorClass::init(&this->HeroStruct);
+    UMyGameInstance *gameInstance = myGameInstance;
+
+    this->UCombatActorClass::init(&this->HeroStruct, myGameInstance);
 }
 
 UHeroClass::UHeroClass() {}

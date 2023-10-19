@@ -25,5 +25,5 @@ public:
 
 	UEnemyClass();
 
-	void Init(FEnemyStruct *enemyStructPointerParam);
+	void Init(FEnemyStruct *enemyStructPointerParam, UMyGameInstance *myGameInstance);
 };

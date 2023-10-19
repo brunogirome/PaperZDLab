@@ -28,26 +28,24 @@ void AMyGameMode::IncrementActorPointer()
 
 void AMyGameMode::StartBattle(TArray<FName> enemyNames)
 {
-  UMyGameInstance *gameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-
-  this->HeroParty = &(gameInstance->Party->Members);
+  this->HeroParty = &this->GameInstance->Party->Members;
 
   for (FName enemyRowName : enemyNames)
   {
-    FEnemyStruct *enemyStructPointer = this->EnemiesDataTable->FindRow<FEnemyStruct>(enemyRowName, "", true);
+    FEnemyStruct *enemyStructPointer = this->GameInstance->EnemiesDataTable->FindRow<FEnemyStruct>(enemyRowName, "", true);
 
     UEnemyClass *enemyInstance = NewObject<UEnemyClass>(UEnemyClass::StaticClass());
 
-    enemyInstance->Init(enemyStructPointer);
+    enemyInstance->Init(enemyStructPointer, this->GameInstance);
 
-    this->EnemyParty.Emplace(enemyInstance);
+    this->EnemyParty.Add(enemyInstance);
   }
 
   this->turnSize = this->HeroParty->Num() + this->EnemyParty.Num();
 
   this->BattleState = START_STEP;
 
-  gameInstance->CurrentGameState = BATTLE;
+  this->GameInstance->CurrentGameState = BATTLE;
 }
 
 void AMyGameMode::SortTurn()
@@ -112,17 +110,19 @@ void AMyGameMode::SortTurn()
   }
 }
 
-// void AMyGameMode::BeginPlay()
-// {
-// }
-
-AMyGameMode::AMyGameMode()
+void AMyGameMode::BeginPlay()
 {
-  static ConstructorHelpers::FObjectFinder<UDataTable>
-      Enemies_DataTable_Ref(TEXT("DataTable'/Game/DataTables/Enemies_DataTable.Enemies_DataTable'"));
+  Super::BeginPlay();
 
-  this->EnemiesDataTable = Enemies_DataTable_Ref.Object;
+  this->GameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+  if (!this->GameInstance->Party)
+  {
+    this->GameInstance->InitParty();
+  }
 }
+
+AMyGameMode::AMyGameMode() {}
 
 // Debug Functions
 void AMyGameMode::PrintSort()

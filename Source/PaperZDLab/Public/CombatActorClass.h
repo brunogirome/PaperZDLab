@@ -32,10 +32,8 @@ class PAPERZDLAB_API UCombatActorClass : public UObject
 
 	FCombatActorStruct *CombatActorStructPointer;
 
-	UDataTable *SpellsDataTable;
-
 protected:
-	void init(FCombatActorStruct *combatActorStructPointer);
+	void init(FCombatActorStruct *combatActorStructPointer, class UMyGameInstance *myGameInstance);
 
 public:
 	UPROPERTY(BlueprintReadOnly)
@@ -101,7 +99,7 @@ public:
 	UCombatActorClass();
 
 	UFUNCTION(BlueprintCallable)
-	void calculateStats();
+	void CalculateStats();
 
 	UFUNCTION(BluePrintCallable)
 	bool IsDead();

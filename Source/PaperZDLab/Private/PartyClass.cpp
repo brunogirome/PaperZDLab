@@ -2,19 +2,21 @@
 
 #include "PartyClass.h"
 
-void UPartyClass::Init(TArray<FName> partyRowNames)
+#include "MyGameInstance.h"
+
+void UPartyClass::Init(UMyGameInstance *myGameInstance)
 {
-    for (FName memberName : partyRowNames)
+    for (FName memberName : myGameInstance->PartyRowNames)
     {
         int32 level = 1;
 
-        FHeroStruct *heroStructPointer = this->HeroesDataTable->FindRow<FHeroStruct>(memberName, "", true);
+        FHeroStruct *heroStructPointer = myGameInstance->HeroesDataTable->FindRow<FHeroStruct>(memberName, "", true);
 
         UHeroClass *heroInstance = NewObject<UHeroClass>(UHeroClass::StaticClass());
 
-        heroInstance->Init(heroStructPointer, level);
+        heroInstance->Init(heroStructPointer, level, myGameInstance);
 
-        this->Members.Emplace(heroInstance);
+        this->Members.Add(heroInstance);
     }
 }
 
@@ -39,10 +41,4 @@ void UPartyClass::PrintHeroes()
     }
 }
 
-UPartyClass::UPartyClass()
-{
-    static ConstructorHelpers::FObjectFinder<UDataTable>
-        Heroes_DataTable_Ref(TEXT("DataTable'/Game/DataTables/Heroes_DataTable.Heroes_DataTable'"));
-
-    this->HeroesDataTable = Heroes_DataTable_Ref.Object;
-}
+UPartyClass::UPartyClass() {}

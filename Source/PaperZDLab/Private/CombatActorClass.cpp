@@ -2,11 +2,9 @@
 
 #include "CombatActorClass.h"
 
-#include "Kismet/GameplayStatics.h"
-
 #include "MyGameInstance.h"
 
-void UCombatActorClass::init(FCombatActorStruct *combatActorStructPointer)
+void UCombatActorClass::init(FCombatActorStruct *combatActorStructPointer, UMyGameInstance *myGameInstance)
 {
     this->CombatActorStructPointer = combatActorStructPointer;
 
@@ -26,7 +24,7 @@ void UCombatActorClass::init(FCombatActorStruct *combatActorStructPointer)
 
     this->Agility = combatActorStructPointer->AgilityBase;
 
-    this->calculateStats();
+    this->CalculateStats();
 
     this->HpCurrent = this->Hp;
 
@@ -37,13 +35,15 @@ void UCombatActorClass::init(FCombatActorStruct *combatActorStructPointer)
         return;
     }
 
+    UMyGameInstance *gameInstance = myGameInstance;
+
     TArray<FString> spellsArray;
 
     combatActorStructPointer->SpellsName[0].ToString().ParseIntoArray(spellsArray, TEXT(","), true);
 
     for (auto spellName : spellsArray)
     {
-        FSpellStruct *spellStruct = this->SpellsDataTable->FindRow<FSpellStruct>(FName(spellName.TrimStartAndEnd()), "", true);
+        FSpellStruct *spellStruct = gameInstance->SpellsDataTable->FindRow<FSpellStruct>(FName(spellName.TrimStartAndEnd()), "", true);
 
         USpellClass *spellInstance = NewObject<USpellClass>(USpellClass::StaticClass());
 
@@ -53,7 +53,7 @@ void UCombatActorClass::init(FCombatActorStruct *combatActorStructPointer)
     }
 }
 
-void UCombatActorClass::calculateStats()
+void UCombatActorClass::CalculateStats()
 {
     auto calculateAttribute = [&](int32 baseValue, float multiplier, int32 combatTypeValue, TEnumAsByte<CombatTypeEnum> combatTypeBonus, float buffValue = 0)
     {
@@ -97,10 +97,4 @@ void UCombatActorClass::TakeDamage(int32 amount)
     this->HpCurrent -= damageTaken;
 }
 
-UCombatActorClass::UCombatActorClass()
-{
-    static ConstructorHelpers::FObjectFinder<UDataTable>
-        Spells_DataTable_Ref(TEXT("DataTable'/Game/DataTables/Spells_DataTable.Spells_DataTable'"));
-
-    this->SpellsDataTable = Spells_DataTable_Ref.Object;
-}
+UCombatActorClass::UCombatActorClass() {}

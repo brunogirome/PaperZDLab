@@ -2,11 +2,21 @@
 
 #include "MyGameInstance.h"
 
-void UMyGameInstance::InitParty(TArray<FName> partyRowNames)
+// void UMyGameInstance::Init()
+// {
+//   Super::Init();
+// }
+
+void UMyGameInstance::InitParty()
 {
   this->Party = NewObject<UPartyClass>(UPartyClass::StaticClass());
 
-  this->Party->Init(partyRowNames);
+  this->Party->Init(this);
 }
 
-UMyGameInstance::UMyGameInstance() {}
+UMyGameInstance::UMyGameInstance()
+{
+  this->CurrentGameState = OVERWORLD;
+
+  this->Party = nullptr;
+}

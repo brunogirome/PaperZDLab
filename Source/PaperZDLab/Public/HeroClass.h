@@ -26,7 +26,7 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	int32 Level;
 
-	void Init(FHeroStruct *heroStructPointer, int32 level);
+	void Init(FHeroStruct *heroStructPointer, int32 level, class UMyGameInstance *myGameInstance);
 
 	UHeroClass();
 };

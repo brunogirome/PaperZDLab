@@ -9,7 +9,6 @@
 #include "EnemyClass.h"
 
 #include "BattleStateEnum.h"
-// #include "MyGameInstance.h"
 
 #include "MyGameMode.generated.h"
 
@@ -40,7 +39,7 @@ class PAPERZDLAB_API AMyGameMode : public AGameModeBase
 
 	UCombatActorClass *currentActor;
 
-	// UMyGameInstance GameInstance;
+	class UMyGameInstance *GameInstance;
 
 	int32 turnSize;
 
@@ -55,16 +54,14 @@ public:
 
 	TEnumAsByte<BattleStateEnum> BattleState;
 
-	UDataTable *EnemiesDataTable;
-
 	UFUNCTION(BlueprintCallable)
 	void StartBattle(TArray<FName> enemyPartyNames);
 
 	UFUNCTION(BlueprintCallable)
 	void SortTurn();
 
-	// UFUNCTION(BlueprintCallable)
-	// virtual void BeginPlay();
+	UFUNCTION(BlueprintCallable)
+	virtual void BeginPlay() override;
 
 	AMyGameMode();
 
