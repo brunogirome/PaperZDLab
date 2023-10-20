@@ -45,23 +45,33 @@ class PAPERZDLAB_API AMyGameMode : public AGameModeBase
 
 	int32 CurrentActorPointer = 0;
 
-	void IncrementActorPointer();
+	void startStep();
+
+	void physicalDamage();
+
+	void incrementActorPointer();
 
 public:
 	TArray<UHeroClass *> *HeroParty;
 
 	TArray<UEnemyClass *> EnemyParty;
 
+	TArray<uint8> ATTACK_STRENGTH_ACCURACY;
+
+	UCombatActorClass *TargetActor;
+
 	TEnumAsByte<BattleStateEnum> BattleState;
 
-	UFUNCTION(BlueprintCallable)
-	void StartBattle(TArray<FName> enemyPartyNames);
-
-	UFUNCTION(BlueprintCallable)
-	void SortTurn();
+	TEnumAsByte<BattleStateEnum> LastBattleState;
 
 	UFUNCTION(BlueprintCallable)
 	virtual void BeginPlay() override;
+
+	UFUNCTION(BlueprintCallable)
+	void Tick();
+
+	UFUNCTION(BlueprintCallable)
+	void StartBattle(TArray<FName> enemyPartyNames);
 
 	AMyGameMode();
 

@@ -19,36 +19,14 @@ ActorAttackOrder::ActorAttackOrder(int32 position, UCombatActorClass *actorClass
   this->TypeOfActor = actorClass->TypeOfActor;
 }
 
-void AMyGameMode::IncrementActorPointer()
+void AMyGameMode::incrementActorPointer()
 {
   this->CurrentActorPointer++;
 
   this->CurrentActorPointer = this->CurrentActorPointer >= this->turnSize ? 0 : this->CurrentActorPointer;
 }
 
-void AMyGameMode::StartBattle(TArray<FName> enemyNames)
-{
-  this->HeroParty = &this->GameInstance->Party->Members;
-
-  for (FName enemyRowName : enemyNames)
-  {
-    FEnemyStruct *enemyStructPointer = this->GameInstance->EnemiesDataTable->FindRow<FEnemyStruct>(enemyRowName, "", true);
-
-    UEnemyClass *enemyInstance = NewObject<UEnemyClass>(UEnemyClass::StaticClass());
-
-    enemyInstance->Init(enemyStructPointer, this->GameInstance);
-
-    this->EnemyParty.Add(enemyInstance);
-  }
-
-  this->turnSize = this->HeroParty->Num() + this->EnemyParty.Num();
-
-  this->BattleState = START_STEP;
-
-  this->GameInstance->CurrentGameState = BATTLE;
-}
-
-void AMyGameMode::SortTurn()
+void AMyGameMode::startStep()
 {
   // Sorting the turn
   this->attackOrder.Empty();
@@ -88,7 +66,7 @@ void AMyGameMode::SortTurn()
 
     if (currentAttacker.IsDead)
     {
-      this->IncrementActorPointer();
+      this->incrementActorPointer();
 
       continue;
     }
@@ -110,11 +88,30 @@ void AMyGameMode::SortTurn()
   }
 }
 
+void AMyGameMode::physicalDamage()
+{
+  int32 attackerDamage = this->currentActor->PhysicalDamage;
+
+  int32 defenserDefense = this->TargetActor->PhysicalDefense;
+
+  int32 damage = attackerDamage - (int32)(defenserDefense * 0.8);
+
+  this->TargetActor->TakeDamage(damage);
+
+  FString attackerName = this->currentActor->Name;
+
+  FString defenderName = this->TargetActor->Name;
+
+  GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Red, attackerName + " dealt " + FString::FromInt(damage) + " on " + defenderName + "!");
+
+  this->incrementActorPointer();
+
+  this->BattleState = START_STEP;
+}
+
 void AMyGameMode::BeginPlay()
 {
   Super::BeginPlay();
-
-  this->GameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
   if (!this->GameInstance->Party)
   {
@@ -122,7 +119,70 @@ void AMyGameMode::BeginPlay()
   }
 }
 
-AMyGameMode::AMyGameMode() {}
+void AMyGameMode::Tick()
+{
+  if (this->GameInstance->CurrentGameState != BATTLE)
+  {
+    return;
+  }
+
+  switch (this->BattleState)
+  {
+  case START_STEP:
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Start Step");
+
+    this->startStep();
+
+    break;
+  case PHYSICAL_ATTACK:
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Physical Attack");
+
+    this->physicalDamage();
+
+    break;
+  default:
+    break;
+  }
+}
+
+void AMyGameMode::StartBattle(TArray<FName> enemyNames)
+{
+  this->HeroParty = &this->GameInstance->Party->Members;
+
+  for (FName enemyRowName : enemyNames)
+  {
+    FEnemyStruct *enemyStructPointer = this->GameInstance->EnemiesDataTable->FindRow<FEnemyStruct>(enemyRowName, "", true);
+
+    UEnemyClass *enemyInstance = NewObject<UEnemyClass>(UEnemyClass::StaticClass());
+
+    enemyInstance->Init(enemyStructPointer, this->GameInstance);
+
+    this->EnemyParty.Add(enemyInstance);
+  }
+
+  this->turnSize = this->HeroParty->Num() + this->EnemyParty.Num();
+
+  this->BattleState = START_STEP;
+
+  this->GameInstance->CurrentGameState = BATTLE;
+}
+
+AMyGameMode::AMyGameMode()
+{
+  this->GameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+  const uint8 DEFAULT_WEAK_ATTACK_ACCURAY = 86;
+
+  const uint8 DEFAULT_MEDIUM_ATTACK_ACCURAY = 76;
+
+  const uint8 DEFAULT_STRONG_ATTACK_ACCURAY = 66;
+
+  this->ATTACK_STRENGTH_ACCURACY.Emplace(DEFAULT_WEAK_ATTACK_ACCURAY);
+
+  this->ATTACK_STRENGTH_ACCURACY.Emplace(DEFAULT_MEDIUM_ATTACK_ACCURAY);
+
+  this->ATTACK_STRENGTH_ACCURACY.Emplace(DEFAULT_STRONG_ATTACK_ACCURAY);
+}
 
 // Debug Functions
 void AMyGameMode::PrintSort()
