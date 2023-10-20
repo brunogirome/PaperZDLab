@@ -73,13 +73,13 @@ void AMyGameMode::startStep()
 
     if (currentAttacker.TypeOfActor == HERO)
     {
-      this->currentActor = (UCombatActorClass *)(*HeroParty)[currentAttacker.Position];
+      this->CurrentActor = (UCombatActorClass *)(*HeroParty)[currentAttacker.Position];
 
       this->BattleState = HERO_TURN;
     }
     else
     {
-      this->currentActor = (UCombatActorClass *)EnemyParty[currentAttacker.Position];
+      this->CurrentActor = (UCombatActorClass *)EnemyParty[currentAttacker.Position];
 
       this->BattleState = ENEMY_TURN;
     }
@@ -90,19 +90,36 @@ void AMyGameMode::startStep()
 
 void AMyGameMode::physicalDamage()
 {
-  int32 attackerDamage = this->currentActor->PhysicalDamage;
+  float accuracy = this->ATTACK_STRENGTH_ACCURACY_BASE[this->AtackStrengthChoice];
 
-  int32 defenserDefense = this->TargetActor->PhysicalDefense;
+  accuracy *= 1 + (this->CurrentActor->Agility / 300);
 
-  int32 damage = attackerDamage - (int32)(defenserDefense * 0.7);
+  float dieroll = FMath::FRandRange(0.f, 100.f);
 
-  this->TargetActor->TakeDamage(damage);
+  dieroll += this->TargetActor->Evasion / 2;
 
-  FString attackerName = this->currentActor->Name;
+  GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Emerald, "you rolled " + FString::FromInt(dieroll));
 
-  FString defenderName = this->TargetActor->Name;
+  FString attackerName = this->CurrentActor->Name;
 
-  GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Red, attackerName + " dealt " + FString::FromInt(damage) + " on " + defenderName + "!");
+  if (dieroll <= accuracy)
+  {
+    int32 attackerDamage = this->CurrentActor->PhysicalDamage;
+
+    int32 defenserDefense = this->TargetActor->PhysicalDefense;
+
+    int32 damage = attackerDamage - (int32)(defenserDefense * 0.7);
+
+    FString defenderName = this->TargetActor->Name;
+
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Red, attackerName + " dealt " + FString::FromInt(damage) + " on " + defenderName + "!");
+
+    this->TargetActor->TakeDamage(damage);
+  }
+  else
+  {
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Red, attackerName + " missed!");
+  }
 
   this->incrementActorPointer();
 
@@ -119,7 +136,7 @@ void AMyGameMode::BeginPlay()
   }
 }
 
-void AMyGameMode::Tick()
+void AMyGameMode::Tick(float DeltaSeconds)
 {
   if (this->GameInstance->CurrentGameState != BATTLE)
   {
@@ -171,17 +188,17 @@ AMyGameMode::AMyGameMode()
 {
   this->GameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-  const uint8 DEFAULT_WEAK_ATTACK_ACCURAY = 86;
+  const float DEFAULT_WEAK_ATTACK_ACCURAY = 86.f;
 
-  const uint8 DEFAULT_MEDIUM_ATTACK_ACCURAY = 76;
+  const float DEFAULT_MEDIUM_ATTACK_ACCURAY = 76.f;
 
-  const uint8 DEFAULT_STRONG_ATTACK_ACCURAY = 66;
+  const float DEFAULT_STRONG_ATTACK_ACCURAY = 66.f;
 
-  this->ATTACK_STRENGTH_ACCURACY.Emplace(DEFAULT_WEAK_ATTACK_ACCURAY);
+  this->ATTACK_STRENGTH_ACCURACY_BASE.Emplace(DEFAULT_WEAK_ATTACK_ACCURAY);
 
-  this->ATTACK_STRENGTH_ACCURACY.Emplace(DEFAULT_MEDIUM_ATTACK_ACCURAY);
+  this->ATTACK_STRENGTH_ACCURACY_BASE.Emplace(DEFAULT_MEDIUM_ATTACK_ACCURAY);
 
-  this->ATTACK_STRENGTH_ACCURACY.Emplace(DEFAULT_STRONG_ATTACK_ACCURAY);
+  this->ATTACK_STRENGTH_ACCURACY_BASE.Emplace(DEFAULT_STRONG_ATTACK_ACCURAY);
 }
 
 // Debug Functions

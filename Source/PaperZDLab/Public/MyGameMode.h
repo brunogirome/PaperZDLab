@@ -37,8 +37,6 @@ class PAPERZDLAB_API AMyGameMode : public AGameModeBase
 
 	TArray<ActorAttackOrder> attackOrder;
 
-	UCombatActorClass *currentActor;
-
 	class UMyGameInstance *GameInstance;
 
 	int32 turnSize;
@@ -51,24 +49,30 @@ class PAPERZDLAB_API AMyGameMode : public AGameModeBase
 
 	void incrementActorPointer();
 
+	int32 delay;
+
 public:
 	TArray<UHeroClass *> *HeroParty;
 
 	TArray<UEnemyClass *> EnemyParty;
 
-	TArray<uint8> ATTACK_STRENGTH_ACCURACY;
+	TArray<float> ATTACK_STRENGTH_ACCURACY_BASE;
 
 	UCombatActorClass *TargetActor;
+
+	UCombatActorClass *CurrentActor;
 
 	TEnumAsByte<BattleStateEnum> BattleState;
 
 	TEnumAsByte<BattleStateEnum> LastBattleState;
 
+	uint8 AtackStrengthChoice;
+
 	UFUNCTION(BlueprintCallable)
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable)
-	void Tick();
+	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintCallable)
 	void StartBattle(TArray<FName> enemyPartyNames);

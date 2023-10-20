@@ -32,22 +32,28 @@ public:
 	TArray<UEnemyClass *> GetEnemyPartyMembers();
 
 	UFUNCTION(BlueprintCallable)
-	TArray<uint8> GetATTACK_STRENGTH_ACCURACY();
-
-	UFUNCTION(BlueprintCallable)
 	TEnumAsByte<CurrentGameState> GetCurrentGameState();
-
-	UFUNCTION(BlueprintCallable)
-	void SetCurrentGameMode(CurrentGameState newCurrentGameState);
 
 	UFUNCTION(BlueprintCallable)
 	TEnumAsByte<BattleStateEnum> GetBattleState();
 
 	UFUNCTION(BlueprintCallable)
+	void SetCurrentGameMode(CurrentGameState newCurrentGameState);
+
+	UFUNCTION(BlueprintCallable)
+	TArray<float> GetATTACK_STRENGTH_ACCURACY();
+
+	UFUNCTION(BlueprintCallable)
 	void SetBattleState(BattleStateEnum newBattleState);
 
 	UFUNCTION(BlueprintCallable)
+	UCombatActorClass *GetCurrentActor();
+
+	UFUNCTION(BlueprintCallable)
 	void SetCurrentTarget(uint8 targetPosition, TypeOfActorEnum typeOfActor);
+
+	UFUNCTION(BlueprintCallable)
+	void SetAtackStrengthChoice(uint8 choice);
 
 	UFUNCTION(BlueprintCallable)
 	void StartBattle(TArray<FName> enemiesRowNames);

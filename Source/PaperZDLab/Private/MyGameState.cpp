@@ -17,9 +17,9 @@ TArray<UEnemyClass *> AMyGameState::GetEnemyPartyMembers()
   return this->GameMode->EnemyParty;
 }
 
-TArray<uint8> AMyGameState::GetATTACK_STRENGTH_ACCURACY()
+TArray<float> AMyGameState::GetATTACK_STRENGTH_ACCURACY()
 {
-  return this->GameMode->ATTACK_STRENGTH_ACCURACY;
+  return this->GameMode->ATTACK_STRENGTH_ACCURACY_BASE;
 }
 
 TEnumAsByte<CurrentGameState> AMyGameState::GetCurrentGameState()
@@ -44,6 +44,11 @@ void AMyGameState::SetBattleState(BattleStateEnum newBattleState)
   this->GameMode->BattleState = newBattleState;
 }
 
+UCombatActorClass *AMyGameState::GetCurrentActor()
+{
+  return this->GameMode->CurrentActor;
+}
+
 void AMyGameState::SetCurrentTarget(uint8 targetPosition, TypeOfActorEnum typeOfActor)
 {
   UCombatActorClass *targetActor =
@@ -51,6 +56,11 @@ void AMyGameState::SetCurrentTarget(uint8 targetPosition, TypeOfActorEnum typeOf
                            : (UCombatActorClass *)(*this->GameMode->HeroParty)[targetPosition];
 
   this->GameMode->TargetActor = targetActor;
+}
+
+void AMyGameState::SetAtackStrengthChoice(uint8 choice)
+{
+  this->GameMode->AtackStrengthChoice = choice;
 }
 
 void AMyGameState::StartBattle(TArray<FName> enemiesRowNames)
