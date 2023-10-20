@@ -94,7 +94,7 @@ void AMyGameMode::physicalDamage()
 
   int32 defenserDefense = this->TargetActor->PhysicalDefense;
 
-  int32 damage = attackerDamage - (int32)(defenserDefense * 0.8);
+  int32 damage = attackerDamage - (int32)(defenserDefense * 0.7);
 
   this->TargetActor->TakeDamage(damage);
 
