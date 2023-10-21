@@ -49,8 +49,6 @@ class PAPERZDLAB_API AMyGameMode : public AGameModeBase
 
 	void incrementActorPointer();
 
-	int32 delay;
-
 public:
 	TArray<UHeroClass *> *HeroParty;
 

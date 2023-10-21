@@ -98,13 +98,13 @@ void AMyGameMode::physicalDamage()
 
   dieroll += this->TargetActor->Evasion / 2;
 
-  GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Emerald, "you rolled " + FString::FromInt(dieroll));
-
   FString attackerName = this->CurrentActor->Name;
 
   if (dieroll <= accuracy)
   {
-    int32 attackerDamage = this->CurrentActor->PhysicalDamage;
+    float bonusDamage = 1 + (this->AtackStrengthChoice * 5 / 100);
+
+    int32 attackerDamage = this->CurrentActor->PhysicalDamage * bonusDamage;
 
     int32 defenserDefense = this->TargetActor->PhysicalDefense;
 
@@ -188,11 +188,11 @@ AMyGameMode::AMyGameMode()
 {
   this->GameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-  const float DEFAULT_WEAK_ATTACK_ACCURAY = 86.f;
+  const float DEFAULT_WEAK_ATTACK_ACCURAY = 92.f;
 
-  const float DEFAULT_MEDIUM_ATTACK_ACCURAY = 76.f;
+  const float DEFAULT_MEDIUM_ATTACK_ACCURAY = 82.f;
 
-  const float DEFAULT_STRONG_ATTACK_ACCURAY = 66.f;
+  const float DEFAULT_STRONG_ATTACK_ACCURAY = 72.f;
 
   this->ATTACK_STRENGTH_ACCURACY_BASE.Emplace(DEFAULT_WEAK_ATTACK_ACCURAY);
 

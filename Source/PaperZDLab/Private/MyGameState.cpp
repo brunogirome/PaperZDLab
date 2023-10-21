@@ -61,6 +61,8 @@ void AMyGameState::SetCurrentTarget(uint8 targetPosition, TypeOfActorEnum typeOf
 void AMyGameState::SetAtackStrengthChoice(uint8 choice)
 {
   this->GameMode->AtackStrengthChoice = choice;
+
+  this->GameMode->BattleState = PHYSICAL_ATTACK;
 }
 
 void AMyGameState::StartBattle(TArray<FName> enemiesRowNames)
