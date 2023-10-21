@@ -39,13 +39,23 @@ class PAPERZDLAB_API AMyGameMode : public AGameModeBase
 
 	class UMyGameInstance *GameInstance;
 
+	int32 turnCurrent;
+
 	int32 turnSize;
 
-	int32 CurrentActorPointer = 0;
+	int32 currentActorPointer = 0;
+
+	bool alreadyAttacked;
+
+	bool victory;
+
+	bool gameOver;
 
 	void startStep();
 
 	void physicalDamage();
+
+	void endOfTheTurn();
 
 	void incrementActorPointer();
 

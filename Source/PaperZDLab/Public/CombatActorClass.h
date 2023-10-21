@@ -94,6 +94,9 @@ public:
 	int32 ManaCurrent;
 
 	UPROPERTY(BluePrintReadOnly)
+	int32 StaminaCurrent;
+
+	UPROPERTY(BluePrintReadOnly)
 	TArray<USpellClass *> Spells;
 
 	UCombatActorClass();
@@ -104,6 +107,11 @@ public:
 	UFUNCTION(BluePrintCallable)
 	bool IsDead();
 
-	UFUNCTION(BluePrintCallable)
+	bool IsOutOfStamina();
+
 	void TakeDamage(int32 amount);
+
+	void ReduceStamina(uint8 amount);
+
+	void HealStamina(uint8 amount, bool full = false);
 };

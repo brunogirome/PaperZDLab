@@ -30,6 +30,8 @@ void UCombatActorClass::init(FCombatActorStruct *combatActorStructPointer, UMyGa
 
     this->ManaCurrent = this->Mana;
 
+    this->StaminaCurrent = this->Stamina;
+
     if (combatActorStructPointer->SpellsName.Num() == 0)
     {
         return;
@@ -90,11 +92,28 @@ bool UCombatActorClass::IsDead()
     return this->HpCurrent <= 0;
 }
 
+bool UCombatActorClass::IsOutOfStamina()
+{
+    return this->StaminaCurrent <= 0;
+}
+
 void UCombatActorClass::TakeDamage(int32 amount)
 {
     int32 damageTaken = amount > this->HpCurrent ? this->HpCurrent : amount;
 
     this->HpCurrent -= damageTaken;
+}
+
+void UCombatActorClass::ReduceStamina(uint8 amount)
+{
+    this->StaminaCurrent -= amount;
+}
+
+void UCombatActorClass::HealStamina(uint8 amount, bool full)
+{
+    uint8 amountHealed = full ? this->Stamina : amount;
+
+    this->StaminaCurrent += FMath::Clamp(amount, 0, amountHealed);
 }
 
 UCombatActorClass::UCombatActorClass() {}

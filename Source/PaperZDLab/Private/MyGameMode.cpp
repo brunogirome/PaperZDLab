@@ -19,13 +19,6 @@ ActorAttackOrder::ActorAttackOrder(int32 position, UCombatActorClass *actorClass
   this->TypeOfActor = actorClass->TypeOfActor;
 }
 
-void AMyGameMode::incrementActorPointer()
-{
-  this->CurrentActorPointer++;
-
-  this->CurrentActorPointer = this->CurrentActorPointer >= this->turnSize ? 0 : this->CurrentActorPointer;
-}
-
 void AMyGameMode::startStep()
 {
   // Sorting the turn
@@ -62,7 +55,7 @@ void AMyGameMode::startStep()
 
   while (!validActor)
   {
-    ActorAttackOrder currentAttacker = this->attackOrder[this->CurrentActorPointer];
+    ActorAttackOrder currentAttacker = this->attackOrder[this->currentActorPointer];
 
     if (currentAttacker.IsDead)
     {
@@ -86,6 +79,8 @@ void AMyGameMode::startStep()
 
     validActor = true;
   }
+
+  this->alreadyAttacked = false;
 }
 
 void AMyGameMode::physicalDamage()
@@ -121,9 +116,58 @@ void AMyGameMode::physicalDamage()
     GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Red, attackerName + " missed!");
   }
 
+  uint8 staminaCost = this->AtackStrengthChoice + 1;
+
+  this->CurrentActor->ReduceStamina(staminaCost);
+
+  this->BattleState =
+      !this->CurrentActor->IsOutOfStamina() ? ATTACK_DECISION : END_OF_THE_TURN;
+}
+
+void AMyGameMode::endOfTheTurn()
+{
+  bool endOfTurnCycle = this->turnCurrent % this->turnSize == 0;
+
+  this->victory = true;
+
+  this->gameOver = true;
+
+  for (auto *hero : *this->HeroParty)
+  {
+    if (!hero->IsDead())
+    {
+      this->gameOver = false;
+    }
+
+    if (endOfTurnCycle)
+    {
+      hero->HealStamina(hero->Stamina);
+    }
+  }
+
+  for (auto *enemy : this->EnemyParty)
+  {
+    if (!enemy->IsDead())
+    {
+      this->victory = false;
+    }
+
+    if (endOfTurnCycle)
+    {
+      enemy->HealStamina(enemy->Stamina);
+    }
+  }
+
   this->incrementActorPointer();
 
-  this->BattleState = START_STEP;
+  this->BattleState = !(victory || gameOver) ? START_STEP : END_OF_THE_BATTLE;
+}
+
+void AMyGameMode::incrementActorPointer()
+{
+  this->currentActorPointer++;
+
+  this->currentActorPointer = this->currentActorPointer >= this->turnSize ? 0 : this->currentActorPointer;
 }
 
 void AMyGameMode::BeginPlay()
@@ -146,15 +190,25 @@ void AMyGameMode::Tick(float DeltaSeconds)
   switch (this->BattleState)
   {
   case START_STEP:
-    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Start Step");
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Start step");
 
     this->startStep();
 
     break;
   case PHYSICAL_ATTACK:
-    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Physical Attack");
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Physical attack");
 
     this->physicalDamage();
+    break;
+  case END_OF_THE_TURN:
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "End of the turn");
+
+    this->endOfTheTurn();
+    break;
+  case END_OF_THE_BATTLE:
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "End of the battle");
+
+    this->GameInstance->CurrentGameState = OVERWORLD;
 
     break;
   default:
@@ -176,6 +230,8 @@ void AMyGameMode::StartBattle(TArray<FName> enemyNames)
 
     this->EnemyParty.Add(enemyInstance);
   }
+
+  this->turnCurrent = 1;
 
   this->turnSize = this->HeroParty->Num() + this->EnemyParty.Num();
 
@@ -199,6 +255,12 @@ AMyGameMode::AMyGameMode()
   this->ATTACK_STRENGTH_ACCURACY_BASE.Emplace(DEFAULT_MEDIUM_ATTACK_ACCURAY);
 
   this->ATTACK_STRENGTH_ACCURACY_BASE.Emplace(DEFAULT_STRONG_ATTACK_ACCURAY);
+
+  this->alreadyAttacked = false;
+
+  this->victory = false;
+
+  this->gameOver = false;
 }
 
 // Debug Functions
