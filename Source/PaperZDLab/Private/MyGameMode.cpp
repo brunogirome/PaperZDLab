@@ -21,7 +21,6 @@ ActorAttackOrder::ActorAttackOrder(int32 position, UCombatActorClass *actorClass
 
 void AMyGameMode::startStep()
 {
-  // Sorting the turn
   this->attackOrder.Empty();
 
   int32 index = 0;
@@ -50,7 +49,6 @@ void AMyGameMode::startStep()
       [](const ActorAttackOrder &A, const ActorAttackOrder &B)
       { return A.Speed > B.Speed; });
 
-  // Deciding the next attacker
   bool validActor = false;
 
   while (!validActor)
@@ -124,6 +122,43 @@ void AMyGameMode::physicalDamage()
       !this->CurrentActor->IsOutOfStamina() ? ATTACK_DECISION : END_OF_THE_TURN;
 }
 
+void AMyGameMode::castSpell()
+{
+  this->castedSpell = this->CurrentActor->Spells[this->CastedSpellPositon];
+
+  switch (castedSpell->SpellType)
+  {
+  case DAMAGE:
+    this->BattleState = SELECT_TARGET;
+    break;
+
+  default:
+    break;
+  }
+}
+
+void AMyGameMode::castSpellDamage()
+{
+  this->CurrentActor->UseMana(castedSpell->ManaCost);
+
+  int32 magicDamage =
+      this->CurrentActor->MagicDamage + this->castedSpell->Amount;
+
+  int32 targetDefense = this->TargetActor->MagicDamage;
+
+  int32 damage = magicDamage - targetDefense;
+
+  FString attackerName = this->CurrentActor->Name;
+
+  FString defenderName = this->TargetActor->Name;
+
+  GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Red, attackerName + " dealt " + FString::FromInt(damage) + " on " + defenderName + "!");
+
+  this->TargetActor->TakeDamage(damage);
+
+  this->CurrentActor->ReduceStamina((int32)(CurrentActor->Stamina / 66.66f));
+}
+
 void AMyGameMode::endOfTheTurn()
 {
   bool endOfTurnCycle = this->turnCurrent % this->turnSize == 0;
@@ -174,15 +209,15 @@ void AMyGameMode::BeginPlay()
 {
   Super::BeginPlay();
 
-  if (!this->GameInstance->Party)
+  if (!this->gameInstance->Party)
   {
-    this->GameInstance->InitParty();
+    this->gameInstance->InitParty();
   }
 }
 
 void AMyGameMode::Tick(float DeltaSeconds)
 {
-  if (this->GameInstance->CurrentGameState != BATTLE)
+  if (this->gameInstance->CurrentGameState != BATTLE)
   {
     return;
   }
@@ -199,16 +234,30 @@ void AMyGameMode::Tick(float DeltaSeconds)
     GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Physical attack");
 
     this->physicalDamage();
+
+    break;
+  case SPELL_CAST:
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Spell cast");
+
+    this->castSpell();
+
+    break;
+  case SPELL_DAMAGE_CAST:
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Spell damage cast");
+
+    this->castSpellDamage();
+
     break;
   case END_OF_THE_TURN:
     GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "End of the turn");
 
     this->endOfTheTurn();
+
     break;
   case END_OF_THE_BATTLE:
     GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "End of the battle");
 
-    this->GameInstance->CurrentGameState = OVERWORLD;
+    this->gameInstance->CurrentGameState = OVERWORLD;
 
     break;
   default:
@@ -218,15 +267,15 @@ void AMyGameMode::Tick(float DeltaSeconds)
 
 void AMyGameMode::StartBattle(TArray<FName> enemyNames)
 {
-  this->HeroParty = &this->GameInstance->Party->Members;
+  this->HeroParty = &this->gameInstance->Party->Members;
 
   for (FName enemyRowName : enemyNames)
   {
-    FEnemyStruct *enemyStructPointer = this->GameInstance->EnemiesDataTable->FindRow<FEnemyStruct>(enemyRowName, "", true);
+    FEnemyStruct *enemyStructPointer = this->gameInstance->EnemiesDataTable->FindRow<FEnemyStruct>(enemyRowName, "", true);
 
     UEnemyClass *enemyInstance = NewObject<UEnemyClass>(UEnemyClass::StaticClass());
 
-    enemyInstance->Init(enemyStructPointer, this->GameInstance);
+    enemyInstance->Init(enemyStructPointer, this->gameInstance);
 
     this->EnemyParty.Add(enemyInstance);
   }
@@ -237,12 +286,12 @@ void AMyGameMode::StartBattle(TArray<FName> enemyNames)
 
   this->BattleState = START_STEP;
 
-  this->GameInstance->CurrentGameState = BATTLE;
+  this->gameInstance->CurrentGameState = BATTLE;
 }
 
 AMyGameMode::AMyGameMode()
 {
-  this->GameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+  this->gameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
   const float DEFAULT_WEAK_ATTACK_ACCURAY = 92.f;
 
@@ -255,6 +304,8 @@ AMyGameMode::AMyGameMode()
   this->ATTACK_STRENGTH_ACCURACY_BASE.Emplace(DEFAULT_MEDIUM_ATTACK_ACCURAY);
 
   this->ATTACK_STRENGTH_ACCURACY_BASE.Emplace(DEFAULT_STRONG_ATTACK_ACCURAY);
+
+  this->currentActorPointer = 0;
 
   this->alreadyAttacked = false;
 

@@ -35,16 +35,19 @@ public:
 	TEnumAsByte<CurrentGameState> GetCurrentGameState();
 
 	UFUNCTION(BlueprintCallable)
+	TEnumAsByte<BattleStateEnum> GetLastBattleState();
+
+	UFUNCTION(BlueprintCallable)
 	TEnumAsByte<BattleStateEnum> GetBattleState();
+
+	UFUNCTION(BlueprintCallable)
+	void SetBattleState(BattleStateEnum newBattleState);
 
 	UFUNCTION(BlueprintCallable)
 	void SetCurrentGameMode(CurrentGameState newCurrentGameState);
 
 	UFUNCTION(BlueprintCallable)
 	TArray<float> GetATTACK_STRENGTH_ACCURACY();
-
-	UFUNCTION(BlueprintCallable)
-	void SetBattleState(BattleStateEnum newBattleState);
 
 	UFUNCTION(BlueprintCallable)
 	UCombatActorClass *GetCurrentActor();
@@ -57,6 +60,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void StartBattle(TArray<FName> enemiesRowNames);
+
+	UFUNCTION(BlueprintCallable)
+	void CastSpell(uint8 position);
 
 	// UFUNCTION(BlueprintCallable)
 	// virtual void BeginPlay() override;

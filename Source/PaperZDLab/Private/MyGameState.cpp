@@ -32,6 +32,11 @@ void AMyGameState::SetCurrentGameMode(CurrentGameState newCurrentGameState)
   this->GameInstance->CurrentGameState = newCurrentGameState;
 }
 
+TEnumAsByte<BattleStateEnum> AMyGameState::GetLastBattleState()
+{
+  return this->GameMode->LastBattleState;
+}
+
 TEnumAsByte<BattleStateEnum> AMyGameState::GetBattleState()
 {
   return this->GameMode->BattleState;
@@ -68,6 +73,13 @@ void AMyGameState::SetAtackStrengthChoice(uint8 choice)
 void AMyGameState::StartBattle(TArray<FName> enemiesRowNames)
 {
   this->GameMode->StartBattle(enemiesRowNames);
+}
+
+void AMyGameState::CastSpell(uint8 position)
+{
+  this->GameMode->CastedSpellPositon = position;
+
+  this->GameMode->BattleState = SPELL_CAST;
 }
 
 // void AMyGameState::BeginPlay()

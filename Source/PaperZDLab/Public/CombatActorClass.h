@@ -114,4 +114,6 @@ public:
 	void ReduceStamina(uint8 amount);
 
 	void HealStamina(uint8 amount, bool full = false);
+
+	void UseMana(int32 amount);
 };

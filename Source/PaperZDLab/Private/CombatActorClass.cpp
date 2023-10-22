@@ -116,4 +116,12 @@ void UCombatActorClass::HealStamina(uint8 amount, bool full)
     this->StaminaCurrent += FMath::Clamp(amount, 0, amountHealed);
 }
 
+void UCombatActorClass::UseMana(int32 amount)
+{
+    int32 amountSpent =
+        amount - this->ManaCurrent < 0 ? this->ManaCurrent : amount;
+
+    this->ManaCurrent -= amountSpent;
+}
+
 UCombatActorClass::UCombatActorClass() {}

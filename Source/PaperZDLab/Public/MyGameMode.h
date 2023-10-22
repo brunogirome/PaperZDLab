@@ -37,13 +37,15 @@ class PAPERZDLAB_API AMyGameMode : public AGameModeBase
 
 	TArray<ActorAttackOrder> attackOrder;
 
-	class UMyGameInstance *GameInstance;
+	class UMyGameInstance *gameInstance;
+
+	USpellClass *castedSpell;
 
 	int32 turnCurrent;
 
 	int32 turnSize;
 
-	int32 currentActorPointer = 0;
+	int32 currentActorPointer;
 
 	bool alreadyAttacked;
 
@@ -54,6 +56,10 @@ class PAPERZDLAB_API AMyGameMode : public AGameModeBase
 	void startStep();
 
 	void physicalDamage();
+
+	void castSpell();
+
+	void castSpellDamage();
 
 	void endOfTheTurn();
 
@@ -75,6 +81,8 @@ public:
 	TEnumAsByte<BattleStateEnum> LastBattleState;
 
 	uint8 AtackStrengthChoice;
+
+	uint8 CastedSpellPositon;
 
 	UFUNCTION(BlueprintCallable)
 	virtual void BeginPlay() override;
