@@ -18,34 +18,34 @@ class PAPERZDLAB_API USpellClass : public UObject
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BluePrintReadOnly)
 	FString Name;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BluePrintReadOnly)
 	FString Description;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BluePrintReadOnly)
 	int32 ManaCost;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BluePrintReadOnly)
 	TEnumAsByte<SpellTypeEnum> SpellType;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BluePrintReadOnly)
 	TEnumAsByte<BuffTypeEnum> BuffType;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BluePrintReadOnly)
 	TEnumAsByte<ElementEnum> Element;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BluePrintReadOnly)
 	TEnumAsByte<PartyBuffTypeEnum> PartyBuffType;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BluePrintReadOnly)
 	int32 Amount;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BluePrintReadOnly)
 	int32 Round;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BluePrintReadOnly)
 	float Multiplier;
 
 	USpellClass();
