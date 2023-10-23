@@ -64,6 +64,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void CastSpell(uint8 position);
 
+	UFUNCTION(BlueprintCallable)
+	TEnumAsByte<SpellTypeEnum> GetSpellCastedType();
+
 	// UFUNCTION(BlueprintCallable)
 	// virtual void BeginPlay() override;
 

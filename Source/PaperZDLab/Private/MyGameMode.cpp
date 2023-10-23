@@ -66,13 +66,13 @@ void AMyGameMode::startStep()
     {
       this->CurrentActor = (UCombatActorClass *)(*HeroParty)[currentAttacker.Position];
 
-      this->BattleState = HERO_TURN;
+      this->SetBattleState(HERO_TURN);
     }
     else
     {
       this->CurrentActor = (UCombatActorClass *)EnemyParty[currentAttacker.Position];
 
-      this->BattleState = ENEMY_TURN;
+      this->SetBattleState(ENEMY_TURN);
     }
 
     validActor = true;
@@ -118,18 +118,18 @@ void AMyGameMode::physicalDamage()
 
   this->CurrentActor->ReduceStamina(staminaCost);
 
-  this->BattleState =
-      !this->CurrentActor->IsOutOfStamina() ? ATTACK_DECISION : END_OF_THE_TURN;
+  this->SetBattleState(
+      !this->CurrentActor->IsOutOfStamina() ? ATTACK_DECISION : END_OF_THE_TURN);
 }
 
 void AMyGameMode::castSpell()
 {
-  this->castedSpell = this->CurrentActor->Spells[this->CastedSpellPositon];
+  this->CastedSpell = this->CurrentActor->Spells[this->CastedSpellPositon];
 
-  switch (castedSpell->SpellType)
+  switch (CastedSpell->SpellType)
   {
   case DAMAGE:
-    this->BattleState = SELECT_TARGET;
+    this->SetBattleState(SELECT_TARGET);
     break;
 
   default:
@@ -139,10 +139,10 @@ void AMyGameMode::castSpell()
 
 void AMyGameMode::castSpellDamage()
 {
-  this->CurrentActor->UseMana(castedSpell->ManaCost);
+  this->CurrentActor->UseMana(CastedSpell->ManaCost);
 
   int32 magicDamage =
-      this->CurrentActor->MagicDamage + this->castedSpell->Amount;
+      this->CurrentActor->MagicDamage + this->CastedSpell->Amount;
 
   int32 targetDefense = this->TargetActor->MagicDamage;
 
@@ -157,6 +157,8 @@ void AMyGameMode::castSpellDamage()
   this->TargetActor->TakeDamage(damage);
 
   this->CurrentActor->ReduceStamina((int32)(CurrentActor->Stamina / 66.66f));
+
+  this->SetBattleState(END_OF_THE_TURN);
 }
 
 void AMyGameMode::endOfTheTurn()
@@ -195,7 +197,7 @@ void AMyGameMode::endOfTheTurn()
 
   this->incrementActorPointer();
 
-  this->BattleState = !(victory || gameOver) ? START_STEP : END_OF_THE_BATTLE;
+  this->SetBattleState(!(victory || gameOver) ? START_STEP : END_OF_THE_BATTLE);
 }
 
 void AMyGameMode::incrementActorPointer()
@@ -287,6 +289,13 @@ void AMyGameMode::StartBattle(TArray<FName> enemyNames)
   this->BattleState = START_STEP;
 
   this->gameInstance->CurrentGameState = BATTLE;
+}
+
+void AMyGameMode::SetBattleState(BattleStateEnum newState)
+{
+  this->LastBattleState = this->BattleState;
+
+  this->BattleState = newState;
 }
 
 AMyGameMode::AMyGameMode()

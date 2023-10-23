@@ -44,9 +44,7 @@ TEnumAsByte<BattleStateEnum> AMyGameState::GetBattleState()
 
 void AMyGameState::SetBattleState(BattleStateEnum newBattleState)
 {
-  this->GameMode->LastBattleState = this->GameMode->BattleState;
-
-  this->GameMode->BattleState = newBattleState;
+  this->GameMode->SetBattleState(newBattleState);
 }
 
 UCombatActorClass *AMyGameState::GetCurrentActor()
@@ -80,6 +78,11 @@ void AMyGameState::CastSpell(uint8 position)
   this->GameMode->CastedSpellPositon = position;
 
   this->GameMode->BattleState = SPELL_CAST;
+}
+
+TEnumAsByte<SpellTypeEnum> AMyGameState::GetSpellCastedType()
+{
+  return this->GameMode->CastedSpell->SpellType;
 }
 
 // void AMyGameState::BeginPlay()

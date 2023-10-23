@@ -39,8 +39,6 @@ class PAPERZDLAB_API AMyGameMode : public AGameModeBase
 
 	class UMyGameInstance *gameInstance;
 
-	USpellClass *castedSpell;
-
 	int32 turnCurrent;
 
 	int32 turnSize;
@@ -72,13 +70,15 @@ public:
 
 	TArray<float> ATTACK_STRENGTH_ACCURACY_BASE;
 
+	TEnumAsByte<BattleStateEnum> BattleState;
+
+	TEnumAsByte<BattleStateEnum> LastBattleState;
+
 	UCombatActorClass *TargetActor;
 
 	UCombatActorClass *CurrentActor;
 
-	TEnumAsByte<BattleStateEnum> BattleState;
-
-	TEnumAsByte<BattleStateEnum> LastBattleState;
+	USpellClass *CastedSpell;
 
 	uint8 AtackStrengthChoice;
 
@@ -92,6 +92,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void StartBattle(TArray<FName> enemyPartyNames);
+
+	void SetBattleState(BattleStateEnum newState);
 
 	AMyGameMode();
 
