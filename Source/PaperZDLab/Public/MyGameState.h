@@ -26,34 +26,34 @@ class PAPERZDLAB_API AMyGameState : public AGameStateBase
 
 public:
 	UFUNCTION(BlueprintCallable)
-	TArray<UHeroClass *> *GetPartyMembers();
+	TArray<UHeroClass *> GetPartyMembers();
 
 	UFUNCTION(BlueprintCallable)
-	TArray<UEnemyClass *> *GetEnemyPartyMembers();
+	TArray<UEnemyClass *> GetEnemyPartyMembers();
 
 	UFUNCTION(BlueprintCallable)
-	TArray<float> *GetATTACK_STRENGTH_ACCURACY();
+	TArray<float> GetATTACK_STRENGTH_ACCURACY();
 
 	UFUNCTION(BlueprintCallable)
-	TEnumAsByte<CurrentGameState> *GetCurrentGameState();
+	TEnumAsByte<CurrentGameState> GetCurrentGameState();
 
 	UFUNCTION(BlueprintCallable)
-	TEnumAsByte<BattleStateEnum> *GetLastBattleState();
+	TEnumAsByte<BattleStateEnum> GetLastBattleState();
 
 	UFUNCTION(BlueprintCallable)
-	TEnumAsByte<BattleStateEnum> *GetBattleState();
+	TEnumAsByte<BattleStateEnum> GetBattleState();
 
 	UFUNCTION(BlueprintCallable)
-	TEnumAsByte<SpellTypeEnum> *GetSpellCastedType();
+	TEnumAsByte<SpellTypeEnum> GetSpellCastedType();
 
 	UFUNCTION(BlueprintCallable)
 	UCombatActorClass *GetCurrentActor();
 
 	UFUNCTION(BlueprintCallable)
-	UHeroClass *GetHeroByPartyPosition();
+	UHeroClass *GetHeroByPartyPosition(uint8 position);
 
 	UFUNCTION(BlueprintCallable)
-	UEnemyClass *GetEnemyByPartyPosition();
+	UEnemyClass *GetEnemyByPartyPosition(uint8 position);
 
 	UFUNCTION(BlueprintCallable)
 	void StartBattle(TArray<FName> enemiesRowNames);
