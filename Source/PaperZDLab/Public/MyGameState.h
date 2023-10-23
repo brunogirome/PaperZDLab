@@ -26,46 +26,52 @@ class PAPERZDLAB_API AMyGameState : public AGameStateBase
 
 public:
 	UFUNCTION(BlueprintCallable)
-	TArray<UHeroClass *> GetPartyMembers();
+	TArray<UHeroClass *> *GetPartyMembers();
 
 	UFUNCTION(BlueprintCallable)
-	TArray<UEnemyClass *> GetEnemyPartyMembers();
+	TArray<UEnemyClass *> *GetEnemyPartyMembers();
 
 	UFUNCTION(BlueprintCallable)
-	TEnumAsByte<CurrentGameState> GetCurrentGameState();
+	TArray<float> *GetATTACK_STRENGTH_ACCURACY();
 
 	UFUNCTION(BlueprintCallable)
-	TEnumAsByte<BattleStateEnum> GetLastBattleState();
+	TEnumAsByte<CurrentGameState> *GetCurrentGameState();
 
 	UFUNCTION(BlueprintCallable)
-	TEnumAsByte<BattleStateEnum> GetBattleState();
+	TEnumAsByte<BattleStateEnum> *GetLastBattleState();
 
 	UFUNCTION(BlueprintCallable)
-	void SetBattleState(BattleStateEnum newBattleState);
+	TEnumAsByte<BattleStateEnum> *GetBattleState();
 
 	UFUNCTION(BlueprintCallable)
-	void SetCurrentGameMode(CurrentGameState newCurrentGameState);
-
-	UFUNCTION(BlueprintCallable)
-	TArray<float> GetATTACK_STRENGTH_ACCURACY();
+	TEnumAsByte<SpellTypeEnum> *GetSpellCastedType();
 
 	UFUNCTION(BlueprintCallable)
 	UCombatActorClass *GetCurrentActor();
 
 	UFUNCTION(BlueprintCallable)
-	void SetCurrentTarget(uint8 targetPosition, TypeOfActorEnum typeOfActor);
+	UHeroClass *GetHeroByPartyPosition();
 
 	UFUNCTION(BlueprintCallable)
-	void SetAtackStrengthChoice(uint8 choice);
+	UEnemyClass *GetEnemyByPartyPosition();
 
 	UFUNCTION(BlueprintCallable)
 	void StartBattle(TArray<FName> enemiesRowNames);
 
 	UFUNCTION(BlueprintCallable)
-	void CastSpell(uint8 position);
+	void SetAtackStrengthChoice(uint8 choice);
 
 	UFUNCTION(BlueprintCallable)
-	TEnumAsByte<SpellTypeEnum> GetSpellCastedType();
+	void SetCurrentGameMode(CurrentGameState newCurrentGameState);
+
+	UFUNCTION(BlueprintCallable)
+	void SetBattleState(BattleStateEnum newBattleState);
+
+	UFUNCTION(BlueprintCallable)
+	void SetCurrentTarget(uint8 targetPosition, TypeOfActorEnum typeOfActor);
+
+	UFUNCTION(BlueprintCallable)
+	void CastSpell(uint8 position);
 
 	// UFUNCTION(BlueprintCallable)
 	// virtual void BeginPlay() override;

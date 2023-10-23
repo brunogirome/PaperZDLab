@@ -7,39 +7,44 @@
 #include "MyGameInstance.h"
 #include "MyGameMode.h"
 
-TArray<UHeroClass *> AMyGameState::GetPartyMembers()
+TArray<UHeroClass *> *AMyGameState::GetPartyMembers()
 {
-  return this->GameInstance->Party->Members;
+  return &this->GameInstance->Party->Members;
 }
 
-TArray<UEnemyClass *> AMyGameState::GetEnemyPartyMembers()
+TArray<UEnemyClass *> *AMyGameState::GetEnemyPartyMembers()
 {
-  return this->GameMode->EnemyParty;
+  return &this->GameMode->EnemyParty;
 }
 
-TArray<float> AMyGameState::GetATTACK_STRENGTH_ACCURACY()
+TArray<float> *AMyGameState::GetATTACK_STRENGTH_ACCURACY()
 {
-  return this->GameMode->ATTACK_STRENGTH_ACCURACY_BASE;
+  return &this->GameMode->ATTACK_STRENGTH_ACCURACY_BASE;
 }
 
-TEnumAsByte<CurrentGameState> AMyGameState::GetCurrentGameState()
+TEnumAsByte<CurrentGameState> *AMyGameState::GetCurrentGameState()
 {
-  return this->GameInstance->CurrentGameState;
+  return &this->GameInstance->CurrentGameState;
 }
 
-void AMyGameState::SetCurrentGameMode(CurrentGameState newCurrentGameState)
+TEnumAsByte<BattleStateEnum> *AMyGameState::GetBattleState()
 {
-  this->GameInstance->CurrentGameState = newCurrentGameState;
+  return &this->GameMode->BattleState;
 }
 
-TEnumAsByte<BattleStateEnum> AMyGameState::GetLastBattleState()
+TEnumAsByte<BattleStateEnum> *AMyGameState::GetLastBattleState()
 {
-  return this->GameMode->LastBattleState;
+  return &this->GameMode->LastBattleState;
 }
 
-TEnumAsByte<BattleStateEnum> AMyGameState::GetBattleState()
+TEnumAsByte<SpellTypeEnum> *AMyGameState::GetSpellCastedType()
 {
-  return this->GameMode->BattleState;
+  return &this->GameMode->CastedSpell->SpellType;
+}
+
+UCombatActorClass *AMyGameState::GetCurrentActor()
+{
+  return this->GameMode->CurrentActor;
 }
 
 void AMyGameState::SetBattleState(BattleStateEnum newBattleState)
@@ -47,9 +52,19 @@ void AMyGameState::SetBattleState(BattleStateEnum newBattleState)
   this->GameMode->SetBattleState(newBattleState);
 }
 
-UCombatActorClass *AMyGameState::GetCurrentActor()
+UHeroClass *AMyGameState::GetHeroByPartyPosition()
 {
-  return this->GameMode->CurrentActor;
+  return nullptr;
+}
+
+UEnemyClass *AMyGameState::GetEnemyByPartyPosition()
+{
+  return nullptr;
+}
+
+void AMyGameState::SetCurrentGameMode(CurrentGameState newCurrentGameState)
+{
+  this->GameInstance->CurrentGameState = newCurrentGameState;
 }
 
 void AMyGameState::SetCurrentTarget(uint8 targetPosition, TypeOfActorEnum typeOfActor)
@@ -78,11 +93,6 @@ void AMyGameState::CastSpell(uint8 position)
   this->GameMode->CastedSpellPositon = position;
 
   this->GameMode->BattleState = SPELL_CAST;
-}
-
-TEnumAsByte<SpellTypeEnum> AMyGameState::GetSpellCastedType()
-{
-  return this->GameMode->CastedSpell->SpellType;
 }
 
 // void AMyGameState::BeginPlay()
