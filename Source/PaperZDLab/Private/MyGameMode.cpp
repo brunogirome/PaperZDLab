@@ -6,70 +6,39 @@
 
 #include "MyGameInstance.h"
 
-ActorAttackOrder::ActorAttackOrder(int32 position, UCombatActorClass *actorClass)
-{
-  this->Position = position;
-
-  this->Speed = actorClass->Speed;
-
-  this->IsDead = actorClass->IsDead();
-
-  this->Name = actorClass->Name;
-
-  this->TypeOfActor = actorClass->TypeOfActor;
-}
-
 void AMyGameMode::startStep()
 {
-  this->attackOrder.Empty();
-
-  int32 index = 0;
-
-  for (UHeroClass *hero : *this->HeroParty)
-  {
-    this->attackOrder.Emplace(new ActorAttackOrder(index, hero));
-
-    index++;
-  }
-
-  index = 0;
-
-  for (UEnemyClass *enemy : this->EnemyParty)
-  {
-    this->attackOrder.Emplace(new ActorAttackOrder(index, enemy));
-
-    index++;
-  }
-
   this->attackOrder.Sort(
-      [](const ActorAttackOrder &A, const ActorAttackOrder &B)
-      { return A.Speed > B.Speed; });
+      [](const UCombatActorClass &A, const UCombatActorClass &B)
+      {
+        if (A.Speed != B.Speed)
+        {
+          return A.Speed > B.Speed;
+        }
+        else
+        {
+          return A.TypeOfActor == HERO;
+        }
+      });
+
+  this->PrintSort();
 
   bool validActor = false;
 
   while (!validActor)
   {
-    ActorAttackOrder *currentAttacker = this->attackOrder[this->currentActorPointer];
+    UCombatActorClass *currentAttacker = this->attackOrder[this->currentActorPointer];
 
-    if (currentAttacker->IsDead)
+    if (currentAttacker->IsDead())
     {
       this->incrementActorPointer();
 
       continue;
     }
 
-    if (currentAttacker->TypeOfActor == HERO)
-    {
-      this->CurrentActor = (UCombatActorClass *)(*HeroParty)[currentAttacker->Position];
+    this->CurrentActor = currentAttacker;
 
-      this->SetBattleState(HERO_TURN);
-    }
-    else
-    {
-      this->CurrentActor = (UCombatActorClass *)EnemyParty[currentAttacker->Position];
-
-      this->SetBattleState(ENEMY_TURN);
-    }
+    this->SetBattleState(this->CurrentActor->TypeOfActor == HERO ? HERO_TURN : ENEMY_TURN);
 
     validActor = true;
   }
@@ -168,6 +137,8 @@ void AMyGameMode::castSpellDamage()
 
 void AMyGameMode::endOfTheTurn()
 {
+  this->AlreadyAttacked = false;
+
   bool endOfTurnCycle = this->turnCurrent % this->turnSize == 0;
 
   this->victory = true;
@@ -266,9 +237,9 @@ void AMyGameMode::Tick(float DeltaSeconds)
   case END_OF_THE_BATTLE:
     GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "End of the battle");
 
-    this->AlreadyAttacked = false;
-
     this->gameInstance->CurrentGameState = OVERWORLD;
+
+    this->attackOrder.Empty();
 
     break;
   default:
@@ -316,6 +287,16 @@ void AMyGameMode::StartBattle(TArray<FName> enemyNames)
     index++;
   }
 
+  for (UHeroClass *hero : *this->HeroParty)
+  {
+    this->attackOrder.Emplace(hero);
+  }
+
+  for (UEnemyClass *enemy : this->EnemyParty)
+  {
+    this->attackOrder.Emplace(enemy);
+  }
+
   this->turnCurrent = 1;
 
   this->turnSize = this->HeroParty->Num() + this->EnemyParty.Num();
@@ -350,11 +331,11 @@ AMyGameMode::AMyGameMode()
 // Debug Functions
 void AMyGameMode::PrintSort()
 {
-  for (ActorAttackOrder *actor : attackOrder)
+  for (UCombatActorClass *actor : attackOrder)
   {
-    FString isDead = actor->IsDead ? "true" : "false";
+    FString isDead = actor->IsDead() ? "true" : "false";
 
-    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Yellow, actor->Name + TEXT(", Speed: ") + FString::FromInt(actor->Speed) + TEXT(", Position: ") + FString::FromInt(actor->Position) + TEXT(", IsDead: ") + isDead);
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Yellow, actor->Name + TEXT(", Speed: ") + FString::FromInt(actor->Speed) + TEXT(", IsDead: ") + isDead);
   }
 }
 

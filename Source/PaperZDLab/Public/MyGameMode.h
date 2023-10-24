@@ -12,21 +12,6 @@
 
 #include "MyGameMode.generated.h"
 
-struct ActorAttackOrder
-{
-	int32 Position;
-
-	int32 Speed;
-
-	bool IsDead;
-
-	FString Name;
-
-	TEnumAsByte<TypeOfActorEnum> TypeOfActor;
-
-	ActorAttackOrder(int32 position, UCombatActorClass *actorClass);
-};
-
 /**
  *
  */
@@ -35,7 +20,7 @@ class PAPERZDLAB_API AMyGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 
-	TArray<ActorAttackOrder *> attackOrder;
+	TArray<UCombatActorClass *> attackOrder;
 
 	class UMyGameInstance *gameInstance;
 
