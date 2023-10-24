@@ -27,9 +27,7 @@ void AMyGameMode::startStep()
 
   for (UHeroClass *hero : *this->HeroParty)
   {
-    ActorAttackOrder attackActor(index, hero);
-
-    this->attackOrder.Emplace(attackActor);
+    this->attackOrder.Emplace(new ActorAttackOrder(index, hero));
 
     index++;
   }
@@ -38,9 +36,7 @@ void AMyGameMode::startStep()
 
   for (UEnemyClass *enemy : this->EnemyParty)
   {
-    ActorAttackOrder attackActor(index, enemy);
-
-    this->attackOrder.Emplace(attackActor);
+    this->attackOrder.Emplace(new ActorAttackOrder(index, enemy));
 
     index++;
   }
@@ -53,24 +49,24 @@ void AMyGameMode::startStep()
 
   while (!validActor)
   {
-    ActorAttackOrder currentAttacker = this->attackOrder[this->currentActorPointer];
+    ActorAttackOrder *currentAttacker = this->attackOrder[this->currentActorPointer];
 
-    if (currentAttacker.IsDead)
+    if (currentAttacker->IsDead)
     {
       this->incrementActorPointer();
 
       continue;
     }
 
-    if (currentAttacker.TypeOfActor == HERO)
+    if (currentAttacker->TypeOfActor == HERO)
     {
-      this->CurrentActor = (UCombatActorClass *)(*HeroParty)[currentAttacker.Position];
+      this->CurrentActor = (UCombatActorClass *)(*HeroParty)[currentAttacker->Position];
 
       this->SetBattleState(HERO_TURN);
     }
     else
     {
-      this->CurrentActor = (UCombatActorClass *)EnemyParty[currentAttacker.Position];
+      this->CurrentActor = (UCombatActorClass *)EnemyParty[currentAttacker->Position];
 
       this->SetBattleState(ENEMY_TURN);
     }
@@ -354,11 +350,11 @@ AMyGameMode::AMyGameMode()
 // Debug Functions
 void AMyGameMode::PrintSort()
 {
-  for (ActorAttackOrder actor : attackOrder)
+  for (ActorAttackOrder *actor : attackOrder)
   {
-    FString isDead = actor.IsDead ? "true" : "false";
+    FString isDead = actor->IsDead ? "true" : "false";
 
-    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Yellow, actor.Name + TEXT(", Speed: ") + FString::FromInt(actor.Speed) + TEXT(", Position: ") + FString::FromInt(actor.Position) + TEXT(", IsDead: ") + isDead);
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Yellow, actor->Name + TEXT(", Speed: ") + FString::FromInt(actor->Speed) + TEXT(", Position: ") + FString::FromInt(actor->Position) + TEXT(", IsDead: ") + isDead);
   }
 }
 

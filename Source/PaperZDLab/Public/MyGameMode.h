@@ -35,7 +35,7 @@ class PAPERZDLAB_API AMyGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 
-	TArray<ActorAttackOrder> attackOrder;
+	TArray<ActorAttackOrder *> attackOrder;
 
 	class UMyGameInstance *gameInstance;
 
