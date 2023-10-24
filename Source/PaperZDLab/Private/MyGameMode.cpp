@@ -271,15 +271,19 @@ void AMyGameMode::StartBattle(TArray<FName> enemyNames)
 {
   this->HeroParty = &this->gameInstance->Party->Members;
 
+  uint8 index = 0;
+
   for (FName enemyRowName : enemyNames)
   {
     FEnemyStruct *enemyStructPointer = this->gameInstance->EnemiesDataTable->FindRow<FEnemyStruct>(enemyRowName, "", true);
 
     UEnemyClass *enemyInstance = NewObject<UEnemyClass>(UEnemyClass::StaticClass());
 
-    enemyInstance->Init(enemyStructPointer, this->gameInstance);
+    enemyInstance->Init(enemyStructPointer, this->gameInstance, index);
 
     this->EnemyParty.Add(enemyInstance);
+
+    index++;
   }
 
   this->turnCurrent = 1;

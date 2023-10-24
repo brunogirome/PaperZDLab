@@ -21,9 +21,12 @@ class PAPERZDLAB_API UEnemyClass : public UCombatActorClass
 
 public:
 	UPROPERTY(BlueprintReadOnly)
+	uint8 Position;
+
+	UPROPERTY(BlueprintReadOnly)
 	int32 XpDrop;
 
 	UEnemyClass();
 
-	void Init(FEnemyStruct *enemyStructPointerParam, UMyGameInstance *myGameInstance);
+	void Init(FEnemyStruct *enemyStructPointerParam, UMyGameInstance *myGameInstance, uint8 battleInstancePosition = -1);
 };

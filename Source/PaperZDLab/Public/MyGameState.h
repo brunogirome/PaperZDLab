@@ -68,7 +68,10 @@ public:
 	void SetBattleState(BattleStateEnum newBattleState);
 
 	UFUNCTION(BlueprintCallable)
-	void SetCurrentTarget(uint8 targetPosition, TypeOfActorEnum typeOfActor);
+	void SetEnemyAsTargetByPosition(uint8 enemyPosition);
+
+	UFUNCTION(BlueprintCallable)
+	void SetHeroAsTargetByName(FString name);
 
 	UFUNCTION(BlueprintCallable)
 	void CastSpell(uint8 position);

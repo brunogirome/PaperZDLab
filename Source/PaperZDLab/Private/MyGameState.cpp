@@ -67,13 +67,22 @@ void AMyGameState::SetCurrentGameMode(CurrentGameState newCurrentGameState)
   this->GameInstance->CurrentGameState = newCurrentGameState;
 }
 
-void AMyGameState::SetCurrentTarget(uint8 targetPosition, TypeOfActorEnum typeOfActor)
+void AMyGameState::SetEnemyAsTargetByPosition(uint8 enemyPosition)
 {
-  UCombatActorClass *targetActor =
-      typeOfActor == ENEMY ? (UCombatActorClass *)this->GameMode->EnemyParty[targetPosition]
-                           : (UCombatActorClass *)(*this->GameMode->HeroParty)[targetPosition];
+  UCombatActorClass *enemy = (UCombatActorClass *)this->GameMode->EnemyParty[enemyPosition];
 
-  this->GameMode->TargetActor = targetActor;
+  this->GameMode->TargetActor = enemy;
+}
+
+void AMyGameState::SetHeroAsTargetByName(FString name)
+{
+  int32 heroIndex =
+      (*this->GameMode->HeroParty).IndexOfByPredicate([&](UHeroClass *hero)
+                                                      { return hero->Name == name; });
+
+  UCombatActorClass *hero = (UCombatActorClass *)(*this->GameMode->HeroParty)[heroIndex];
+
+  this->GameMode->TargetActor = hero;
 }
 
 void AMyGameState::SetAtackStrengthChoice(uint8 choice)
