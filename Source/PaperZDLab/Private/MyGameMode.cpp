@@ -25,7 +25,7 @@ void AMyGameMode::startStep()
 
   int32 index = 0;
 
-  for (auto *hero : *this->HeroParty)
+  for (UHeroClass *hero : *this->HeroParty)
   {
     ActorAttackOrder attackActor(index, hero);
 
@@ -36,7 +36,7 @@ void AMyGameMode::startStep()
 
   index = 0;
 
-  for (auto *enemy : this->EnemyParty)
+  for (UEnemyClass *enemy : this->EnemyParty)
   {
     ActorAttackOrder attackActor(index, enemy);
 
@@ -83,9 +83,7 @@ void AMyGameMode::startStep()
 
 void AMyGameMode::physicalDamage()
 {
-  float accuracy = this->ATTACK_STRENGTH_ACCURACY_BASE[this->AtackStrengthChoice];
-
-  accuracy *= 1 + (this->CurrentActor->Agility / 300);
+  float accuracy = this->GetActorAccuracyByStrength(this->AtackStrengthChoice);
 
   float dieroll = FMath::FRandRange(0.f, 100.f);
 
@@ -118,8 +116,19 @@ void AMyGameMode::physicalDamage()
 
   this->CurrentActor->ReduceStamina(staminaCost);
 
-  this->SetBattleState(
-      !this->CurrentActor->IsOutOfStamina() ? ATTACK_DECISION : END_OF_THE_TURN);
+  if (!this->AlreadyAttacked && this->CurrentActor->TypeOfActor == HERO)
+  {
+    this->AlreadyAttacked = true;
+  }
+
+  if (this->TargetActor->IsDead() || this->CurrentActor->IsOutOfStamina())
+  {
+    this->SetBattleState(END_OF_THE_TURN);
+
+    return;
+  }
+
+  this->SetBattleState(ATTACK_DECISION);
 }
 
 void AMyGameMode::castSpell()
@@ -169,7 +178,7 @@ void AMyGameMode::endOfTheTurn()
 
   this->gameOver = true;
 
-  for (auto *hero : *this->HeroParty)
+  for (UHeroClass *hero : *this->HeroParty)
   {
     if (!hero->IsDead())
     {
@@ -182,7 +191,7 @@ void AMyGameMode::endOfTheTurn()
     }
   }
 
-  for (auto *enemy : this->EnemyParty)
+  for (UEnemyClass *enemy : this->EnemyParty)
   {
     if (!enemy->IsDead())
     {
@@ -219,6 +228,8 @@ void AMyGameMode::BeginPlay()
 
 void AMyGameMode::Tick(float DeltaSeconds)
 {
+  Super::Tick(DeltaSeconds);
+
   if (this->gameInstance->CurrentGameState != BATTLE)
   {
     return;
@@ -259,12 +270,35 @@ void AMyGameMode::Tick(float DeltaSeconds)
   case END_OF_THE_BATTLE:
     GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "End of the battle");
 
+    this->AlreadyAttacked = false;
+
     this->gameInstance->CurrentGameState = OVERWORLD;
 
     break;
   default:
     break;
   }
+}
+
+float AMyGameMode::GetActorAccuracyByStrength(uint8 level)
+{
+  switch (level)
+  {
+  case 0:
+    return this->CurrentActor->WeakAccuracy;
+
+    break;
+  case 1:
+    return this->CurrentActor->MediumAccuracy;
+
+    break;
+  case 2:
+    return this->CurrentActor->StrongAccuracy;
+
+    break;
+  }
+
+  return 0;
 }
 
 void AMyGameMode::StartBattle(TArray<FName> enemyNames)
@@ -306,17 +340,7 @@ AMyGameMode::AMyGameMode()
 {
   this->gameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-  const float DEFAULT_WEAK_ATTACK_ACCURAY = 92.f;
-
-  const float DEFAULT_MEDIUM_ATTACK_ACCURAY = 82.f;
-
-  const float DEFAULT_STRONG_ATTACK_ACCURAY = 72.f;
-
-  this->ATTACK_STRENGTH_ACCURACY_BASE.Emplace(DEFAULT_WEAK_ATTACK_ACCURAY);
-
-  this->ATTACK_STRENGTH_ACCURACY_BASE.Emplace(DEFAULT_MEDIUM_ATTACK_ACCURAY);
-
-  this->ATTACK_STRENGTH_ACCURACY_BASE.Emplace(DEFAULT_STRONG_ATTACK_ACCURAY);
+  this->AlreadyAttacked = false;
 
   this->currentActorPointer = 0;
 
@@ -330,7 +354,7 @@ AMyGameMode::AMyGameMode()
 // Debug Functions
 void AMyGameMode::PrintSort()
 {
-  for (auto actor : attackOrder)
+  for (ActorAttackOrder actor : attackOrder)
   {
     FString isDead = actor.IsDead ? "true" : "false";
 
@@ -340,12 +364,12 @@ void AMyGameMode::PrintSort()
 
 void AMyGameMode::PrintNames()
 {
-  for (auto *hero : *this->HeroParty)
+  for (UHeroClass *hero : *this->HeroParty)
   {
     GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Turquoise, hero->Name);
   }
 
-  for (auto *enemy : this->EnemyParty)
+  for (UEnemyClass *enemy : this->EnemyParty)
   {
     GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Purple, enemy->Name);
   }

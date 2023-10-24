@@ -68,8 +68,6 @@ public:
 
 	TArray<UEnemyClass *> EnemyParty;
 
-	TArray<float> ATTACK_STRENGTH_ACCURACY_BASE;
-
 	TEnumAsByte<BattleStateEnum> BattleState;
 
 	TEnumAsByte<BattleStateEnum> LastBattleState;
@@ -84,13 +82,16 @@ public:
 
 	uint8 CastedSpellPositon;
 
+	bool AlreadyAttacked;
+
 	UFUNCTION(BlueprintCallable)
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable)
 	virtual void Tick(float DeltaSeconds) override;
 
-	UFUNCTION(BlueprintCallable)
+	float GetActorAccuracyByStrength(uint8 level);
+
 	void StartBattle(TArray<FName> enemyPartyNames);
 
 	void SetBattleState(BattleStateEnum newState);

@@ -23,6 +23,8 @@ public:
 	UPROPERTY(BlueprintReadWrite, Editanywhere, Category = "Initial Data", META = (Name = "Initial Hero Party"))
 	TArray<FName> PartyRowNames;
 
+	TArray<float> ATTACK_STRENGTH_ACCURACY_BASE;
+
 	UPROPERTY(Editanywhere, Category = "Data Table", META = (Name = "Heroes Data Table"))
 	UDataTable *HeroesDataTable;
 

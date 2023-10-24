@@ -6,6 +6,8 @@
 
 void UCombatActorClass::init(FCombatActorStruct *combatActorStructPointer, UMyGameInstance *myGameInstance)
 {
+    this->gameInstance = myGameInstance;
+
     this->CombatActorStructPointer = combatActorStructPointer;
 
     this->Name = combatActorStructPointer->Name;
@@ -37,15 +39,13 @@ void UCombatActorClass::init(FCombatActorStruct *combatActorStructPointer, UMyGa
         return;
     }
 
-    UMyGameInstance *gameInstance = myGameInstance;
-
     TArray<FString> spellsArray;
 
     combatActorStructPointer->SpellsName[0].ToString().ParseIntoArray(spellsArray, TEXT(","), true);
 
     for (auto spellName : spellsArray)
     {
-        FSpellStruct *spellStruct = gameInstance->SpellsDataTable->FindRow<FSpellStruct>(FName(spellName.TrimStartAndEnd()), "", true);
+        FSpellStruct *spellStruct = this->gameInstance->SpellsDataTable->FindRow<FSpellStruct>(FName(spellName.TrimStartAndEnd()), "", true);
 
         USpellClass *spellInstance = NewObject<USpellClass>(USpellClass::StaticClass());
 
@@ -85,6 +85,25 @@ void UCombatActorClass::CalculateStats()
     this->PhysicalDefense = calculateAttribute(this->CombatActorStructPointer->PhysicalDefenseBase, this->PHYSICAL_DEFENSE_BONUS, this->Strength, STRENGTH);
 
     this->MagicDefense = calculateAttribute(this->CombatActorStructPointer->MagicDefenseBase, this->MAGIC_DEFENSE_BONUS, this->Inteligence, INTELIGENCE);
+
+    auto accuracyCalculation = [&](uint8 strength)
+    {
+        float bonus = this->CombatType == AGILITY ? 1.05 : 1;
+
+        float calculation = this->gameInstance->ATTACK_STRENGTH_ACCURACY_BASE[strength];
+
+        calculation *= 1 + (this->Agility / 300);
+
+        calculation = FMath::Clamp(calculation, 0, 99.99f);
+
+        return calculation;
+    };
+
+    this->WeakAccuracy = accuracyCalculation(0);
+
+    this->MediumAccuracy = accuracyCalculation(1);
+
+    this->StrongAccuracy = accuracyCalculation(2);
 }
 
 bool UCombatActorClass::IsDead()

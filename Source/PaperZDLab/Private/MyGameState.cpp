@@ -19,7 +19,7 @@ TArray<UEnemyClass *> AMyGameState::GetEnemyPartyMembers()
 
 TArray<float> AMyGameState::GetATTACK_STRENGTH_ACCURACY()
 {
-  return this->GameMode->ATTACK_STRENGTH_ACCURACY_BASE;
+  return this->GameInstance->ATTACK_STRENGTH_ACCURACY_BASE;
 }
 
 TEnumAsByte<CurrentGameState> AMyGameState::GetCurrentGameState()
@@ -60,6 +60,16 @@ UHeroClass *AMyGameState::GetHeroByPartyPosition(uint8 position)
 UEnemyClass *AMyGameState::GetEnemyByPartyPosition(uint8 position)
 {
   return this->GameMode->EnemyParty[position];
+}
+
+float AMyGameState::GetActorAccuracyByStrength(uint8 level)
+{
+  return this->GameMode->GetActorAccuracyByStrength(level);
+}
+
+bool AMyGameState::GetAlreadyAttacked()
+{
+  return this->GameMode->AlreadyAttacked;
 }
 
 void AMyGameState::SetCurrentGameMode(CurrentGameState newCurrentGameState)

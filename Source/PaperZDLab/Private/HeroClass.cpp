@@ -12,8 +12,6 @@ void UHeroClass::Init(FHeroStruct *heroStructPointer, int32 level, UMyGameInstan
 
     this->Level = level;
 
-    UMyGameInstance *gameInstance = myGameInstance;
-
     this->UCombatActorClass::init(&this->HeroStruct, myGameInstance);
 }
 

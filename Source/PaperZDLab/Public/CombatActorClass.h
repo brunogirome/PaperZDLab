@@ -30,6 +30,8 @@ class PAPERZDLAB_API UCombatActorClass : public UObject
 	const int EVASION_BONUS = 0.5f;
 	const int STAMINA_BONUS = 0.25f;
 
+	class UMyGameInstance *gameInstance;
+
 	FCombatActorStruct *CombatActorStructPointer;
 
 protected:
@@ -98,6 +100,15 @@ public:
 
 	UPROPERTY(BluePrintReadOnly)
 	TArray<USpellClass *> Spells;
+
+	UPROPERTY(BluePrintReadOnly)
+	float WeakAccuracy;
+
+	UPROPERTY(BluePrintReadOnly)
+	float MediumAccuracy;
+
+	UPROPERTY(BluePrintReadOnly)
+	float StrongAccuracy;
 
 	UCombatActorClass();
 

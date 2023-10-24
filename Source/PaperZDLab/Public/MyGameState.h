@@ -56,6 +56,12 @@ public:
 	UEnemyClass *GetEnemyByPartyPosition(uint8 position);
 
 	UFUNCTION(BlueprintCallable)
+	float GetActorAccuracyByStrength(uint8 level);
+
+	UFUNCTION(BlueprintCallable)
+	bool GetAlreadyAttacked();
+
+	UFUNCTION(BlueprintCallable)
 	void StartBattle(TArray<FName> enemiesRowNames);
 
 	UFUNCTION(BlueprintCallable)
