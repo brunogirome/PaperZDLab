@@ -49,13 +49,18 @@ public:
 	uint8 RemainingRounds;
 
 	UPROPERTY(BluePrintReadOnly)
+	uint8 PositionInActorSpells;
+
+	UPROPERTY(BluePrintReadOnly)
 	float Multiplier;
 
 	USpellClass();
 
 	uint8 GetRoundsForCasting();
 
-	void Init(FSpellStruct *spellStructPointer);
+	bool IsBuffExpired();
+
+	void Init(FSpellStruct *spellStructPointer, uint8 position);
 
 	void ResetRounds();
 

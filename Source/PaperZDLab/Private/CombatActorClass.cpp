@@ -20,12 +20,6 @@ void UCombatActorClass::init(FCombatActorStruct *combatActorStructPointer, UMyGa
 
     this->Element = combatActorStructPointer->Element;
 
-    this->Strength = combatActorStructPointer->StrengthBase;
-
-    this->Inteligence = combatActorStructPointer->InteligenceBase;
-
-    this->Agility = combatActorStructPointer->AgilityBase;
-
     this->CalculateStats();
 
     this->HpCurrent = this->Hp;
@@ -43,48 +37,82 @@ void UCombatActorClass::init(FCombatActorStruct *combatActorStructPointer, UMyGa
 
     combatActorStructPointer->SpellsName[0].ToString().ParseIntoArray(spellsArray, TEXT(","), true);
 
-    for (auto spellName : spellsArray)
+    uint8 index = 0;
+
+    for (FString spellName : spellsArray)
     {
         FSpellStruct *spellStruct = this->gameInstance->SpellsDataTable->FindRow<FSpellStruct>(FName(spellName.TrimStartAndEnd()), "", true);
 
         USpellClass *spellInstance = NewObject<USpellClass>(USpellClass::StaticClass());
 
-        spellInstance->Init(spellStruct);
+        spellInstance->Init(spellStruct, index);
 
         this->Spells.Emplace(spellInstance);
+
+        index++;
     }
 }
 
 void UCombatActorClass::CalculateStats()
 {
-    auto calculateAttribute = [&](int32 baseValue, float multiplier, int32 combatTypeValue, TEnumAsByte<CombatTypeEnum> combatTypeBonus, float buffValue = 0)
+    auto buffFinder = [&](BuffTypeEnum buffType)
+    {
+        float buffAmount = 1;
+
+        for (USpellClass *buff : this->ActiveBuffs)
+        {
+            if (buff->BuffType == buffType)
+            {
+                buffAmount += buff->Multiplier;
+
+                break;
+            }
+        }
+
+        return buffAmount;
+    };
+
+    auto basicAttributeCalculation = [&](int32 attributeValue, BuffTypeEnum buffType = NOT_BUFF)
+    {
+        float buffValue = buffType == NOT_BUFF ? 1 : buffFinder(buffType);
+
+        return (int32)round(attributeValue * buffValue);
+    };
+
+    auto compositeAttributeCalculation = [&](int32 baseValue, float multiplier, int32 combatTypeValue, TEnumAsByte<CombatTypeEnum> combatTypeBonus, BuffTypeEnum buffType = NOT_BUFF)
     {
         const int32 typeBonus = this->CombatType == combatTypeBonus ? 2 : 1;
 
-        float convertedBuffValue = 1 + buffValue;
+        float buffValue = buffType == NOT_BUFF ? 1 : buffFinder(buffType);
 
         float combatTypeBonusValue = multiplier * combatTypeValue * typeBonus;
 
-        return (int32)round((baseValue + combatTypeBonusValue) * convertedBuffValue);
+        return (int32)round((baseValue + combatTypeBonusValue) * buffValue);
     };
 
-    this->Hp = calculateAttribute(this->CombatActorStructPointer->HpBase, this->HP_BONUS, this->Strength, STRENGTH);
+    this->Strength = basicAttributeCalculation(this->CombatActorStructPointer->StrengthBase);
 
-    this->Mana = calculateAttribute(this->CombatActorStructPointer->ManaBase, this->MANA_BONUS, this->Inteligence, INTELIGENCE);
+    this->Inteligence = basicAttributeCalculation(this->CombatActorStructPointer->InteligenceBase);
 
-    this->Speed = calculateAttribute(this->CombatActorStructPointer->SpeedBase, this->SPEED_BONUS, this->Agility, AGILITY);
+    this->Agility = basicAttributeCalculation(this->CombatActorStructPointer->AgilityBase);
 
-    this->Evasion = calculateAttribute(this->CombatActorStructPointer->EvasionBase, this->EVASION_BONUS, this->Agility, AGILITY);
+    this->Hp = compositeAttributeCalculation(this->CombatActorStructPointer->HpBase, this->HP_BONUS, this->Strength, STRENGTH);
 
-    this->Stamina = calculateAttribute(this->CombatActorStructPointer->StaminaBase, this->STAMINA_BONUS, this->Agility, AGILITY);
+    this->Mana = compositeAttributeCalculation(this->CombatActorStructPointer->ManaBase, this->MANA_BONUS, this->Inteligence, INTELIGENCE);
 
-    this->PhysicalDamage = calculateAttribute(this->CombatActorStructPointer->PhysicalDamageBase, this->PHYSICAL_DAMAGE_BONUS, this->Strength, STRENGTH);
+    this->Speed = compositeAttributeCalculation(this->CombatActorStructPointer->SpeedBase, this->SPEED_BONUS, this->Agility, AGILITY);
 
-    this->MagicDamage = calculateAttribute(this->CombatActorStructPointer->MagicDamageBase, this->MAGIC_DAMAGE_BONUS, this->Inteligence, INTELIGENCE);
+    this->Evasion = compositeAttributeCalculation(this->CombatActorStructPointer->EvasionBase, this->EVASION_BONUS, this->Agility, AGILITY);
 
-    this->PhysicalDefense = calculateAttribute(this->CombatActorStructPointer->PhysicalDefenseBase, this->PHYSICAL_DEFENSE_BONUS, this->Strength, STRENGTH);
+    this->Stamina = compositeAttributeCalculation(this->CombatActorStructPointer->StaminaBase, this->STAMINA_BONUS, this->Agility, AGILITY);
 
-    this->MagicDefense = calculateAttribute(this->CombatActorStructPointer->MagicDefenseBase, this->MAGIC_DEFENSE_BONUS, this->Inteligence, INTELIGENCE);
+    this->PhysicalDamage = compositeAttributeCalculation(this->CombatActorStructPointer->PhysicalDamageBase, this->PHYSICAL_DAMAGE_BONUS, this->Strength, STRENGTH);
+
+    this->MagicDamage = compositeAttributeCalculation(this->CombatActorStructPointer->MagicDamageBase, this->MAGIC_DAMAGE_BONUS, this->Inteligence, INTELIGENCE);
+
+    this->PhysicalDefense = compositeAttributeCalculation(this->CombatActorStructPointer->PhysicalDefenseBase, this->PHYSICAL_DEFENSE_BONUS, this->Strength, STRENGTH);
+
+    this->MagicDefense = compositeAttributeCalculation(this->CombatActorStructPointer->MagicDefenseBase, this->MAGIC_DEFENSE_BONUS, this->Inteligence, INTELIGENCE);
 
     auto accuracyCalculation = [&](uint8 strength)
     {

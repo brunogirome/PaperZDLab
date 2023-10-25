@@ -2,7 +2,7 @@
 
 #include "SpellClass.h"
 
-void USpellClass::Init(FSpellStruct *spellStructPointer)
+void USpellClass::Init(FSpellStruct *spellStructPointer, uint8 position)
 {
     this->Name = spellStructPointer->Name;
 
@@ -25,11 +25,18 @@ void USpellClass::Init(FSpellStruct *spellStructPointer)
     this->RemainingRounds = this->Round + 1;
 
     this->Multiplier = spellStructPointer->Multiplier;
+
+    this->PositionInActorSpells = position;
 }
 
 uint8 USpellClass::GetRoundsForCasting()
 {
     return this->Round + 1;
+}
+
+bool USpellClass::IsBuffExpired()
+{
+    return this->RemainingRounds <= 0;
 }
 
 void USpellClass::ResetRounds()

@@ -98,14 +98,28 @@ void AMyGameMode::castSpell()
 {
   this->CastedSpell = this->CurrentActor->Spells[this->CastedSpellPositon];
 
-  switch (CastedSpell->SpellType)
+  switch (this->CastedSpell->SpellType)
   {
-  case DAMAGE || BUFF || HEALING:
+  case DAMAGE:
+  {
     this->SetBattleState(SELECT_TARGET);
     break;
+  }
+  case BUFF:
+  {
+    this->SetBattleState(SELECT_TARGET);
+    break;
+  }
+  case HEALING:
+  {
+    this->SetBattleState(SELECT_TARGET);
+    break;
+  }
   case PARTY_BUFF:
+  {
     this->SetBattleState(SPELL_DAMAGE_CAST);
     break;
+  }
   default:
     break;
   }
@@ -151,18 +165,21 @@ void AMyGameMode::castSpellDamage()
   switch (this->CastedSpell->SpellType)
   {
   case DAMAGE:
+  {
     int32 magicDamage =
         this->CurrentActor->MagicDamage + this->CastedSpell->Amount;
 
     int32 targetDefense = this->TargetActor->MagicDamage;
 
-    int32 damage = magicDamage - targetDefense;
+    int32 spellDamage = magicDamage - targetDefense;
 
-    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Red, attackerName + " dealt " + FString::FromInt(damage) + " on " + defenderName + "!");
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Red, attackerName + " dealt " + FString::FromInt(spellDamage) + " on " + defenderName + "!");
 
-    this->TargetActor->TakeDamage(damage);
+    this->TargetActor->TakeDamage(spellDamage);
     break;
+  }
   case BUFF:
+  {
     bool alreadyBuffed = false;
 
     for (USpellClass *targetBuff : this->TargetActor->ActiveBuffs)
@@ -192,12 +209,16 @@ void AMyGameMode::castSpellDamage()
     this->TargetActor->ActiveBuffs.Emplace(this->CastedSpell);
 
     break;
+  }
   case HEALING:
-
+  {
     break;
+  }
+
   case PARTY_BUFF:
-
+  {
     break;
+  }
   default:
     break;
   }
@@ -246,9 +267,32 @@ void AMyGameMode::endOfTheTurn()
       this->gameOver = gameOver && actor->IsDead();
     }
 
-    if (endOfTurnCycle)
+    if (!actor->IsDead())
     {
-      actor->HealStamina((uint8)(actor->Stamina * staminaRecoveryReduction));
+      for (int i = 0; i < actor->ActiveBuffs.Num(); i++)
+      {
+        USpellClass *buff = actor->ActiveBuffs[i];
+
+        buff->DecreaseRounds();
+
+        if (buff->IsBuffExpired())
+        {
+          actor->ActiveBuffs.RemoveAt(i);
+
+          i--;
+        }
+      }
+
+      actor->CalculateStats();
+
+      if (endOfTurnCycle)
+      {
+        actor->HealStamina((uint8)(actor->Stamina * staminaRecoveryReduction));
+      }
+    }
+    else if (actor->IsDead() && actor->ActiveBuffs.Num() > 0)
+    {
+      actor->ActiveBuffs.Empty();
     }
   }
 
