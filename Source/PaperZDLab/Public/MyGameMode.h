@@ -44,6 +44,8 @@ class PAPERZDLAB_API AMyGameMode : public AGameModeBase
 
 	void castSpellDamage();
 
+	void enemyTurn();
+
 	void endOfTheTurn();
 
 	void incrementActorPointer();
@@ -63,7 +65,7 @@ public:
 
 	USpellClass *CastedSpell;
 
-	uint8 AtackStrengthChoice;
+	uint8 AttackStrengthChoice;
 
 	uint8 CastedSpellPositon;
 

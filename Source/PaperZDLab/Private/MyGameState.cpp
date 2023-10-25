@@ -95,9 +95,9 @@ void AMyGameState::SetHeroAsTargetByName(FString name)
   this->GameMode->TargetActor = hero;
 }
 
-void AMyGameState::SetAtackStrengthChoice(uint8 choice)
+void AMyGameState::SetAttackStrengthChoice(uint8 choice)
 {
-  this->GameMode->AtackStrengthChoice = choice;
+  this->GameMode->AttackStrengthChoice = choice;
 
   this->GameMode->BattleState = PHYSICAL_ATTACK;
 }

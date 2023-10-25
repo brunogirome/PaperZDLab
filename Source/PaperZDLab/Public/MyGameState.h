@@ -65,7 +65,7 @@ public:
 	void StartBattle(TArray<FName> enemiesRowNames);
 
 	UFUNCTION(BlueprintCallable)
-	void SetAtackStrengthChoice(uint8 choice);
+	void SetAttackStrengthChoice(uint8 choice);
 
 	UFUNCTION(BlueprintCallable)
 	void SetCurrentGameMode(CurrentGameState newCurrentGameState);

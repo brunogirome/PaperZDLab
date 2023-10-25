@@ -21,8 +21,6 @@ void AMyGameMode::startStep()
         }
       });
 
-  this->PrintSort();
-
   bool validActor = false;
 
   while (!validActor)
@@ -48,17 +46,17 @@ void AMyGameMode::startStep()
 
 void AMyGameMode::physicalDamage()
 {
-  float accuracy = this->GetActorAccuracyByStrength(this->AtackStrengthChoice);
+  float accuracy = this->GetActorAccuracyByStrength(this->AttackStrengthChoice);
 
-  float dieroll = FMath::FRandRange(0.f, 100.f);
+  float dieRoll = FMath::FRandRange(0.f, 100.f);
 
-  dieroll += this->TargetActor->Evasion / 2;
+  dieRoll += this->TargetActor->Evasion / 2;
 
   FString attackerName = this->CurrentActor->Name;
 
-  if (dieroll <= accuracy)
+  if (dieRoll <= accuracy)
   {
-    float bonusDamage = 1 + (this->AtackStrengthChoice * 5 / 100);
+    float bonusDamage = 1 + (this->AttackStrengthChoice * 5 / 100);
 
     int32 attackerDamage = this->CurrentActor->PhysicalDamage * bonusDamage;
 
@@ -77,7 +75,7 @@ void AMyGameMode::physicalDamage()
     GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Red, attackerName + " missed!");
   }
 
-  uint8 staminaCost = this->AtackStrengthChoice + 1;
+  uint8 staminaCost = this->AttackStrengthChoice + 1;
 
   this->CurrentActor->ReduceStamina(staminaCost);
 
@@ -111,6 +109,35 @@ void AMyGameMode::castSpell()
   }
 }
 
+void AMyGameMode::enemyTurn()
+{
+  auto getTarget = [&]()
+  {
+    uint8 choice = (uint8)FMath::FRandRange(0.f, (float)this->HeroParty->Num() - 1);
+
+    return (*this->HeroParty)[choice];
+  };
+
+  this->TargetActor = getTarget();
+
+  while (true)
+  {
+    if (!this->TargetActor->IsDead())
+    {
+      break;
+    }
+
+    this->TargetActor = getTarget();
+  }
+
+  for (uint8 attackStrenght = 0; attackStrenght < 3; attackStrenght++)
+  {
+    this->AttackStrengthChoice = attackStrenght;
+
+    this->physicalDamage();
+  }
+}
+
 void AMyGameMode::castSpellDamage()
 {
   this->CurrentActor->UseMana(CastedSpell->ManaCost);
@@ -139,37 +166,48 @@ void AMyGameMode::endOfTheTurn()
 {
   this->AlreadyAttacked = false;
 
-  bool endOfTurnCycle = this->turnCurrent % this->turnSize == 0;
+  uint8 currentTurnSize = 0;
+
+  for (UCombatActorClass *actor : this->attackOrder)
+  {
+    if (!actor->IsDead())
+    {
+      currentTurnSize++;
+    }
+  }
+
+  float staminaRecoveryReduction = 1;
+
+  if (currentTurnSize != this->turnSize)
+  {
+    staminaRecoveryReduction = currentTurnSize / this->turnSize;
+  }
+
+  bool endOfTurnCycle = this->turnCurrent % currentTurnSize == 0;
 
   this->victory = true;
 
   this->gameOver = true;
 
-  for (UHeroClass *hero : *this->HeroParty)
+  for (UCombatActorClass *actor : this->attackOrder)
   {
-    if (!hero->IsDead())
+    if (actor->TypeOfActor == ENEMY)
     {
-      this->gameOver = false;
+      this->victory = victory && actor->IsDead();
+    }
+
+    if (actor->TypeOfActor == HERO)
+    {
+      this->gameOver = gameOver && actor->IsDead();
     }
 
     if (endOfTurnCycle)
     {
-      hero->HealStamina(hero->Stamina);
+      actor->HealStamina((uint8)(actor->Stamina * staminaRecoveryReduction));
     }
   }
 
-  for (UEnemyClass *enemy : this->EnemyParty)
-  {
-    if (!enemy->IsDead())
-    {
-      this->victory = false;
-    }
-
-    if (endOfTurnCycle)
-    {
-      enemy->HealStamina(enemy->Stamina);
-    }
-  }
+  this->turnCurrent++;
 
   this->incrementActorPointer();
 
@@ -210,6 +248,11 @@ void AMyGameMode::Tick(float DeltaSeconds)
     this->startStep();
 
     break;
+  case ENEMY_TURN:
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Enemy Turn");
+
+    this->enemyTurn();
+    break;
   case PHYSICAL_ATTACK:
     GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Physical attack");
 
@@ -240,6 +283,8 @@ void AMyGameMode::Tick(float DeltaSeconds)
     this->gameInstance->CurrentGameState = OVERWORLD;
 
     this->attackOrder.Empty();
+
+    this->EnemyParty.Empty();
 
     break;
   default:
