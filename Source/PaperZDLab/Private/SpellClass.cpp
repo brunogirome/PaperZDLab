@@ -22,7 +22,34 @@ void USpellClass::Init(FSpellStruct *spellStructPointer)
 
     this->Round = spellStructPointer->Round;
 
+    this->RemainingRounds = this->Round + 1;
+
     this->Multiplier = spellStructPointer->Multiplier;
+}
+
+uint8 USpellClass::GetRoundsForCasting()
+{
+    return this->Round + 1;
+}
+
+void USpellClass::ResetRounds()
+{
+    this->RemainingRounds = this->GetRoundsForCasting();
+}
+
+void USpellClass::IncreaseRounds(uint8 amount)
+{
+    this->RemainingRounds += amount;
+}
+
+void USpellClass::DecreaseRounds(uint8 amount)
+{
+    this->RemainingRounds -= amount;
+
+    if (this->RemainingRounds < 0)
+    {
+        this->RemainingRounds = 0;
+    }
 }
 
 USpellClass::USpellClass() {}

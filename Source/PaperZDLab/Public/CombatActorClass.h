@@ -53,6 +53,12 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	TEnumAsByte<ElementEnum> Element;
 
+	UPROPERTY(BlueprintReadOnly)
+	TArray<USpellClass *> ActiveBuffs;
+
+	UPROPERTY(BluePrintReadOnly)
+	TArray<USpellClass *> Spells;
+
 	UPROPERTY(BluePrintReadOnly)
 	int32 Strength;
 
@@ -99,9 +105,6 @@ public:
 	int32 StaminaCurrent;
 
 	UPROPERTY(BluePrintReadOnly)
-	TArray<USpellClass *> Spells;
-
-	UPROPERTY(BluePrintReadOnly)
 	float WeakAccuracy;
 
 	UPROPERTY(BluePrintReadOnly)
@@ -127,4 +130,8 @@ public:
 	void HealStamina(uint8 amount, bool full = false);
 
 	void UseMana(int32 amount);
+
+	void AddBuff(USpellClass* buffSpell);
+
+	void RemoveBuff(uint8 position);
 };

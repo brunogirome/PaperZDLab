@@ -142,4 +142,14 @@ void UCombatActorClass::UseMana(int32 amount)
     this->ManaCurrent -= amountSpent;
 }
 
+void UCombatActorClass::AddBuff(USpellClass *buffSpell)
+{
+    this->ActiveBuffs.Emplace(buffSpell);
+}
+
+void UCombatActorClass::RemoveBuff(uint8 position)
+{
+    this->ActiveBuffs.RemoveAt(position);
+}
+
 UCombatActorClass::UCombatActorClass() {}

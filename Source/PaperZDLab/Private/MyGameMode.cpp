@@ -100,10 +100,12 @@ void AMyGameMode::castSpell()
 
   switch (CastedSpell->SpellType)
   {
-  case DAMAGE:
+  case DAMAGE || BUFF || HEALING:
     this->SetBattleState(SELECT_TARGET);
     break;
-
+  case PARTY_BUFF:
+    this->SetBattleState(SPELL_DAMAGE_CAST);
+    break;
   default:
     break;
   }
@@ -140,24 +142,67 @@ void AMyGameMode::enemyTurn()
 
 void AMyGameMode::castSpellDamage()
 {
-  this->CurrentActor->UseMana(CastedSpell->ManaCost);
-
-  int32 magicDamage =
-      this->CurrentActor->MagicDamage + this->CastedSpell->Amount;
-
-  int32 targetDefense = this->TargetActor->MagicDamage;
-
-  int32 damage = magicDamage - targetDefense;
+  this->CurrentActor->UseMana(this->CastedSpell->ManaCost);
 
   FString attackerName = this->CurrentActor->Name;
 
   FString defenderName = this->TargetActor->Name;
 
-  GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Red, attackerName + " dealt " + FString::FromInt(damage) + " on " + defenderName + "!");
+  switch (this->CastedSpell->SpellType)
+  {
+  case DAMAGE:
+    int32 magicDamage =
+        this->CurrentActor->MagicDamage + this->CastedSpell->Amount;
 
-  this->TargetActor->TakeDamage(damage);
+    int32 targetDefense = this->TargetActor->MagicDamage;
 
-  this->CurrentActor->ReduceStamina((int32)(CurrentActor->Stamina / 66.66f));
+    int32 damage = magicDamage - targetDefense;
+
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Red, attackerName + " dealt " + FString::FromInt(damage) + " on " + defenderName + "!");
+
+    this->TargetActor->TakeDamage(damage);
+    break;
+  case BUFF:
+    bool alreadyBuffed = false;
+
+    for (USpellClass *targetBuff : this->TargetActor->ActiveBuffs)
+    {
+      if (targetBuff->BuffType == this->CastedSpell->BuffType)
+      {
+        alreadyBuffed = true;
+
+        targetBuff->IncreaseRounds(this->CastedSpell->GetRoundsForCasting());
+
+        if (this->CastedSpell->Multiplier > targetBuff->Multiplier)
+        {
+          targetBuff->Multiplier = this->CastedSpell->Multiplier;
+        }
+
+        break;
+      }
+    }
+
+    if (alreadyBuffed)
+    {
+      break;
+    }
+
+    this->CastedSpell->ResetRounds();
+
+    this->TargetActor->ActiveBuffs.Emplace(this->CastedSpell);
+
+    break;
+  case HEALING:
+
+    break;
+  case PARTY_BUFF:
+
+    break;
+  default:
+    break;
+  }
+
+  this->CurrentActor->ReduceStamina((int32)(CurrentActor->Stamina / 33.33f));
 
   this->SetBattleState(END_OF_THE_TURN);
 }

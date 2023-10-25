@@ -46,9 +46,20 @@ public:
 	int32 Round;
 
 	UPROPERTY(BluePrintReadOnly)
+	uint8 RemainingRounds;
+
+	UPROPERTY(BluePrintReadOnly)
 	float Multiplier;
 
 	USpellClass();
 
+	uint8 GetRoundsForCasting();
+
 	void Init(FSpellStruct *spellStructPointer);
+
+	void ResetRounds();
+
+	void DecreaseRounds(uint8 amount = 1);
+
+	void IncreaseRounds(uint8 amount = 1);
 };
