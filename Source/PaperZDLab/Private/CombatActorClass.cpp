@@ -59,11 +59,11 @@ void UCombatActorClass::CalculateStats()
     {
         float buffAmount = 1;
 
-        for (USpellClass *buff : this->ActiveBuffs)
+        for (FActiveBuffStruct buff : this->ActiveBuffs)
         {
-            if (buff->BuffType == buffType)
+            if (buff.SpellPointer->BuffType == buffType)
             {
-                buffAmount += buff->Multiplier;
+                buffAmount += buff.SpellPointer->Multiplier;
 
                 break;
             }
@@ -90,29 +90,29 @@ void UCombatActorClass::CalculateStats()
         return (int32)round((baseValue + combatTypeBonusValue) * buffValue);
     };
 
-    this->Strength = basicAttributeCalculation(this->CombatActorStructPointer->StrengthBase);
+    this->Strength = basicAttributeCalculation(this->CombatActorStructPointer->StrengthBase, STRENGTH_BUFF);
 
-    this->Inteligence = basicAttributeCalculation(this->CombatActorStructPointer->InteligenceBase);
+    this->Inteligence = basicAttributeCalculation(this->CombatActorStructPointer->InteligenceBase, INTELIGENCE_BUFF);
 
-    this->Agility = basicAttributeCalculation(this->CombatActorStructPointer->AgilityBase);
+    this->Agility = basicAttributeCalculation(this->CombatActorStructPointer->AgilityBase, AGILITY_BUFF);
 
     this->Hp = compositeAttributeCalculation(this->CombatActorStructPointer->HpBase, this->HP_BONUS, this->Strength, STRENGTH);
 
     this->Mana = compositeAttributeCalculation(this->CombatActorStructPointer->ManaBase, this->MANA_BONUS, this->Inteligence, INTELIGENCE);
 
-    this->Speed = compositeAttributeCalculation(this->CombatActorStructPointer->SpeedBase, this->SPEED_BONUS, this->Agility, AGILITY);
+    this->Speed = compositeAttributeCalculation(this->CombatActorStructPointer->SpeedBase, this->SPEED_BONUS, this->Agility, AGILITY, SPEED_BUFF);
 
-    this->Evasion = compositeAttributeCalculation(this->CombatActorStructPointer->EvasionBase, this->EVASION_BONUS, this->Agility, AGILITY);
+    this->Evasion = compositeAttributeCalculation(this->CombatActorStructPointer->EvasionBase, this->EVASION_BONUS, this->Agility, AGILITY, EVASION_BUFF);
 
-    this->Stamina = compositeAttributeCalculation(this->CombatActorStructPointer->StaminaBase, this->STAMINA_BONUS, this->Agility, AGILITY);
+    this->Stamina = compositeAttributeCalculation(this->CombatActorStructPointer->StaminaBase, this->STAMINA_BONUS, this->Agility, AGILITY, STAMINA_BUFF);
 
-    this->PhysicalDamage = compositeAttributeCalculation(this->CombatActorStructPointer->PhysicalDamageBase, this->PHYSICAL_DAMAGE_BONUS, this->Strength, STRENGTH);
+    this->PhysicalDamage = compositeAttributeCalculation(this->CombatActorStructPointer->PhysicalDamageBase, this->PHYSICAL_DAMAGE_BONUS, this->Strength, STRENGTH, PHYSICAL_DAMAGE_BUFF);
 
-    this->MagicDamage = compositeAttributeCalculation(this->CombatActorStructPointer->MagicDamageBase, this->MAGIC_DAMAGE_BONUS, this->Inteligence, INTELIGENCE);
+    this->MagicDamage = compositeAttributeCalculation(this->CombatActorStructPointer->MagicDamageBase, this->MAGIC_DAMAGE_BONUS, this->Inteligence, INTELIGENCE, MAGIC_DAMAGE_BUFF);
 
-    this->PhysicalDefense = compositeAttributeCalculation(this->CombatActorStructPointer->PhysicalDefenseBase, this->PHYSICAL_DEFENSE_BONUS, this->Strength, STRENGTH);
+    this->PhysicalDefense = compositeAttributeCalculation(this->CombatActorStructPointer->PhysicalDefenseBase, this->PHYSICAL_DEFENSE_BONUS, this->Strength, STRENGTH, PHYSICAL_DEFENSE_BUFF);
 
-    this->MagicDefense = compositeAttributeCalculation(this->CombatActorStructPointer->MagicDefenseBase, this->MAGIC_DEFENSE_BONUS, this->Inteligence, INTELIGENCE);
+    this->MagicDefense = compositeAttributeCalculation(this->CombatActorStructPointer->MagicDefenseBase, this->MAGIC_DEFENSE_BONUS, this->Inteligence, INTELIGENCE, MAGIC_DEFENSE_BUFF);
 
     auto accuracyCalculation = [&](uint8 strength)
     {
@@ -172,7 +172,7 @@ void UCombatActorClass::UseMana(int32 amount)
 
 void UCombatActorClass::AddBuff(USpellClass *buffSpell)
 {
-    this->ActiveBuffs.Emplace(buffSpell);
+    this->ActiveBuffs.Emplace(FActiveBuffStruct(buffSpell));
 }
 
 void UCombatActorClass::RemoveBuff(uint8 position)

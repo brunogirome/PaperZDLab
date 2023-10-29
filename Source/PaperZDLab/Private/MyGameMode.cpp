@@ -182,17 +182,19 @@ void AMyGameMode::castSpellDamage()
   {
     bool alreadyBuffed = false;
 
-    for (USpellClass *targetBuff : this->TargetActor->ActiveBuffs)
+    for (FActiveBuffStruct &targetActiveBuff : this->TargetActor->ActiveBuffs)
     {
-      if (targetBuff->BuffType == this->CastedSpell->BuffType)
+      FActiveBuffStruct *activeBuffPointer = &targetActiveBuff;
+
+      if (activeBuffPointer->SpellPointer->BuffType == this->CastedSpell->BuffType)
       {
         alreadyBuffed = true;
 
-        targetBuff->IncreaseRounds(this->CastedSpell->GetRoundsForCasting());
+        activeBuffPointer->IncreaseRounds(this->CastedSpell->GetRoundsForCasting());
 
-        if (this->CastedSpell->Multiplier > targetBuff->Multiplier)
+        if (this->CastedSpell->Multiplier > activeBuffPointer->SpellPointer->Multiplier)
         {
-          targetBuff->Multiplier = this->CastedSpell->Multiplier;
+          activeBuffPointer->SpellPointer->Multiplier = this->CastedSpell->Multiplier;
         }
 
         break;
@@ -204,9 +206,7 @@ void AMyGameMode::castSpellDamage()
       break;
     }
 
-    this->CastedSpell->ResetRounds();
-
-    this->TargetActor->ActiveBuffs.Emplace(this->CastedSpell);
+    this->TargetActor->AddBuff(this->CastedSpell);
 
     break;
   }
@@ -271,7 +271,7 @@ void AMyGameMode::endOfTheTurn()
     {
       for (int i = 0; i < actor->ActiveBuffs.Num(); i++)
       {
-        USpellClass *buff = actor->ActiveBuffs[i];
+        FActiveBuffStruct *buff = &actor->ActiveBuffs[i];
 
         buff->DecreaseRounds();
 
@@ -370,6 +370,11 @@ void AMyGameMode::Tick(float DeltaSeconds)
     GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "End of the battle");
 
     this->gameInstance->CurrentGameState = OVERWORLD;
+
+    for (UHeroClass *hero : *this->HeroParty)
+    {
+      hero->ActiveBuffs.Empty();
+    }
 
     this->attackOrder.Empty();
 

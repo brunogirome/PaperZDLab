@@ -56,15 +56,7 @@ public:
 
 	USpellClass();
 
-	uint8 GetRoundsForCasting();
-
-	bool IsBuffExpired();
-
 	void Init(FSpellStruct *spellStructPointer, uint8 position);
 
-	void ResetRounds();
-
-	void DecreaseRounds(uint8 amount = 1);
-
-	void IncreaseRounds(uint8 amount = 1);
+	uint8 GetRoundsForCasting();
 };

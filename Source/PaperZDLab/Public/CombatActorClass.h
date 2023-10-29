@@ -7,6 +7,7 @@
 
 #include "CombatActorStruct.h"
 #include "SpellClass.h"
+#include "ActiveBuffStruct.h"
 
 #include "CombatActorClass.generated.h"
 
@@ -54,7 +55,7 @@ public:
 	TEnumAsByte<ElementEnum> Element;
 
 	UPROPERTY(BlueprintReadOnly)
-	TArray<USpellClass *> ActiveBuffs;
+	TArray<FActiveBuffStruct> ActiveBuffs;
 
 	UPROPERTY(BluePrintReadOnly)
 	TArray<USpellClass *> Spells;
@@ -131,7 +132,7 @@ public:
 
 	void UseMana(int32 amount);
 
-	void AddBuff(USpellClass* buffSpell);
+	void AddBuff(USpellClass *buffSpell);
 
 	void RemoveBuff(uint8 position);
 };
