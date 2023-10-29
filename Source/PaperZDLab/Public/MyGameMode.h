@@ -55,6 +55,8 @@ public:
 
 	TArray<UEnemyClass *> EnemyParty;
 
+	TArray<FActiveBuffStruct> ActivePartyBuffs;
+
 	TEnumAsByte<BattleStateEnum> BattleState;
 
 	TEnumAsByte<BattleStateEnum> LastBattleState;

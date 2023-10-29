@@ -72,6 +72,19 @@ bool AMyGameState::GetAlreadyAttacked()
   return this->GameMode->AlreadyAttacked;
 }
 
+bool AMyGameState::IsPartyBuffActive(PartyBuffTypeEnum partyBuffType)
+{
+  for (FActiveBuffStruct partyBuff : this->GameMode->ActivePartyBuffs)
+  {
+    if (partyBuff.SpellPointer->PartyBuffType == partyBuffType)
+    {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 void AMyGameState::SetCurrentGameMode(CurrentGameState newCurrentGameState)
 {
   this->GameInstance->CurrentGameState = newCurrentGameState;

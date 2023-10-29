@@ -160,7 +160,9 @@ void AMyGameMode::castSpellDamage()
 
   FString attackerName = this->CurrentActor->Name;
 
-  FString defenderName = this->TargetActor->Name;
+  FString defenderName;
+
+  bool buffAlreadyActive = false;
 
   switch (this->CastedSpell->SpellType)
   {
@@ -173,6 +175,8 @@ void AMyGameMode::castSpellDamage()
 
     int32 spellDamage = magicDamage - targetDefense;
 
+    defenderName = this->TargetActor->Name;
+
     GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Red, attackerName + " dealt " + FString::FromInt(spellDamage) + " on " + defenderName + "!");
 
     this->TargetActor->TakeDamage(spellDamage);
@@ -180,15 +184,18 @@ void AMyGameMode::castSpellDamage()
   }
   case BUFF:
   {
-    bool alreadyBuffed = false;
 
     for (FActiveBuffStruct &targetActiveBuff : this->TargetActor->ActiveBuffs)
     {
       FActiveBuffStruct *activeBuffPointer = &targetActiveBuff;
 
+      defenderName = this->TargetActor->Name;
+
+      GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Blue, attackerName + " casted " + this->CastedSpell->Name + " on " + defenderName + "!");
+
       if (activeBuffPointer->SpellPointer->BuffType == this->CastedSpell->BuffType)
       {
-        alreadyBuffed = true;
+        buffAlreadyActive = true;
 
         activeBuffPointer->IncreaseRounds(this->CastedSpell->GetRoundsForCasting());
 
@@ -201,12 +208,10 @@ void AMyGameMode::castSpellDamage()
       }
     }
 
-    if (alreadyBuffed)
+    if (!buffAlreadyActive)
     {
-      break;
+      this->TargetActor->AddBuff(this->CastedSpell);
     }
-
-    this->TargetActor->AddBuff(this->CastedSpell);
 
     break;
   }
@@ -217,6 +222,27 @@ void AMyGameMode::castSpellDamage()
 
   case PARTY_BUFF:
   {
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::White, attackerName + " casted the party buff " + this->CastedSpell->Name + "! ");
+
+    for (FActiveBuffStruct &buff : this->ActivePartyBuffs)
+    {
+      FActiveBuffStruct *activeBuffPointer = &buff;
+
+      if (activeBuffPointer->SpellPointer->PartyBuffType == this->CastedSpell->PartyBuffType)
+      {
+        activeBuffPointer->RemainingRounds = this->CastedSpell->GetRoundsForCasting();
+
+        buffAlreadyActive = true;
+
+        break;
+      }
+    }
+
+    if (!buffAlreadyActive)
+    {
+      this->ActivePartyBuffs.Emplace(FActiveBuffStruct(this->CastedSpell));
+    }
+
     break;
   }
   default:
@@ -293,6 +319,20 @@ void AMyGameMode::endOfTheTurn()
     else if (actor->IsDead() && actor->ActiveBuffs.Num() > 0)
     {
       actor->ActiveBuffs.Empty();
+    }
+  }
+
+  for (int i = 0; i < this->ActivePartyBuffs.Num(); i++)
+  {
+    FActiveBuffStruct *partyBuff = &this->ActivePartyBuffs[i];
+
+    partyBuff->DecreaseRounds();
+
+    if (partyBuff->IsBuffExpired())
+    {
+      this->ActivePartyBuffs.RemoveAt(i);
+
+      i--;
     }
   }
 
@@ -375,6 +415,8 @@ void AMyGameMode::Tick(float DeltaSeconds)
     {
       hero->ActiveBuffs.Empty();
     }
+
+    this->ActivePartyBuffs.Empty();
 
     this->attackOrder.Empty();
 

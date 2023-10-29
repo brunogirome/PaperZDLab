@@ -62,6 +62,9 @@ public:
 	bool GetAlreadyAttacked();
 
 	UFUNCTION(BlueprintCallable)
+	bool IsPartyBuffActive(PartyBuffTypeEnum partyBuffType);
+
+	UFUNCTION(BlueprintCallable)
 	void StartBattle(TArray<FName> enemiesRowNames);
 
 	UFUNCTION(BlueprintCallable)
