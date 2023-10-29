@@ -98,30 +98,13 @@ void AMyGameMode::castSpell()
 {
   this->CastedSpell = this->CurrentActor->Spells[this->CastedSpellPositon];
 
-  switch (this->CastedSpell->SpellType)
-  {
-  case DAMAGE:
+  if (this->CastedSpell->SpellType != PARTY_BUFF)
   {
     this->SetBattleState(SELECT_TARGET);
-    break;
   }
-  case BUFF:
-  {
-    this->SetBattleState(SELECT_TARGET);
-    break;
-  }
-  case HEALING:
-  {
-    this->SetBattleState(SELECT_TARGET);
-    break;
-  }
-  case PARTY_BUFF:
+  else
   {
     this->SetBattleState(SPELL_DAMAGE_CAST);
-    break;
-  }
-  default:
-    break;
   }
 }
 
@@ -217,6 +200,14 @@ void AMyGameMode::castSpellDamage()
   }
   case HEALING:
   {
+    int32 healedAmount = this->CastedSpell->Amount;
+
+    defenderName = this->TargetActor->Name;
+
+    this->TargetActor->HealHp(healedAmount);
+
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Blue, attackerName + " casted " + this->CastedSpell->Name + " and healed " + FString::FromInt(healedAmount) + " for " + defenderName + "!");
+
     break;
   }
 

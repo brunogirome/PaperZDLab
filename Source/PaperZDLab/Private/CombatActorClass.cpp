@@ -144,6 +144,11 @@ bool UCombatActorClass::IsOutOfStamina()
     return this->StaminaCurrent <= 0;
 }
 
+void UCombatActorClass::HealHp(int32 amount)
+{
+    this->HpCurrent = FMath::Clamp(amount + this->HpCurrent, 0, this->Hp);
+}
+
 void UCombatActorClass::TakeDamage(int32 amount)
 {
     int32 damageTaken = amount > this->HpCurrent ? this->HpCurrent : amount;

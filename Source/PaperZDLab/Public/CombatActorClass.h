@@ -124,11 +124,13 @@ public:
 
 	bool IsOutOfStamina();
 
+	void HealHp(int32 amount);
+
 	void TakeDamage(int32 amount);
 
-	void ReduceStamina(uint8 amount);
-
 	void HealStamina(uint8 amount, bool full = false);
+
+	void ReduceStamina(uint8 amount);
 
 	void UseMana(int32 amount);
 
