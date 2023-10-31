@@ -20,6 +20,8 @@ class PAPERZDLAB_API AMyGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 
+	const float DEFENDING_DAMAGE_REDUCTION = 0.75f;
+
 	TArray<UCombatActorClass *> attackOrder;
 
 	class UMyGameInstance *gameInstance;
@@ -35,6 +37,8 @@ class PAPERZDLAB_API AMyGameMode : public AGameModeBase
 	bool victory;
 
 	bool gameOver;
+
+	float getDefendingDamageReduction();
 
 	void startStep();
 

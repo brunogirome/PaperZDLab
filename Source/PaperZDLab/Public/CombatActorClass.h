@@ -114,6 +114,9 @@ public:
 	UPROPERTY(BluePrintReadOnly)
 	float StrongAccuracy;
 
+	UPROPERTY(BluePrintReadOnly)
+	bool IsDefending;
+
 	UCombatActorClass();
 
 	UFUNCTION(BlueprintCallable)

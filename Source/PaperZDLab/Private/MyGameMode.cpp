@@ -6,6 +6,11 @@
 
 #include "MyGameInstance.h"
 
+float AMyGameMode::getDefendingDamageReduction()
+{
+  return this->TargetActor->IsDefending ? this->DEFENDING_DAMAGE_REDUCTION : 1;
+}
+
 void AMyGameMode::startStep()
 {
   this->attackOrder.Sort(
@@ -42,6 +47,8 @@ void AMyGameMode::startStep()
   }
 
   this->alreadyAttacked = false;
+
+  this->CurrentActor->IsDefending = false;
 }
 
 void AMyGameMode::physicalDamage()
@@ -62,7 +69,7 @@ void AMyGameMode::physicalDamage()
 
     int32 defenserDefense = this->TargetActor->PhysicalDefense;
 
-    int32 damage = attackerDamage - (int32)(defenserDefense * 0.7);
+    int32 damage = (attackerDamage - (int32)(defenserDefense * 0.7)) * this->getDefendingDamageReduction();
 
     FString defenderName = this->TargetActor->Name;
 
@@ -156,7 +163,7 @@ void AMyGameMode::castSpellDamage()
 
     int32 targetDefense = this->TargetActor->MagicDamage;
 
-    int32 spellDamage = magicDamage - targetDefense;
+    int32 spellDamage = (magicDamage - targetDefense) * this->getDefendingDamageReduction();
 
     defenderName = this->TargetActor->Name;
 
@@ -257,6 +264,10 @@ void AMyGameMode::endOfTheTurn()
     {
       currentTurnSize++;
     }
+    else if (actor->IsDead() && actor->IsDefending)
+    {
+      actor->IsDefending = false;
+    }
   }
 
   float staminaRecoveryReduction = 1;
@@ -327,6 +338,8 @@ void AMyGameMode::endOfTheTurn()
     }
   }
 
+  this->TargetActor->IsDefending = false;
+
   this->turnCurrent++;
 
   this->incrementActorPointer();
@@ -389,6 +402,12 @@ void AMyGameMode::Tick(float DeltaSeconds)
     GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Spell damage cast");
 
     this->castSpellDamage();
+
+    break;
+  case DEFENDING:
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Defending");
+
+    this->SetBattleState(END_OF_THE_TURN);
 
     break;
   case END_OF_THE_TURN:

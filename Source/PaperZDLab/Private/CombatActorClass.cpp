@@ -185,4 +185,7 @@ void UCombatActorClass::RemoveBuff(uint8 position)
     this->ActiveBuffs.RemoveAt(position);
 }
 
-UCombatActorClass::UCombatActorClass() {}
+UCombatActorClass::UCombatActorClass()
+{
+    this->IsDefending = false;
+}
