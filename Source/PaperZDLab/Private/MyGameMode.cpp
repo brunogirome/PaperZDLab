@@ -361,6 +361,8 @@ void AMyGameMode::BeginPlay()
   {
     this->gameInstance->InitParty();
   }
+
+  this->gameInstance->AddItem("HpPotion", 5);
 }
 
 void AMyGameMode::Tick(float DeltaSeconds)

@@ -6,6 +6,7 @@
 UENUM(BlueprintType)
 enum ConsumableTypeEnum
 {
+  NOT_CONSUMABLE,
   POTION_HP,
   POTION_MANA,
   ELIXIR

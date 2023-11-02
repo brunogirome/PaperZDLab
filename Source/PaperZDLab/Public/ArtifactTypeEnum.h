@@ -6,6 +6,7 @@
 UENUM(BlueprintType)
 enum ArtifactTypeEnum
 {
+  NOT_ARTIFACT,
   ARTIFACT_COMPLETE,
   ARTIFACT_COMPONENT,
   BOOTS
