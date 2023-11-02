@@ -117,7 +117,7 @@ void AMyGameState::SetAttackStrengthChoice(uint8 choice)
 {
   this->GameMode->AttackStrengthChoice = choice;
 
-  this->GameMode->BattleState = PHYSICAL_ATTACK;
+  this->SetBattleState(PHYSICAL_ATTACK);
 }
 
 void AMyGameState::StartBattle(TArray<FName> enemiesRowNames)
@@ -129,12 +129,19 @@ void AMyGameState::CastSpell(uint8 position)
 {
   this->GameMode->CastedSpellPositon = position;
 
-  this->GameMode->BattleState = SPELL_CAST;
+  this->SetBattleState(SPELL_CAST);
 }
 
 void AMyGameState::AddItemToInventory(FName itemName, uint8 amount)
 {
   this->GameInstance->AddItem(itemName, amount);
+}
+
+void AMyGameState::SelectItemToConsume(uint8 positonOnInventory)
+{
+  this->GameMode->SelectedItem = this->GameInstance->Inventory[positonOnInventory];
+
+  this->SetBattleState(SELECT_TARGET);
 }
 
 void AMyGameState::RemoveItemFromInventory(int32 position)

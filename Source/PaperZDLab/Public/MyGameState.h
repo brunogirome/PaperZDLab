@@ -89,6 +89,9 @@ public:
 	void CastSpell(uint8 position);
 
 	UFUNCTION(BlueprintCallable)
+	void SelectItemToConsume(uint8 positonOnInventory);
+
+	UFUNCTION(BlueprintCallable)
 	void AddItemToInventory(FName itemName, uint8 amount = 1);
 
 	UFUNCTION(BlueprintCallable)

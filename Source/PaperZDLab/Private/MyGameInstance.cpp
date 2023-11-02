@@ -21,7 +21,7 @@ void UMyGameInstance::AddItem(FName itemName, uint8 amount)
     }
   }
 
-  int32 itemPositon = this->Inventory.Num() - 1;
+  int32 itemPositon = this->Inventory.Num();
 
   FItemStruct *itemStructPointer = this->ItemsDataTable->FindRow<FItemStruct>(itemName, "", true);
 
@@ -35,6 +35,13 @@ void UMyGameInstance::AddItem(FName itemName, uint8 amount)
 void UMyGameInstance::RemoveItem(int32 positon)
 {
   this->Inventory.RemoveAt(positon);
+
+  for (uint8 i = 0; i < this->Inventory.Num(); i++)
+  {
+    UItemClass *item = this->Inventory[i];
+
+    item->PositionInInventory = i;
+  }
 }
 
 UMyGameInstance::UMyGameInstance()

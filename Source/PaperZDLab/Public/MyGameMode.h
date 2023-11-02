@@ -7,6 +7,7 @@
 
 #include "HeroClass.h"
 #include "EnemyClass.h"
+#include "ItemClass.h"
 
 #include "BattleStateEnum.h"
 
@@ -48,6 +49,8 @@ class PAPERZDLAB_API AMyGameMode : public AGameModeBase
 
 	void castSpellDamage();
 
+	void castItem();
+
 	void enemyTurn();
 
 	void endOfTheTurn();
@@ -70,6 +73,8 @@ public:
 	UCombatActorClass *CurrentActor;
 
 	USpellClass *CastedSpell;
+
+	UItemClass *SelectedItem;
 
 	uint8 AttackStrengthChoice;
 

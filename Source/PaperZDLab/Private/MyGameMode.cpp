@@ -115,6 +115,34 @@ void AMyGameMode::castSpell()
   }
 }
 
+void AMyGameMode::castItem()
+{
+  FString actorName = this->CurrentActor->Name;
+
+  FString targetName = this->TargetActor->Name;
+
+  FString itemName = this->SelectedItem->Name;
+
+  switch (this->SelectedItem->ConsumableType)
+  {
+  case POTION_HP:
+    this->TargetActor->HealHp(this->SelectedItem->ConsumableHealing);
+
+    GEngine->AddOnScreenDebugMessage(-1, 50.0f, FColor::Yellow, actorName + " used " + itemName + " on " + targetName + "!");
+
+    this->SelectedItem->Consume();
+    break;
+  case POTION_MANA:
+    break;
+  default:
+    break;
+  }
+
+  this->CurrentActor->ReduceStamina((int32)(CurrentActor->Stamina / 66.66f));
+
+  this->SetBattleState(END_OF_THE_TURN);
+}
+
 void AMyGameMode::enemyTurn()
 {
   auto getTarget = [&]()
@@ -394,15 +422,21 @@ void AMyGameMode::Tick(float DeltaSeconds)
 
     break;
   case SPELL_CAST:
-    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Spell cast");
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Spell Cast");
 
     this->castSpell();
 
     break;
   case SPELL_DAMAGE_CAST:
-    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Spell damage cast");
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Spell Damage cast");
 
     this->castSpellDamage();
+
+    break;
+  case ITEM_CAST:
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Item Cast");
+
+    this->castItem();
 
     break;
   case DEFENDING:
