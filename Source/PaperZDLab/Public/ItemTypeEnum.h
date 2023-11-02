@@ -1,12 +1,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ItemEnum.generated.h"
+#include "ItemTypeEnum.generated.h"
 
 UENUM(BlueprintType)
-enum ItemEnum
+enum ItemTypeEnum
 {
-  ARTIFACT_PART,
   ARTIFACT,
   CONSUMABLE,
   KEY

@@ -22,6 +22,11 @@ TArray<float> AMyGameState::GetATTACK_STRENGTH_ACCURACY()
   return this->GameInstance->ATTACK_STRENGTH_ACCURACY_BASE;
 }
 
+TArray<UItemClass *> AMyGameState::GetInventory()
+{
+  return this->GameInstance->Inventory;
+}
+
 TEnumAsByte<CurrentGameState> AMyGameState::GetCurrentGameState()
 {
   return this->GameInstance->CurrentGameState;
@@ -127,10 +132,15 @@ void AMyGameState::CastSpell(uint8 position)
   this->GameMode->BattleState = SPELL_CAST;
 }
 
-// void AMyGameState::BeginPlay()
-// {
-//   Super::BeginPlay();
-// }
+void AMyGameState::AddItemToInventory(FName itemName, uint8 amount)
+{
+  this->GameInstance->AddItem(itemName, amount);
+}
+
+void AMyGameState::RemoveItemFromInventory(int32 position)
+{
+  this->GameInstance->RemoveItem(position);
+}
 
 AMyGameState::AMyGameState()
 {

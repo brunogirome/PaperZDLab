@@ -6,6 +6,7 @@
 #include "Engine/GameInstance.h"
 
 #include "PartyClass.h"
+#include "ItemClass.h"
 
 #include "CurrentGameState.h"
 
@@ -23,8 +24,6 @@ public:
 	UPROPERTY(BlueprintReadWrite, Editanywhere, Category = "Initial Data", META = (Name = "Initial Hero Party"))
 	TArray<FName> PartyRowNames;
 
-	TArray<float> ATTACK_STRENGTH_ACCURACY_BASE;
-
 	UPROPERTY(Editanywhere, Category = "Data Table", META = (Name = "Heroes Data Table"))
 	UDataTable *HeroesDataTable;
 
@@ -34,14 +33,22 @@ public:
 	UPROPERTY(Editanywhere, Category = "Data Table", META = (Name = "Spells Data Table"))
 	UDataTable *SpellsDataTable;
 
+	UPROPERTY(Editanywhere, Category = "Data Table", META = (Name = "Items Data Table"))
+	UDataTable *ItemsDataTable;
+
+	TArray<UItemClass *> Inventory;
+
+	TArray<float> ATTACK_STRENGTH_ACCURACY_BASE;
+
 	UPartyClass *Party;
 
 	UMyGameInstance();
 
+	void AddItem(FName itemName, uint8 amount);
+
+	void RemoveItem(int32 positon);
+
 	void InitParty();
 
 	TEnumAsByte<CurrentGameState> CurrentGameState;
-
-	// UFUNCTION(BlueprintCallable)
-	// virtual void Init() override;
 };

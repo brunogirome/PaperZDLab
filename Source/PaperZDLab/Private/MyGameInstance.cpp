@@ -2,16 +2,39 @@
 
 #include "MyGameInstance.h"
 
-// void UMyGameInstance::Init()
-// {
-//   Super::Init();
-// }
-
 void UMyGameInstance::InitParty()
 {
   this->Party = NewObject<UPartyClass>(UPartyClass::StaticClass());
 
   this->Party->Init(this);
+}
+
+void UMyGameInstance::AddItem(FName itemName, uint8 amount)
+{
+  for (UItemClass *item : this->Inventory)
+  {
+    if (item->Name == itemName)
+    {
+      item->AmountInInventory += amount;
+
+      return;
+    }
+  }
+
+  int32 itemPositon = this->Inventory.Num() - 1;
+
+  FItemStruct *itemStructPointer = this->ItemsDataTable->FindRow<FItemStruct>(itemName, "", true);
+
+  UItemClass *newItem = NewObject<UItemClass>(UItemClass::StaticClass());
+
+  newItem->Create(itemPositon, amount, itemStructPointer, this);
+
+  this->Inventory.Emplace(newItem);
+}
+
+void UMyGameInstance::RemoveItem(int32 positon)
+{
+  this->Inventory.RemoveAt(positon);
 }
 
 UMyGameInstance::UMyGameInstance()

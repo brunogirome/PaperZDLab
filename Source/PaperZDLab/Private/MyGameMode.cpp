@@ -174,7 +174,6 @@ void AMyGameMode::castSpellDamage()
   }
   case BUFF:
   {
-
     for (FActiveBuffStruct &targetActiveBuff : this->TargetActor->ActiveBuffs)
     {
       FActiveBuffStruct *activeBuffPointer = &targetActiveBuff;

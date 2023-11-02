@@ -24,12 +24,7 @@ struct FActiveBuffStruct
 
   FActiveBuffStruct(USpellClass *spellClassPointer);
 
-  // friend class UCombatActorClass;
-
-  // friend class UMyGameModeClass;
-
   USpellClass *SpellPointer;
-  // private:
 
   FActiveBuffStruct();
 };

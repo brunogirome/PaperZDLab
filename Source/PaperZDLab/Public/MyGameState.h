@@ -32,6 +32,9 @@ public:
 	TArray<UEnemyClass *> GetEnemyPartyMembers();
 
 	UFUNCTION(BlueprintCallable)
+	TArray<UItemClass *> GetInventory();
+
+	UFUNCTION(BlueprintCallable)
 	TArray<float> GetATTACK_STRENGTH_ACCURACY();
 
 	UFUNCTION(BlueprintCallable)
@@ -85,8 +88,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void CastSpell(uint8 position);
 
-	// UFUNCTION(BlueprintCallable)
-	// virtual void BeginPlay() override;
+	UFUNCTION(BlueprintCallable)
+	void AddItemToInventory(FName itemName, uint8 amount = 1);
+
+	UFUNCTION(BlueprintCallable)
+	void RemoveItemFromInventory(int32 position);
 
 	AMyGameState();
 };
