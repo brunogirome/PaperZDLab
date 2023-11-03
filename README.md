@@ -16,7 +16,7 @@ Also the experiments of Art, using HD-2D sytle inspired by Square Enix **Octopat
 
 - [x] Store data from Spells;
 
-- [ ] Store data from Itens;
+- [x] Store data from Itens;
 
 - [ ] Finish the battle logic;
 
