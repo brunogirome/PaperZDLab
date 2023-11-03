@@ -374,6 +374,24 @@ void AMyGameMode::endOfTheTurn()
   this->SetBattleState(!(victory || gameOver) ? START_STEP : END_OF_THE_BATTLE);
 }
 
+void AMyGameMode::tryToEscape()
+{
+  float escapeDieRoll = FMath::FRandRange(0.f, 1.f);
+
+  if (escapeDieRoll < ESCAPE_CHANCE)
+  {
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Turquoise, "You escaped the battle!");
+
+    this->SetBattleState(END_OF_THE_BATTLE);
+  }
+  else
+  {
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Turquoise, "You failed to escape!");
+
+    this->SetBattleState(END_OF_THE_TURN);
+  }
+}
+
 void AMyGameMode::incrementActorPointer()
 {
   this->currentActorPointer++;
@@ -449,6 +467,12 @@ void AMyGameMode::Tick(float DeltaSeconds)
     GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "End of the turn");
 
     this->endOfTheTurn();
+
+    break;
+  case TRYING_TO_ESCAPE:
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Trying to escape");
+
+    this->tryToEscape();
 
     break;
   case END_OF_THE_BATTLE:
@@ -552,6 +576,8 @@ AMyGameMode::AMyGameMode()
   this->victory = false;
 
   this->gameOver = false;
+
+  this->escaped = false;
 }
 
 // Debug Functions

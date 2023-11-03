@@ -23,6 +23,8 @@ class PAPERZDLAB_API AMyGameMode : public AGameModeBase
 
 	const float DEFENDING_DAMAGE_REDUCTION = 0.75f;
 
+	const float ESCAPE_CHANCE = 0.85f;
+
 	TArray<UCombatActorClass *> attackOrder;
 
 	class UMyGameInstance *gameInstance;
@@ -39,6 +41,8 @@ class PAPERZDLAB_API AMyGameMode : public AGameModeBase
 
 	bool gameOver;
 
+	bool escaped;
+
 	float getDefendingDamageReduction();
 
 	void startStep();
@@ -54,6 +58,8 @@ class PAPERZDLAB_API AMyGameMode : public AGameModeBase
 	void enemyTurn();
 
 	void endOfTheTurn();
+
+	void tryToEscape();
 
 	void incrementActorPointer();
 
