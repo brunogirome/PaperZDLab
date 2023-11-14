@@ -169,11 +169,15 @@ void AMyGameState::EquipItem(int32 position, UHeroClass *selectedHero)
 
   uint8 positionHeroEquipament = selectedHero->Equipaments.Num();
 
-  selectedHero->Equipaments.Emplace(item);
+  FItemStruct *itemStructPointer = this->GameInstance->ItemsDataTable->FindRow<FItemStruct>(FName(item->Name.Replace(TEXT(" "), TEXT(""))), "", true);
 
-  selectedHero->Equipaments[positionHeroEquipament]->PositionInInventory = positionHeroEquipament;
+  UItemClass *newItem = NewObject<UItemClass>(UItemClass::StaticClass());
+
+  newItem->Create(positionHeroEquipament, 1, itemStructPointer, this->GameInstance);
 
   item->Consume();
+
+  selectedHero->Equipaments.Emplace(newItem);
 
   selectedHero->CalculateStats();
 }

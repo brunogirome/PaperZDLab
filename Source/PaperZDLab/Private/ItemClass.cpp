@@ -87,6 +87,13 @@ void UItemClass::Consume(int32 amount)
     {
         this->gameInstance->RemoveItem(this->PositionInInventory);
     }
+
+    for (int32 i = 0; i < this->gameInstance->Inventory.Num(); i++)
+    {
+        UItemClass *item = this->gameInstance->Inventory[i];
+
+        item->PositionInInventory = i;
+    }
 }
 
 UItemClass::UItemClass() {}
