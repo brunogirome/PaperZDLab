@@ -46,6 +46,8 @@ public:
 
 	void AddItem(FName itemName, uint8 amount);
 
+	void AddItem(UItemClass *addedItem, uint8 amount);
+
 	void RemoveItem(int32 positon);
 
 	void InitParty();

@@ -409,6 +409,10 @@ void AMyGameMode::BeginPlay()
   }
 
   this->gameInstance->AddItem("HpPotion", 5);
+
+  this->gameInstance->AddItem("OgreAxe", 3);
+
+  this->gameInstance->AddItem("SimpleDagger", 1);
 }
 
 void AMyGameMode::Tick(float DeltaSeconds)

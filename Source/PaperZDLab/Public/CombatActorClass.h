@@ -7,9 +7,17 @@
 
 #include "CombatActorStruct.h"
 #include "SpellClass.h"
+#include "ItemClass.h"
 #include "ActiveBuffStruct.h"
 
 #include "CombatActorClass.generated.h"
+
+struct EquipamentBuffStruct
+{
+	int FlatBonus;
+
+	float PercentageBonus;
+};
 
 /**
  *
@@ -30,6 +38,8 @@ class PAPERZDLAB_API UCombatActorClass : public UObject
 	const int SPEED_BONUS = 0.5f;
 	const int EVASION_BONUS = 0.5f;
 	const int STAMINA_BONUS = 0.25f;
+
+	EquipamentBuffStruct getSumOfAttribute(BuffTypeEnum itemBuff);
 
 	class UMyGameInstance *gameInstance;
 
@@ -59,6 +69,9 @@ public:
 
 	UPROPERTY(BluePrintReadOnly)
 	TArray<USpellClass *> Spells;
+
+	UPROPERTY(BluePrintReadOnly)
+	TArray<UItemClass *> Equipaments;
 
 	UPROPERTY(BluePrintReadOnly)
 	int32 Strength;

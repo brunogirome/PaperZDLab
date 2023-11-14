@@ -9,6 +9,27 @@ void UMyGameInstance::InitParty()
   this->Party->Init(this);
 }
 
+void UMyGameInstance::AddItem(UItemClass *addedItem, uint8 amount)
+{
+  for (UItemClass *item : this->Inventory)
+  {
+    if (item->Name == addedItem->Name)
+    {
+      item->AmountInInventory += amount;
+
+      return;
+    }
+  }
+
+  int32 itemPositon = this->Inventory.Num();
+
+  addedItem->AmountInInventory = amount;
+
+  addedItem->PositionInInventory = itemPositon;
+
+  this->Inventory.Emplace(addedItem);
+}
+
 void UMyGameInstance::AddItem(FName itemName, uint8 amount)
 {
   for (UItemClass *item : this->Inventory)
@@ -28,6 +49,10 @@ void UMyGameInstance::AddItem(FName itemName, uint8 amount)
   UItemClass *newItem = NewObject<UItemClass>(UItemClass::StaticClass());
 
   newItem->Create(itemPositon, amount, itemStructPointer, this);
+
+  GEngine->AddOnScreenDebugMessage(-1, 60.0f,
+                                   FColor::Yellow,
+                                   newItem->Name + " position: " + FString::FromInt(itemPositon));
 
   this->Inventory.Emplace(newItem);
 }

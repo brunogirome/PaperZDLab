@@ -100,5 +100,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ConsumeItemOnInventory(int32 position, UHeroClass *selectedHero);
 
+	UFUNCTION(BlueprintCallable)
+	void EquipItem(int32 position, UHeroClass *selectedHero);
+
+	UFUNCTION(BlueprintCallable)
+	void UnequipItem(int32 position, UHeroClass *selectedHero);
+
 	AMyGameState();
 };

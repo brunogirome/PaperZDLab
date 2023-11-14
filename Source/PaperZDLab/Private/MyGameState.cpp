@@ -163,6 +163,37 @@ void AMyGameState::ConsumeItemOnInventory(int32 position, UHeroClass *selectedHe
   }
 }
 
+void AMyGameState::EquipItem(int32 position, UHeroClass *selectedHero)
+{
+  UItemClass *item = this->GameInstance->Inventory[position];
+
+  uint8 positionHeroEquipament = selectedHero->Equipaments.Num();
+
+  selectedHero->Equipaments.Emplace(item);
+
+  selectedHero->Equipaments[positionHeroEquipament]->PositionInInventory = positionHeroEquipament;
+
+  item->Consume();
+
+  selectedHero->CalculateStats();
+}
+
+void AMyGameState::UnequipItem(int32 position, UHeroClass *selectedHero)
+{
+  UItemClass *item = selectedHero->Equipaments[position];
+
+  this->GameInstance->AddItem(FName(item->Name), 1);
+
+  selectedHero->Equipaments.RemoveAt(position);
+
+  for (uint8 i = 0; i < selectedHero->Equipaments.Num(); i++)
+  {
+    UItemClass *equipament = selectedHero->Equipaments[i];
+
+    equipament->PositionInInventory = i;
+  }
+}
+
 AMyGameState::AMyGameState()
 {
   this->GameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));

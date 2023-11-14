@@ -55,6 +55,86 @@ void UCombatActorClass::init(FCombatActorStruct *combatActorStructPointer, UMyGa
 
 void UCombatActorClass::CalculateStats()
 {
+    auto getEquipamentStats = [&](BuffTypeEnum itemBuff)
+    {
+        int flatSum = 0;
+
+        float percentageSum = 0;
+
+        for (UItemClass *equipament : this->Equipaments)
+        {
+            switch (itemBuff)
+            {
+            case STRENGTH_BUFF:
+                flatSum += equipament->StrengthFlatBonus;
+
+                percentageSum += equipament->StrengthPercentageBonus;
+                break;
+            case AGILITY_BUFF:
+                flatSum += equipament->AgilityFlatBonus;
+
+                percentageSum += equipament->AgilityPercentageBonus;
+                break;
+            case INTELIGENCE_BUFF:
+                flatSum += equipament->InteligenceFlatBonus;
+
+                percentageSum += equipament->InteligencePercentageBonus;
+                break;
+            case PHYSICAL_DAMAGE_BUFF:
+                flatSum += equipament->PhysicalDamageFlatBonus;
+
+                percentageSum += equipament->PhysicalDamagePercentageBonus;
+                break;
+            case MAGIC_DAMAGE_BUFF:
+                flatSum += equipament->MagicDamageFlatBonus;
+
+                percentageSum += equipament->MagicDamagePercentageBonus;
+                break;
+            case PHYSICAL_DEFENSE_BUFF:
+                flatSum += equipament->PhysicalDefenseFlatBonus;
+
+                percentageSum += equipament->PhysicalDefensePercentageBonus;
+                break;
+            case MAGIC_DEFENSE_BUFF:
+                flatSum += equipament->MagicDefenseFlatBonus;
+
+                percentageSum += equipament->MagicDefensePercentageBonus;
+                break;
+            case HP_BUFF:
+                flatSum += equipament->HpFlatBonus;
+
+                percentageSum += equipament->HpPercentageBonus;
+                break;
+            case MANA_BUFF:
+                flatSum += equipament->ManaFlatBonus;
+
+                percentageSum += equipament->ManaPercentageBonus;
+                break;
+            case SPEED_BUFF:
+                flatSum += equipament->SpeedFlatBonus;
+
+                percentageSum += equipament->SpeedPercentageBonus;
+                break;
+            case STAMINA_BUFF:
+                flatSum += equipament->StaminaFlatBonus;
+
+                percentageSum += equipament->StaminaPercentageBonus;
+                break;
+            case EVASION_BUFF:
+                flatSum += equipament->EvasionFlatBonus;
+
+                percentageSum += equipament->EvasionPercentageBonus;
+                break;
+            default:
+                break;
+            }
+        }
+
+        percentageSum = percentageSum == 0 ? 1 : percentageSum;
+
+        return EquipamentBuffStruct(flatSum, percentageSum);
+    };
+
     auto buffFinder = [&](BuffTypeEnum buffType)
     {
         float buffAmount = 1;
@@ -76,7 +156,13 @@ void UCombatActorClass::CalculateStats()
     {
         float buffValue = buffType == NOT_BUFF ? 1 : buffFinder(buffType);
 
-        return (int32)round(attributeValue * buffValue);
+        EquipamentBuffStruct equipamentStats = getEquipamentStats(buffType);
+
+        int flatStats = equipamentStats.FlatBonus;
+
+        float percentageStats = equipamentStats.PercentageBonus;
+
+        return (int32)round(((attributeValue * buffValue) + flatStats) * percentageStats);
     };
 
     auto compositeAttributeCalculation = [&](int32 baseValue, float multiplier, int32 combatTypeValue, TEnumAsByte<CombatTypeEnum> combatTypeBonus, BuffTypeEnum buffType = NOT_BUFF)
@@ -87,7 +173,13 @@ void UCombatActorClass::CalculateStats()
 
         float combatTypeBonusValue = multiplier * combatTypeValue * typeBonus;
 
-        return (int32)round((baseValue + combatTypeBonusValue) * buffValue);
+        EquipamentBuffStruct equipamentStats = getEquipamentStats(buffType);
+
+        int flatStats = equipamentStats.FlatBonus;
+
+        float percentageStats = equipamentStats.PercentageBonus;
+
+        return (int32)round((((baseValue + combatTypeBonusValue) * buffValue) + flatStats) * percentageStats);
     };
 
     this->Strength = basicAttributeCalculation(this->CombatActorStructPointer->StrengthBase, STRENGTH_BUFF);
@@ -96,9 +188,9 @@ void UCombatActorClass::CalculateStats()
 
     this->Agility = basicAttributeCalculation(this->CombatActorStructPointer->AgilityBase, AGILITY_BUFF);
 
-    this->Hp = compositeAttributeCalculation(this->CombatActorStructPointer->HpBase, this->HP_BONUS, this->Strength, STRENGTH);
+    this->Hp = compositeAttributeCalculation(this->CombatActorStructPointer->HpBase, this->HP_BONUS, this->Strength, STRENGTH, HP_BUFF);
 
-    this->Mana = compositeAttributeCalculation(this->CombatActorStructPointer->ManaBase, this->MANA_BONUS, this->Inteligence, INTELIGENCE);
+    this->Mana = compositeAttributeCalculation(this->CombatActorStructPointer->ManaBase, this->MANA_BONUS, this->Inteligence, INTELIGENCE), MANA_BUFF;
 
     this->Speed = compositeAttributeCalculation(this->CombatActorStructPointer->SpeedBase, this->SPEED_BONUS, this->Agility, AGILITY, SPEED_BUFF);
 
