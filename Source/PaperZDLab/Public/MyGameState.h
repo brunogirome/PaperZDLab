@@ -97,5 +97,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void RemoveItemFromInventory(int32 position);
 
+	UFUNCTION(BlueprintCallable)
+	void ConsumeItemOnInventory(int32 position, UHeroClass *selectedHero);
+
 	AMyGameState();
 };

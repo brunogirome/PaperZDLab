@@ -149,6 +149,20 @@ void AMyGameState::RemoveItemFromInventory(int32 position)
   this->GameInstance->RemoveItem(position);
 }
 
+void AMyGameState::ConsumeItemOnInventory(int32 position, UHeroClass *selectedHero)
+{
+  UItemClass *item = this->GameInstance->Inventory[position];
+
+  switch (item->ConsumableType)
+  {
+  case POTION_HP:
+    selectedHero->HealHp(item->ConsumableHealing);
+
+    item->Consume();
+    break;
+  }
+}
+
 AMyGameState::AMyGameState()
 {
   this->GameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
