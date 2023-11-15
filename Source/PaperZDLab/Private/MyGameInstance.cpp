@@ -13,7 +13,7 @@ void UMyGameInstance::AddItem(FName itemName, uint8 amount)
 {
   for (UItemClass *item : this->Inventory)
   {
-    if (item->Name == itemName)
+    if (item->Name.Replace(TEXT(" "), TEXT("")) == itemName)
     {
       item->AmountInInventory += amount;
 

@@ -175,6 +175,8 @@ void AMyGameState::EquipItem(int32 position, UHeroClass *selectedHero)
 
   newItem->Create(positionHeroEquipament, 1, itemStructPointer, this->GameInstance);
 
+  newItem->HeroEquipped = selectedHero;
+
   item->Consume();
 
   selectedHero->Equipaments.Emplace(newItem);
@@ -186,7 +188,7 @@ void AMyGameState::UnequipItem(int32 position, UHeroClass *selectedHero)
 {
   UItemClass *item = selectedHero->Equipaments[position];
 
-  this->GameInstance->AddItem(FName(item->Name), 1);
+  this->GameInstance->AddItem(FName(item->Name.Replace(TEXT(" "), TEXT(""))), 1);
 
   selectedHero->Equipaments.RemoveAt(position);
 
