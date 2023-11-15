@@ -8,6 +8,8 @@ void UEnemyClass::Init(FEnemyStruct *enemyStructPointerParam, UMyGameInstance *m
 
   this->XpDrop = enemyStructPointerParam->XpDrop;
 
+  this->Movesets = enemyStructPointerParam->Movesets;
+
   this->UCombatActorClass::init(this->EnemyStructPointer, myGameInstance);
 
   if (battleInstancePosition > 0)

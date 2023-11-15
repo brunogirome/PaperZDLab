@@ -365,7 +365,7 @@ void AMyGameMode::endOfTheTurn()
     }
   }
 
-  this->TargetActor->IsDefending = false;
+  this->CurrentActor->IsDefending = false;
 
   this->turnCurrent++;
 

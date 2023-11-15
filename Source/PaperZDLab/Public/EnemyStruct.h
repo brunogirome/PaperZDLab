@@ -17,5 +17,8 @@ struct FEnemyStruct : public FCombatActorStruct
 	UPROPERTY(EditAnywhere)
 	int32 XpDrop;
 
+	UPROPERTY(EditAnywhere)
+	TArray<FString> Movesets;
+
 	FEnemyStruct();
 };

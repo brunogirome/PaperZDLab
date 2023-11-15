@@ -26,6 +26,9 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	int32 XpDrop;
 
+	UPROPERTY(BlueprintReadOnly)
+	TArray<FString> Movesets;
+
 	UEnemyClass();
 
 	void Init(FEnemyStruct *enemyStructPointerParam, UMyGameInstance *myGameInstance, uint8 battleInstancePosition = -1);

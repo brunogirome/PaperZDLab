@@ -28,28 +28,24 @@ void UCombatActorClass::init(FCombatActorStruct *combatActorStructPointer, UMyGa
 
     this->StaminaCurrent = this->Stamina;
 
-    if (combatActorStructPointer->SpellsName.Num() == 0)
+    int32 amountOfSpells = combatActorStructPointer->SpellsName.Num();
+
+    if (amountOfSpells == 0)
     {
         return;
     }
 
-    TArray<FString> spellsArray;
-
-    combatActorStructPointer->SpellsName[0].ToString().ParseIntoArray(spellsArray, TEXT(","), true);
-
-    uint8 index = 0;
-
-    for (FString spellName : spellsArray)
+    for (uint8 i = 0; i < amountOfSpells; i++)
     {
-        FSpellStruct *spellStruct = this->gameInstance->SpellsDataTable->FindRow<FSpellStruct>(FName(spellName.TrimStartAndEnd()), "", true);
+        FName spellName = combatActorStructPointer->SpellsName[i];
+
+        FSpellStruct *spellStruct = this->gameInstance->SpellsDataTable->FindRow<FSpellStruct>(spellName, "", true);
 
         USpellClass *spellInstance = NewObject<USpellClass>(USpellClass::StaticClass());
 
-        spellInstance->Init(spellStruct, index);
+        spellInstance->Init(spellStruct, i);
 
         this->Spells.Emplace(spellInstance);
-
-        index++;
     }
 }
 
