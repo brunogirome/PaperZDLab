@@ -18,7 +18,7 @@ Also the experiments of Art, using HD-2D sytle inspired by Square Enix **Octopat
 
 - [x] Store data from Itens;
 
-- [ ] Finish the battle logic;
+- [x] Finish the battle logic;
 
 - [ ] Improve the character movimentation;
 

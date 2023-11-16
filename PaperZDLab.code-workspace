@@ -15,7 +15,9 @@
     "files.associations": {
       "source_location": "cpp",
       "xutility": "cpp",
-      "*.ipp": "cpp"
+      "*.ipp": "cpp",
+      "algorithm": "cpp",
+      "string": "cpp"
     }
   },
   "extensions": {

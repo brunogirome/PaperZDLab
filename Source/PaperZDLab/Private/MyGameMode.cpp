@@ -73,7 +73,7 @@ void AMyGameMode::physicalDamage()
 
     FString defenderName = this->TargetActor->Name;
 
-    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Red, attackerName + " dealt " + FString::FromInt(damage) + " on " + defenderName + "!");
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Red, attackerName + " dealt " + FString::FromInt(damage) + " on " + defenderName + " with an Lv." + FString::FromInt(this->AttackStrengthChoice + 1) + " attack!");
 
     this->TargetActor->TakeDamage(damage);
   }
@@ -147,7 +147,7 @@ void AMyGameMode::enemyTurn()
 {
   auto getTarget = [&]()
   {
-    uint8 choice = (uint8)FMath::FRandRange(0.f, (float)this->HeroParty->Num() - 1);
+    uint8 choice = (uint8)FMath::FRandRange(0.f, (float)this->HeroParty->Num());
 
     return (*this->HeroParty)[choice];
   };
@@ -166,12 +166,82 @@ void AMyGameMode::enemyTurn()
 
   UEnemyClass *enemy = this->EnemyParty[this->CurrentActor->PositionForEnemyInBattle];
 
-  for (uint8 attackStrenght = 0; attackStrenght < 3; attackStrenght++)
-  {
-    this->AttackStrengthChoice = attackStrenght;
+  uint8 choice;
 
-    this->physicalDamage();
+  TArray<AttackPatern> selectedMoveset;
+
+  USpellClass *spellCastedByEnemy = nullptr;
+
+  TArray<uint8> movesetsOutOfMana;
+
+  while (true)
+  {
+    choice = (uint8)FMath::FRandRange(0.f, (float)enemy->Movesets.Num());
+
+    bool selectedInvalidMoveset = false;
+
+    for (uint8 position : movesetsOutOfMana)
+    {
+      if (choice == position)
+      {
+        selectedInvalidMoveset = true;
+
+        break;
+      }
+    }
+
+    if (selectedInvalidMoveset)
+    {
+      continue;
+    }
+
+    selectedMoveset = enemy->Movesets[choice];
+
+    AttackPatern spellOfTheMoveset = selectedMoveset.Last();
+
+    if (spellOfTheMoveset.MoveType == CAST_SPELL_MOVESET)
+    {
+      spellCastedByEnemy = enemy->Spells[spellOfTheMoveset.SpellPosition];
+
+      if (enemy->ManaCurrent < spellCastedByEnemy->ManaCost)
+      {
+        movesetsOutOfMana.Add(choice);
+
+        continue;
+      }
+    }
+
+    break;
   }
+
+  for (AttackPatern move : selectedMoveset)
+  {
+    switch (move.MoveType)
+    {
+    case WEAK_ATTACK:
+      this->AttackStrengthChoice = 0;
+
+      this->physicalDamage();
+      break;
+    case MEDIUM_ATTACK:
+      this->AttackStrengthChoice = 1;
+
+      this->physicalDamage();
+      break;
+    case HEAVY_ATTACK:
+      this->AttackStrengthChoice = 2;
+
+      this->physicalDamage();
+      break;
+    case CAST_SPELL_MOVESET:
+      this->CastedSpell = spellCastedByEnemy;
+
+      this->castSpellDamage();
+      break;
+    }
+  }
+
+  GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Orange, enemy->Name + " picked the " + FString::FromInt(choice) + " attack pattern.");
 }
 
 void AMyGameMode::castSpellDamage()
@@ -197,7 +267,7 @@ void AMyGameMode::castSpellDamage()
 
     defenderName = this->TargetActor->Name;
 
-    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Red, attackerName + " dealt " + FString::FromInt(spellDamage) + " on " + defenderName + "!");
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Red, attackerName + " dealt " + FString::FromInt(spellDamage) + " on " + defenderName + " using the " + this->CastedSpell->Name + " spell!");
 
     this->TargetActor->TakeDamage(spellDamage);
     break;
@@ -550,31 +620,7 @@ void AMyGameMode::StartBattle(TArray<FName> enemyNames)
   {
     this->attackOrder.Emplace(enemy);
 
-    GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, enemy->Name);
-
-    for (TArray<AttackPatern> moveset : enemy->Movesets)
-    {
-      GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Magenta, "New moveset");
-
-      for (AttackPatern move : moveset)
-      {
-        switch (move.MoveType)
-        {
-        case WEAK_ATTACK:
-          GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Turquoise, "Weak Attack");
-          break;
-        case MEDIUM_ATTACK:
-          GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Turquoise, "Medium Attack");
-          break;
-        case HEAVY_ATTACK:
-          GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Turquoise, "Heavy Attack");
-          break;
-        case CAST_SPELL_MOVESET:
-          GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Turquoise, "Spell : " + FString::FromInt(move.SpellPosition));
-          break;
-        }
-      }
-    }
+    enemy->ManaCurrent = 0;
   }
 
   this->turnCurrent = 1;

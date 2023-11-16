@@ -2,6 +2,8 @@
 
 #include "EnemyClass.h"
 
+#include "Kismet/KismetStringLibrary.h"
+
 void UEnemyClass::Init(FEnemyStruct *enemyStructPointerParam, UMyGameInstance *myGameInstance, uint8 battleInstancePosition)
 {
   this->EnemyStructPointer = enemyStructPointerParam;
@@ -36,7 +38,7 @@ void UEnemyClass::Init(FEnemyStruct *enemyStructPointerParam, UMyGameInstance *m
       {
         FString spellPosition = move.Mid(1, 1);
 
-        uint8 spellPositionInt = StringToBytes(spellPosition, &spellPositionInt, 8);
+        int32 spellPositionInt = UKismetStringLibrary::Conv_StringToInt(spellPosition);
 
         auxArray.Emplace(AttackPatern(CAST_SPELL_MOVESET, spellPositionInt));
       }
