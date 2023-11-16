@@ -164,6 +164,8 @@ void AMyGameMode::enemyTurn()
     this->TargetActor = getTarget();
   }
 
+  UEnemyClass *enemy = this->EnemyParty[this->CurrentActor->PositionForEnemyInBattle];
+
   for (uint8 attackStrenght = 0; attackStrenght < 3; attackStrenght++)
   {
     this->AttackStrengthChoice = attackStrenght;
@@ -526,19 +528,17 @@ void AMyGameMode::StartBattle(TArray<FName> enemyNames)
 {
   this->HeroParty = &this->gameInstance->Party->Members;
 
-  uint8 index = 0;
-
-  for (FName enemyRowName : enemyNames)
+  for (uint8 i = 0; i < enemyNames.Num(); i++)
   {
+    FName enemyRowName = enemyNames[i];
+
     FEnemyStruct *enemyStructPointer = this->gameInstance->EnemiesDataTable->FindRow<FEnemyStruct>(enemyRowName, "", true);
 
     UEnemyClass *enemyInstance = NewObject<UEnemyClass>(UEnemyClass::StaticClass());
 
-    enemyInstance->Init(enemyStructPointer, this->gameInstance, index);
+    enemyInstance->Init(enemyStructPointer, this->gameInstance, i);
 
     this->EnemyParty.Add(enemyInstance);
-
-    index++;
   }
 
   for (UHeroClass *hero : *this->HeroParty)
@@ -549,6 +549,32 @@ void AMyGameMode::StartBattle(TArray<FName> enemyNames)
   for (UEnemyClass *enemy : this->EnemyParty)
   {
     this->attackOrder.Emplace(enemy);
+
+    GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, enemy->Name);
+
+    for (TArray<AttackPatern> moveset : enemy->Movesets)
+    {
+      GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Magenta, "New moveset");
+
+      for (AttackPatern move : moveset)
+      {
+        switch (move.MoveType)
+        {
+        case WEAK_ATTACK:
+          GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Turquoise, "Weak Attack");
+          break;
+        case MEDIUM_ATTACK:
+          GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Turquoise, "Medium Attack");
+          break;
+        case HEAVY_ATTACK:
+          GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Turquoise, "Heavy Attack");
+          break;
+        case CAST_SPELL_MOVESET:
+          GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Turquoise, "Spell : " + FString::FromInt(move.SpellPosition));
+          break;
+        }
+      }
+    }
   }
 
   this->turnCurrent = 1;

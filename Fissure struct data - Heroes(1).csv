@@ -1,5 +1,0 @@
----,StrengthScale,AgilityScale,InteligenceScale,PhysicalDamageScale,MagicDamageScale,PhysicalDefenseScale,MagicDefenseScale,HpScale,ManaScale,SpeedScale,EvasionScale,StaminaScale,Name,Description,TypeOfActor,CombatType,Element,StrengthBase,AgilityBase,InteligenceBase,PhysicalDamageBase,MagicDamageBase,PhysicalDefenseBase,MagicDefenseBase,HpBase,ManaBase,SpeedBase,EvasionBase,StaminaBase,SpellsName
-Karina,0.04,0.03,0.02,0.06,0.025,0.035,0.02,0.8,0.08,0.11,0.035,0.035,Karina,The Rocket Puncher,HERO,STRENGTH,FIRE,17,14,9,15,8,10,9,45,20,32,3,7,"(""Bersek"")"
-Winter,0.015,0.025,0.06,0.015,0.06,0.01,0.025,0.1,0.13,0.1,0.02,0.02,Winter,The Armamenter,HERO,INTELIGENCE,WATER,10,12,20,8,15,8,12,37,50,20,2,6,"(""AquaBall"", ""Cure"")"
-Giselle,0.25,0.025,0.05,0.02,0.06,0.02,0.03,0.15,0.15,0.11,0.02,0.02,Giselle,Got Xenoglossy,HERO,INTELIGENCE,LIGHT,12,12,18,5,12,10,13,43,50,25,2,6,"(""Cure"", ""Sight"")"
-NingNing,0.3,0.05,0.03,0.035,0.04,0.02,0.02,0.13,0.1,0.25,0.06,0.05,NingNing,The E.D. Hacker,HERO,AGILITY,WIND,14,20,13,10,8,8,9,40,28,40,6,8,"(""Haste"")"

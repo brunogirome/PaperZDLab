@@ -138,6 +138,8 @@ public:
 	UFUNCTION(BluePrintCallable)
 	bool IsDead();
 
+	uint8 PositionForEnemyInBattle;
+
 	bool IsOutOfStamina();
 
 	void HealHp(int32 amount);

@@ -276,4 +276,6 @@ void UCombatActorClass::RemoveBuff(uint8 position)
 UCombatActorClass::UCombatActorClass()
 {
     this->IsDefending = false;
+
+    this->PositionForEnemyInBattle = 0;
 }

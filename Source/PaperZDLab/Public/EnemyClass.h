@@ -9,6 +9,26 @@
 
 #include "EnemyClass.generated.h"
 
+enum MoveTypeEnum
+{
+	WEAK_ATTACK,
+	MEDIUM_ATTACK,
+	HEAVY_ATTACK,
+	CAST_SPELL_MOVESET
+};
+
+struct AttackPatern
+{
+	MoveTypeEnum MoveType;
+	uint8 SpellPosition;
+
+	AttackPatern(MoveTypeEnum moveType, uint8 spellPosition = 0)
+	{
+		this->MoveType = moveType;
+		this->SpellPosition = spellPosition;
+	}
+};
+
 /**
  *
  */
@@ -26,8 +46,7 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	int32 XpDrop;
 
-	UPROPERTY(BlueprintReadOnly)
-	TArray<FString> Movesets;
+	TArray<TArray<AttackPatern>> Movesets;
 
 	UEnemyClass();
 
