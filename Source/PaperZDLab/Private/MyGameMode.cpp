@@ -240,8 +240,6 @@ void AMyGameMode::enemyTurn()
       break;
     }
   }
-
-  GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Orange, enemy->Name + " picked the " + FString::FromInt(choice) + " attack pattern.");
 }
 
 void AMyGameMode::castSpellDamage()
