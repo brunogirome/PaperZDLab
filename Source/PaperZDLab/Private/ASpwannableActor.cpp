@@ -63,6 +63,10 @@ void AASpwannableActor::Move(const FInputActionValue &Value)
         this->GetSprite()->SetFlipbook(movimentationX == 1 ? MoveFlipBookRight : MoveFlipBookLeft);
     }
 
+    this->AddMovementInput(FVector(1.0f, 0.0f, 0.0f), movimentationX, false);
+
+    this->AddMovementInput(FVector(0.0f, -1.0f, 0.0f), movimentationY, false);
+
     GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Turquoise, Value.ToString());
 
     GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Turquoise, FString::SanitizeFloat(Value[0]));
