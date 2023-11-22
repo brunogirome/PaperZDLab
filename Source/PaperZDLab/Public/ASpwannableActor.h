@@ -23,6 +23,8 @@ class PAPERZDLAB_API AASpwannableActor : public APaperCharacter
 {
 	GENERATED_BODY()
 
+	void setDirection();
+
 	class APlayerController *PlayerController;
 
 	class UEnhancedInputLocalPlayerSubsystem *Subsystem;

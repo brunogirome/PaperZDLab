@@ -46,32 +46,15 @@ void AASpwannableActor::SetupPlayerInputComponent(class UInputComponent *PlayerI
 
 void AASpwannableActor::Move(const FInputActionValue &Value)
 {
-    movimentationX = Value[0];
+    this->movimentationX = Value[0];
 
-    movimentationY = Value[1];
+    this->movimentationY = Value[1];
 
-    if (movimentationX != 0 && movimentationY != 0)
-    {
-        this->GetSprite()->SetFlipbook(movimentationX == 1 ? MoveFlipBookRight : MoveFlipBookLeft);
-    }
-    else if (movimentationX == 0)
-    {
-        this->GetSprite()->SetFlipbook(movimentationY == 1 ? MoveFlipBookUp : MoveFlipBookDown);
-    }
-    else if (movimentationY == 0)
-    {
-        this->GetSprite()->SetFlipbook(movimentationX == 1 ? MoveFlipBookRight : MoveFlipBookLeft);
-    }
+    setDirection();
 
     this->AddMovementInput(FVector(1.0f, 0.0f, 0.0f), movimentationX, false);
 
     this->AddMovementInput(FVector(0.0f, -1.0f, 0.0f), movimentationY, false);
-
-    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Turquoise, Value.ToString());
-
-    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Turquoise, FString::SanitizeFloat(Value[0]));
-
-    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Turquoise, FString::SanitizeFloat(Value[1]));
 }
 
 void AASpwannableActor::SetMoving()
@@ -83,37 +66,67 @@ void AASpwannableActor::SetNotMoving()
 {
     this->IsMoving = false;
 
+    setDirection();
+}
+
+void AASpwannableActor::setDirection()
+{
+    UPaperFlipbook *newFlipbook = nullptr;
+
     if (movimentationX != 0 && movimentationY != 0)
     {
-        this->GetSprite()->SetFlipbook(movimentationX == 1 ? IdleFlipBookRight : IdleFlipBookLeft);
+        if (this->IsMoving)
+        {
+            newFlipbook = movimentationX == 1 ? MoveFlipBookRight : MoveFlipBookLeft;
+        }
+        else
+        {
+            newFlipbook = movimentationX == 1 ? IdleFlipBookRight : IdleFlipBookLeft;
+        }
     }
     else if (movimentationX == 0)
     {
-        this->GetSprite()->SetFlipbook(movimentationY == 1 ? IdleFlipBookUp : IdleFlipBookDown);
+        if (this->IsMoving)
+        {
+            newFlipbook = movimentationY == 1 ? MoveFlipBookUp : MoveFlipBookDown;
+        }
+        else
+        {
+            newFlipbook = movimentationY == 1 ? IdleFlipBookUp : IdleFlipBookDown;
+        }
     }
     else if (movimentationY == 0)
     {
-        this->GetSprite()->SetFlipbook(movimentationX == 1 ? IdleFlipBookRight : IdleFlipBookLeft);
+        if (this->IsMoving)
+        {
+            newFlipbook = movimentationX == 1 ? MoveFlipBookRight : MoveFlipBookLeft;
+        }
+        else
+        {
+            newFlipbook = movimentationX == 1 ? IdleFlipBookRight : IdleFlipBookLeft;
+        }
     }
+
+    this->GetSprite()->SetFlipbook(newFlipbook);
 }
 
 AASpwannableActor::AASpwannableActor()
 {
-    IdleFlipBookUp = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/Karina_Idle_Up.Karina_Idle_Up'"));
+    IdleFlipBookUp = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Idle_Up.FB_Karina_Idle_Up'"));
 
-    IdleFlipBookRight = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/Karina_Idle_Right.Karina_Idle_Right'"));
+    IdleFlipBookRight = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Idle_Right.FB_Karina_Idle_Right'"));
 
-    IdleFlipBookDown = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/Karina_Idle_Down.Karina_Idle_Down'"));
+    IdleFlipBookDown = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Idle_Down.FB_Karina_Idle_Down'"));
 
-    IdleFlipBookLeft = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/Karina_Idle_Left.Karina_Idle_Left'"));
+    IdleFlipBookLeft = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Idle_Left.FB_Karina_Idle_Left'"));
 
-    MoveFlipBookUp = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/Karina_Move_Up.Karina_Move_Up'"));
+    MoveFlipBookUp = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Move_Up.FB_Karina_Move_Up'"));
 
-    MoveFlipBookRight = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/Karina_Move_Right.Karina_Move_Right'"));
+    MoveFlipBookRight = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Move_Right.FB_Karina_Move_Right'"));
 
-    MoveFlipBookDown = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/Karina_Move_Down.Karina_Move_Down'"));
+    MoveFlipBookDown = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Move_Down.FB_Karina_Move_Down'"));
 
-    MoveFlipBookLeft = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/Karina_Move_Left.Karina_Move_Left'"));
+    MoveFlipBookLeft = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Move_Left.FB_Karina_Move_Left'"));
 
     this->GetSprite()->SetFlipbook(IdleFlipBookDown);
 
