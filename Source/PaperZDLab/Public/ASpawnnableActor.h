@@ -5,7 +5,9 @@
 #include "CoreMinimal.h"
 #include "PaperCharacter.h"
 
-#include "ASpwannableActor.generated.h"
+#include "Components/CapsuleComponent.h"
+
+#include "ASpawnnableActor.generated.h"
 
 struct FInputActionValue;
 
@@ -13,20 +15,16 @@ struct FInputActionValue;
  *
  */
 UCLASS()
-class PAPERZDLAB_API AASpwannableActor : public APaperCharacter
+class PAPERZDLAB_API ASpawnnableActor : public APaperCharacter
 {
 	GENERATED_BODY()
-
-	void setDirection();
-
-	float movimentationX;
-
-	float movimentationY;
 
 public:
 	bool IsMoving;
 
-	virtual void BeginPlay() override;
+	float MovimentationX;
+
+	float MovimentationY;
 
 	class UPaperFlipbook *IdleFlipBookUp;
 
@@ -44,21 +42,11 @@ public:
 
 	class UPaperFlipbook *MoveFlipBookLeft;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	class USpringArmComponent *SpringArmComp;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	class UCameraComponent *CameraComp;
+	virtual void BeginPlay() override;
 
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent);
+	void SetDirection();
 
-	void Move(const FInputActionValue &Value);
-
-	void SetMoving();
-
-	void SetNotMoving();
-
-	AASpwannableActor();
+	ASpawnnableActor();
 };
