@@ -159,5 +159,7 @@ AASpwannableActor::AASpwannableActor()
     SpringArmComp->SetRelativeRotation(FRotator(-25.0f, -90.0f, 0.0f));
     // FRotator = Y, Z, X
 
+    SpringArmComp->bDoCollisionTest = 0;
+
     CameraComp->AttachToComponent(SpringArmComp, FAttachmentTransformRules::KeepRelativeTransform);
 }

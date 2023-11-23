@@ -35,6 +35,10 @@ class PAPERZDLAB_API AASpwannableActor : public APaperCharacter
 
 	float movimentationY;
 
+	float testX;
+
+	float testY;
+
 public:
 	bool IsMoving;
 
@@ -43,7 +47,7 @@ public:
 	virtual void BeginPlay() override;
 
 	UPaperFlipbook *IdleFlipBookUp;
-	
+
 	UPaperFlipbook *IdleFlipBookRight;
 
 	UPaperFlipbook *IdleFlipBookDown;
