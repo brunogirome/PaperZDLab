@@ -2,23 +2,28 @@
 
 #include "ASpwannableActor.h"
 
-#include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerController.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Components/CapsuleComponent.h"
+#include "Camera/CameraComponent.h"
+#include "Materials/MaterialInterface.h"
 #include "InputMappingContext.h"
-#include "EnhancedInputComponent.h"
 #include "InputAction.h"
-
+#include "InputActionValue.h"
+#include "EnhancedInputComponent.h"
+#include "PaperFlipbook.h"
+#include "PaperFlipbookComponent.h"
 #include "EnhancedInputSubsystems.h"
 
 void AASpwannableActor::BeginPlay()
 {
     Super::BeginPlay();
 
-    PlayerController = Cast<APlayerController>(this->GetController());
+    APlayerController *PlayerController = Cast<APlayerController>(this->GetController());
 
-    Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
+    UEnhancedInputLocalPlayerSubsystem *Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
 
-    MapContext = LoadObject<UInputMappingContext>(nullptr, TEXT("InputMappingContext'/Game/Character/Input/IMC_TopDown.IMC_TopDown'"));
+    UInputMappingContext *MapContext = LoadObject<UInputMappingContext>(nullptr, TEXT("InputMappingContext'/Game/Character/Input/IMC_TopDown.IMC_TopDown'"));
 
     Subsystem->AddMappingContext(MapContext, 0);
 }
@@ -32,7 +37,7 @@ void AASpwannableActor::SetupPlayerInputComponent(class UInputComponent *PlayerI
 {
     Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-    MoveAction = LoadObject<UInputAction>(nullptr, TEXT("InputAction'/Game/Character/Input/IA_Move.IA_Move'"));
+    UInputAction *MoveAction = LoadObject<UInputAction>(nullptr, TEXT("InputAction'/Game/Character/Input/IA_Move.IA_Move'"));
 
     if (UEnhancedInputComponent *EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
     {
@@ -141,8 +146,6 @@ AASpwannableActor::AASpwannableActor()
     this->GetCapsuleComponent()->SetCapsuleHalfHeight(54.0f);
 
     this->GetCapsuleComponent()->SetCapsuleRadius(30.0f);
-
-    this->IsProtagonist = true;
 
     CameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComp"));
 

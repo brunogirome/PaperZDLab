@@ -5,15 +5,9 @@
 #include "CoreMinimal.h"
 #include "PaperCharacter.h"
 
-#include "GameFramework/SpringArmComponent.h"
-#include "Components/CapsuleComponent.h"
-#include "Camera/CameraComponent.h"
-#include "Materials/MaterialInterface.h"
-#include "PaperFlipbookComponent.h"
-#include "PaperFlipbook.h"
-#include "InputActionValue.h"
-
 #include "ASpwannableActor.generated.h"
+
+struct FInputActionValue;
 
 /**
  *
@@ -25,56 +19,40 @@ class PAPERZDLAB_API AASpwannableActor : public APaperCharacter
 
 	void setDirection();
 
-	class APlayerController *PlayerController;
-
-	class UEnhancedInputLocalPlayerSubsystem *Subsystem;
-
-	// class UEnhancedInputComponent *EnhancedInputComponent;
-
 	float movimentationX;
 
 	float movimentationY;
 
-	float testX;
-
-	float testY;
-
 public:
 	bool IsMoving;
 
-	bool IsProtagonist;
-
 	virtual void BeginPlay() override;
 
-	UPaperFlipbook *IdleFlipBookUp;
+	class UPaperFlipbook *IdleFlipBookUp;
 
-	UPaperFlipbook *IdleFlipBookRight;
+	class UPaperFlipbook *IdleFlipBookRight;
 
-	UPaperFlipbook *IdleFlipBookDown;
+	class UPaperFlipbook *IdleFlipBookDown;
 
-	UPaperFlipbook *IdleFlipBookLeft;
+	class UPaperFlipbook *IdleFlipBookLeft;
 
-	UPaperFlipbook *MoveFlipBookUp;
+	class UPaperFlipbook *MoveFlipBookUp;
 
-	UPaperFlipbook *MoveFlipBookRight;
+	class UPaperFlipbook *MoveFlipBookRight;
 
-	UPaperFlipbook *MoveFlipBookDown;
+	class UPaperFlipbook *MoveFlipBookDown;
 
-	UPaperFlipbook *MoveFlipBookLeft;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	USpringArmComponent *SpringArmComp;
+	class UPaperFlipbook *MoveFlipBookLeft;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	UCameraComponent *CameraComp;
+	class USpringArmComponent *SpringArmComp;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	class UCameraComponent *CameraComp;
 
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent);
-
-	class UInputMappingContext *MapContext;
-
-	class UInputAction *MoveAction;
 
 	void Move(const FInputActionValue &Value);
 
