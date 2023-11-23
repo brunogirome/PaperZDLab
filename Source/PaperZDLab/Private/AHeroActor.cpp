@@ -23,6 +23,13 @@ void AHeroActor::BeginPlay()
     Subsystem->AddMappingContext(MapContext, 0);
 }
 
+void AHeroActor::Tick(float DeltaTime)
+{
+    Super::Tick(DeltaTime);
+
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Hero Actor");
+}
+
 void AHeroActor::SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent)
 {
     Super::SetupPlayerInputComponent(PlayerInputComponent);

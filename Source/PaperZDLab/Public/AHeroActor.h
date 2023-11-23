@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "ASpawnnableActor.h"
+#include "ACombatActor.h"
 
 #include "AHeroActor.generated.h"
 
@@ -10,7 +10,7 @@
  *
  */
 UCLASS()
-class PAPERZDLAB_API AHeroActor : public ASpawnnableActor
+class PAPERZDLAB_API AHeroActor : public ACombatActor
 {
     GENERATED_BODY()
 
@@ -24,6 +24,8 @@ public:
     class UCameraComponent *CameraComp;
 
     virtual void BeginPlay() override;
+
+    virtual void Tick(float DeltaTime) override;
 
     virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent);
 

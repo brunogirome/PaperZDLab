@@ -15,5 +15,7 @@ class PAPERZDLAB_API ACombatActor : public ASpawnnableActor
     GENERATED_BODY()
 
 public:
+    virtual void Tick(float DeltaTime) override;
+
     ACombatActor();
 };
