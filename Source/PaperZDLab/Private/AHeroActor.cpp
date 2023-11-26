@@ -27,7 +27,60 @@ void AHeroActor::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 
-    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Hero Actor");
+    float x, y;
+
+    FVector velocity = this->GetVelocity();
+
+    x = velocity.X;
+
+    y = velocity.Y;
+
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Velocity: X=" + FString::SanitizeFloat(x) + ", Y=" + FString::SanitizeFloat(y));
+
+    float angle = FMath::Atan2(y, x) * 180.0f / PI;
+
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Turquoise, "Angle: " + FString::SanitizeFloat(angle));
+
+    if (!velocity.IsNearlyZero())
+    {
+        // // if ((angle > -45 && angle <= 45) || x >= 50)
+        // if (angle > -45 && angle <= 45)
+        // {
+        //     direction = "Right";
+        // }
+        // // else if ((angle > 45 && angle <= -45) || x <= -50)
+        // else if (angle > 45 && angle <= -45)
+        // {
+        //     direction = "Left";
+        // }
+        // else if (angle > 45 && angle <= 135)
+        // {
+        //     direction = "Down";
+        // }
+        // else if (angle > -135 && angle <= -45)
+        // {
+        //     direction = "Up";
+        // }
+
+        if (angle <= -70 && angle >= -110)
+        {
+            direction = "Up";
+        }
+        else if (angle >= 70 && angle <= 110)
+        {
+            direction = "Down";
+        }
+        else if (angle <= 70 && angle >= -110)
+        {
+            direction = "Right";
+        }
+        else
+        {
+            direction = "Left";
+        }
+    }
+
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::White, "Direction: " + direction);
 }
 
 void AHeroActor::SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent)

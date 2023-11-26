@@ -4,6 +4,8 @@
 
 #include "ASpawnnableActor.h"
 
+#include "TypeOfActorEnum.h"
+
 #include "ACombatActor.generated.h"
 
 /**
@@ -15,6 +17,9 @@ class PAPERZDLAB_API ACombatActor : public ASpawnnableActor
     GENERATED_BODY()
 
 public:
+    UPROPERTY(BlueprintReadOnly)
+    TEnumAsByte<TypeOfActorEnum> TypeOfActor;
+
     virtual void Tick(float DeltaTime) override;
 
     ACombatActor();

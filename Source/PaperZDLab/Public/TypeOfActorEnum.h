@@ -7,5 +7,7 @@ UENUM(BlueprintType)
 enum TypeOfActorEnum
 {
   HERO,
-  ENEMY
+  ENEMY,
+  PROTAGONIST,
+  NPC
 };

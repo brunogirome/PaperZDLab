@@ -31,8 +31,6 @@ void ASpawnnableActor::BeginPlay()
 void ASpawnnableActor::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
-
-    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Spawn Actor");
 }
 
 void ASpawnnableActor::SetDirection()

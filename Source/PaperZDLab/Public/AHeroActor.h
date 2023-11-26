@@ -14,6 +14,8 @@ class PAPERZDLAB_API AHeroActor : public ACombatActor
 {
     GENERATED_BODY()
 
+    FString direction;
+
 public:
     AHeroActor();
 
