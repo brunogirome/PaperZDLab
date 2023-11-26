@@ -9,69 +9,104 @@ void ASpawnnableActor::BeginPlay()
 {
     Super::BeginPlay();
 
-    IdleFlipBookUp = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Idle_Up.FB_Karina_Idle_Up'"));
+    IdleUpFlipbook = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Idle_Up.FB_Karina_Idle_Up'"));
 
-    IdleFlipBookRight = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Idle_Right.FB_Karina_Idle_Right'"));
+    IdleDownFlipbook = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Idle_Down.FB_Karina_Idle_Down'"));
 
-    IdleFlipBookDown = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Idle_Down.FB_Karina_Idle_Down'"));
+    IdleRightFlipbook = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Idle_Right.FB_Karina_Idle_Right'"));
 
-    IdleFlipBookLeft = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Idle_Left.FB_Karina_Idle_Left'"));
+    IdleLeftFlipbook = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Idle_Left.FB_Karina_Idle_Left'"));
 
-    MoveFlipBookUp = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Move_Up.FB_Karina_Move_Up'"));
+    MoveUpFlipbook = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Move_Up.FB_Karina_Move_Up'"));
 
-    MoveFlipBookRight = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Move_Right.FB_Karina_Move_Right'"));
+    MoveDownFlipbook = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Move_Down.FB_Karina_Move_Down'"));
 
-    MoveFlipBookDown = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Move_Down.FB_Karina_Move_Down'"));
+    MoveLeftFlipbook = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Move_Left.FB_Karina_Move_Left'"));
 
-    MoveFlipBookLeft = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Move_Left.FB_Karina_Move_Left'"));
+    MoveRightFlipbook = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Move_Right.FB_Karina_Move_Right'"));
 
-    this->GetSprite()->SetFlipbook(IdleFlipBookDown);
+    this->GetSprite()->SetFlipbook(IdleDownFlipbook);
 }
 
 void ASpawnnableActor::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
-}
 
-void ASpawnnableActor::SetDirection()
-{
+    FVector velocity = this->GetVelocity();
+
+    float x = velocity.X;
+
+    float y = velocity.Y;
+
+    float angle = FMath::Atan2(y, x) * 180.0f / PI;
+
     UPaperFlipbook *newFlipbook = nullptr;
 
-    if (MovimentationX != 0 && MovimentationY != 0)
+    if (velocity.IsNearlyZero())
     {
-        if (this->IsMoving)
+        switch (this->CurrentDirection)
         {
-            newFlipbook = MovimentationX == 1 ? MoveFlipBookRight : MoveFlipBookLeft;
-        }
-        else
-        {
-            newFlipbook = MovimentationX == 1 ? IdleFlipBookRight : IdleFlipBookLeft;
+        case CHARACTER_UP:
+            newFlipbook = this->IdleUpFlipbook;
+
+            break;
+        case CHARACTER_DOWN:
+            newFlipbook = this->IdleDownFlipbook;
+
+            break;
+        case CHARACTER_LEFT:
+            newFlipbook = this->IdleLeftFlipbook;
+
+            break;
+        case CHARACTER_RIGHT:
+            newFlipbook = this->IdleRightFlipbook;
+
+            break;
         }
     }
-    else if (MovimentationX == 0)
+    else
     {
-        if (this->IsMoving)
+        if (angle <= -70 && angle >= -110)
         {
-            newFlipbook = MovimentationY == 1 ? MoveFlipBookUp : MoveFlipBookDown;
+            this->CurrentDirection = CHARACTER_UP;
+
+            newFlipbook = this->MoveUpFlipbook;
+
+            direction = "CHARACTER_UP";
+        }
+        else if (angle >= 70 && angle <= 110)
+        {
+            this->CurrentDirection = CHARACTER_DOWN;
+
+            newFlipbook = this->MoveDownFlipbook;
+
+            direction = "CHARACTER_DOWN";
+        }
+        else if (angle <= 70 && angle >= -110)
+        {
+            this->CurrentDirection = CHARACTER_RIGHT;
+
+            newFlipbook = this->MoveRightFlipbook;
+
+            direction = "CHARACTER_RIGHT";
         }
         else
         {
-            newFlipbook = MovimentationY == 1 ? IdleFlipBookUp : IdleFlipBookDown;
-        }
-    }
-    else if (MovimentationY == 0)
-    {
-        if (this->IsMoving)
-        {
-            newFlipbook = MovimentationX == 1 ? MoveFlipBookRight : MoveFlipBookLeft;
-        }
-        else
-        {
-            newFlipbook = MovimentationX == 1 ? IdleFlipBookRight : IdleFlipBookLeft;
+            this->CurrentDirection = CHARACTER_LEFT;
+
+            newFlipbook = this->MoveLeftFlipbook;
+
+            direction = "CHARACTER_LEFT";
         }
     }
 
     this->GetSprite()->SetFlipbook(newFlipbook);
+
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Velocity: X=" + FString::SanitizeFloat(x) + ", Y=" + FString::SanitizeFloat(y));
+
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Turquoise, "Angle: " + FString::SanitizeFloat(angle));
+
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::White, "Direction: " + direction);
 }
 
 ASpawnnableActor::ASpawnnableActor()
@@ -87,4 +122,6 @@ ASpawnnableActor::ASpawnnableActor()
     this->GetCapsuleComponent()->SetCapsuleHalfHeight(54.0f);
 
     this->GetCapsuleComponent()->SetCapsuleRadius(30.0f);
+
+    this->CurrentDirection = CHARACTER_DOWN;
 }

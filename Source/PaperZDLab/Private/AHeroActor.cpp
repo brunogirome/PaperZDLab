@@ -26,61 +26,6 @@ void AHeroActor::BeginPlay()
 void AHeroActor::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
-
-    float x, y;
-
-    FVector velocity = this->GetVelocity();
-
-    x = velocity.X;
-
-    y = velocity.Y;
-
-    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Velocity: X=" + FString::SanitizeFloat(x) + ", Y=" + FString::SanitizeFloat(y));
-
-    float angle = FMath::Atan2(y, x) * 180.0f / PI;
-
-    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Turquoise, "Angle: " + FString::SanitizeFloat(angle));
-
-    if (!velocity.IsNearlyZero())
-    {
-        // // if ((angle > -45 && angle <= 45) || x >= 50)
-        // if (angle > -45 && angle <= 45)
-        // {
-        //     direction = "Right";
-        // }
-        // // else if ((angle > 45 && angle <= -45) || x <= -50)
-        // else if (angle > 45 && angle <= -45)
-        // {
-        //     direction = "Left";
-        // }
-        // else if (angle > 45 && angle <= 135)
-        // {
-        //     direction = "Down";
-        // }
-        // else if (angle > -135 && angle <= -45)
-        // {
-        //     direction = "Up";
-        // }
-
-        if (angle <= -70 && angle >= -110)
-        {
-            direction = "Up";
-        }
-        else if (angle >= 70 && angle <= 110)
-        {
-            direction = "Down";
-        }
-        else if (angle <= 70 && angle >= -110)
-        {
-            direction = "Right";
-        }
-        else
-        {
-            direction = "Left";
-        }
-    }
-
-    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::White, "Direction: " + direction);
 }
 
 void AHeroActor::SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent)
@@ -92,36 +37,18 @@ void AHeroActor::SetupPlayerInputComponent(class UInputComponent *PlayerInputCom
     if (UEnhancedInputComponent *EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
     {
         EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AHeroActor::Move);
-
-        EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Started, this, &AHeroActor::SetMoving);
-
-        EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Completed, this, &AHeroActor::SetNotMoving);
     }
 }
 
 void AHeroActor::Move(const FInputActionValue &Value)
 {
-    this->MovimentationX = Value[0];
+    float x = Value[0];
 
-    this->MovimentationY = Value[1];
+    float y = Value[1];
 
-    SetDirection();
+    this->AddMovementInput(FVector(1.0f, 0.0f, 0.0f), x, false);
 
-    this->AddMovementInput(FVector(1.0f, 0.0f, 0.0f), MovimentationX, false);
-
-    this->AddMovementInput(FVector(0.0f, -1.0f, 0.0f), MovimentationY, false);
-}
-
-void AHeroActor::SetMoving()
-{
-    this->IsMoving = true;
-}
-
-void AHeroActor::SetNotMoving()
-{
-    this->IsMoving = false;
-
-    SetDirection();
+    this->AddMovementInput(FVector(0.0f, -1.0f, 0.0f), y, false);
 }
 
 AHeroActor::AHeroActor()

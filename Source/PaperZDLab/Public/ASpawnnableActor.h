@@ -11,6 +11,14 @@
 
 struct FInputActionValue;
 
+enum ECharacterDirection
+{
+	CHARACTER_UP,
+	CHARACTER_DOWN,
+	CHARACTER_LEFT,
+	CHARACTER_RIGHT
+};
+
 /**
  *
  */
@@ -19,34 +27,32 @@ class PAPERZDLAB_API ASpawnnableActor : public APaperCharacter
 {
 	GENERATED_BODY()
 
+	FString direction;
+
 public:
 	bool IsMoving;
 
-	float MovimentationX;
+	class UPaperFlipbook *IdleUpFlipbook;
 
-	float MovimentationY;
+	class UPaperFlipbook *IdleDownFlipbook;
 
-	class UPaperFlipbook *IdleFlipBookUp;
+	class UPaperFlipbook *IdleLeftFlipbook;
 
-	class UPaperFlipbook *IdleFlipBookRight;
+	class UPaperFlipbook *IdleRightFlipbook;
 
-	class UPaperFlipbook *IdleFlipBookDown;
+	class UPaperFlipbook *MoveUpFlipbook;
 
-	class UPaperFlipbook *IdleFlipBookLeft;
+	class UPaperFlipbook *MoveDownFlipbook;
 
-	class UPaperFlipbook *MoveFlipBookUp;
+	class UPaperFlipbook *MoveLeftFlipbook;
 
-	class UPaperFlipbook *MoveFlipBookRight;
+	class UPaperFlipbook *MoveRightFlipbook;
 
-	class UPaperFlipbook *MoveFlipBookDown;
-
-	class UPaperFlipbook *MoveFlipBookLeft;
+	TEnumAsByte<ECharacterDirection> CurrentDirection;
 
 	virtual void BeginPlay() override;
 
 	virtual void Tick(float DeltaTime) override;
-
-	void SetDirection();
 
 	ASpawnnableActor();
 };
