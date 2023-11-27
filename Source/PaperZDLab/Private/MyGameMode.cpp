@@ -4,6 +4,8 @@
 
 #include "Kismet/GameplayStatics.h"
 
+#include "AHeroActor.h"
+
 #include "MyGameInstance.h"
 
 float AMyGameMode::getDefendingDamageReduction()
@@ -476,6 +478,31 @@ void AMyGameMode::BeginPlay()
   if (!this->gameInstance->Party)
   {
     this->gameInstance->InitParty();
+  }
+
+  AHeroActor *partyLeader = Cast<AHeroActor>(GetWorld()->GetFirstPlayerController()->GetPawn());
+
+  partyLeader->IsLeader = true;
+
+  partyLeader->HeroName = this->gameInstance->PartyRowNames[0];
+
+  this->actorsPointers.Emplace(partyLeader);
+
+  for (int i = 1; i < this->gameInstance->PartyRowNames.Num(); i++)
+  {
+    FVector location = partyLeader->GetActorLocation();
+
+    FRotator rotation = partyLeader->GetActorRotation();
+
+    location.X -= 200 * i;
+
+    ACombatActor *partyMember = GetWorld()->SpawnActor<ACombatActor>(ACombatActor::StaticClass(), location, rotation);
+
+    partyMember->TargetPawn = this->actorsPointers[i - 1];
+
+    partyMember->HeroName = this->gameInstance->PartyRowNames[i];
+
+    this->actorsPointers.Emplace(partyMember);
   }
 
   this->gameInstance->AddItem("HpPotion", 5);

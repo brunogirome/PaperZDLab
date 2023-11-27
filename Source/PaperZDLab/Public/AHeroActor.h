@@ -14,8 +14,6 @@ class PAPERZDLAB_API AHeroActor : public ACombatActor
 {
     GENERATED_BODY()
 
-    FString direction;
-
 public:
     AHeroActor();
 
@@ -32,8 +30,4 @@ public:
     virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent);
 
     void Move(const FInputActionValue &Value);
-
-    void SetMoving();
-
-    void SetNotMoving();
 };

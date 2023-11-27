@@ -63,6 +63,8 @@ class PAPERZDLAB_API AMyGameMode : public AGameModeBase
 
 	void incrementActorPointer();
 
+	TArray<APawn *> actorsPointers;
+
 public:
 	TArray<UHeroClass *> *HeroParty;
 
