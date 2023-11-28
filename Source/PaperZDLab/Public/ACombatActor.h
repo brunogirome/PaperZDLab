@@ -20,8 +20,13 @@ class PAPERZDLAB_API ACombatActor : public ASpawnnableActor
 
     class AAIController *actorAIController;
 
-    void AIMoveToTarget();
+    class AIMoveToTargetDelegate *completeDelegate;
+
 public:
+    void AIMoveToTarget();
+
+    void Amongus2SoonTm();
+
     APawn *TargetPawn;
 
     UPROPERTY(BlueprintReadOnly)

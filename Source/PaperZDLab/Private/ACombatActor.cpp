@@ -25,6 +25,14 @@ void ACombatActor::BeginPlay()
 
         this->actorAIController->Possess(this);
 
+        // this->actorAIController->GetPathFollowingComponent();
+
+        // FScriptDelegate AIMoveToTargetDelegate;
+
+        // AIMoveToTargetDelegate.BindUFunction(this, "Amongus2SoonTm");
+
+        // this->actorAIController->ReceiveMoveCompleted.Add(AIMoveToTargetDelegate);
+
         this->SpawnDefaultController();
 
         this->AIMoveToTarget();
@@ -35,18 +43,23 @@ void ACombatActor::AIMoveToTarget()
 {
     if (this->TargetPawn)
     {
-        this->actorAIController->MoveToActor(this->TargetPawn);
+        this->actorAIController->MoveToActor(this->TargetPawn, 50.0f, false);
     }
+}
+
+void ACombatActor::Amongus2SoonTm()
+{
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "SO CREEP TOONIGHT");
 }
 
 void ACombatActor::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
-
-    // this->AIMoveToTarget();
 }
 
 ACombatActor::ACombatActor()
 {
-    actorAIController = nullptr;
+    this->actorAIController = nullptr;
+
+    this->TargetPawn = nullptr;
 }
