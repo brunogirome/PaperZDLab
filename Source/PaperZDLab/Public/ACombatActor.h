@@ -6,7 +6,7 @@
 
 #include "TypeOfActorEnum.h"
 
-#include "AIController.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 #include "ACombatActor.generated.h"
 
@@ -18,16 +18,11 @@ class PAPERZDLAB_API ACombatActor : public ASpawnnableActor
 {
     GENERATED_BODY()
 
-    AAIController *aIController;
+    class AAIController *actorAIController;
 
-    bool alreadyPossessed;
-
+    void AIMoveToTarget();
 public:
     APawn *TargetPawn;
-
-    FName HeroName;
-
-    bool IsLeader = false;
 
     UPROPERTY(BlueprintReadOnly)
     TEnumAsByte<TypeOfActorEnum> TypeOfActor;
@@ -35,8 +30,6 @@ public:
     virtual void BeginPlay() override;
 
     virtual void Tick(float DeltaTime) override;
-
-    void FollowActor();
 
     ACombatActor();
 };

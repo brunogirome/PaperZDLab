@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "ACombatActor.h"
+#include "ASpawnnableActor.h"
 
 #include "AHeroActor.generated.h"
 
@@ -10,7 +10,7 @@
  *
  */
 UCLASS()
-class PAPERZDLAB_API AHeroActor : public ACombatActor
+class PAPERZDLAB_API AHeroActor : public ASpawnnableActor
 {
     GENERATED_BODY()
 

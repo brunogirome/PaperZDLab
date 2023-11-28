@@ -8,6 +8,6 @@ enum TypeOfActorEnum
 {
   HERO,
   ENEMY,
-  PROTAGONIST,
+  LEADER,
   NPC
 };

@@ -1,46 +1,52 @@
 #include "ACombatActor.h"
 
+#include "GameFramework/PlayerController.h"
+
 #include "NavigationSystem.h"
 
-#include "Navigation/PathFollowingComponent.h"
+#include "AIController.h"
 
-#include "Tasks/AITask_MoveTo.h"
+#include "Kismet/GameplayStatics.h"
 
-#include "Kismet/KismetMathLibrary.h"
+#include "MyGameMode.h"
 
 void ACombatActor::BeginPlay()
 {
     Super::BeginPlay();
+
+    if (!this->actorAIController)
+    {
+        this->actorAIController = GetWorld()->SpawnActor<AAIController>(AAIController::StaticClass(), FVector::ZeroVector, FRotator::ZeroRotator);
+    }
+
+    if (this->TargetPawn && this->actorAIController)
+    {
+        this->AIControllerClass = this->actorAIController->GetClass();
+
+        this->actorAIController->Possess(this);
+
+        this->SpawnDefaultController();
+
+        this->AIMoveToTarget();
+    }
 }
 
-void ACombatActor::FollowActor()
+void ACombatActor::AIMoveToTarget()
 {
-    aIController = this->GetController<AAIController>();
+    if (this->TargetPawn)
+    {
+        this->actorAIController->MoveToActor(this->TargetPawn);
+    }
 }
 
 void ACombatActor::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 
-    if (!IsLeader)
-    {
-        if (!alreadyPossessed)
-        {
-            aIController->Possess(this);
-
-            alreadyPossessed = true;
-        }
-
-        aIController->MoveToActor(TargetPawn, 5.0f);
-    }
+    // this->AIMoveToTarget();
 }
 
 ACombatActor::ACombatActor()
 {
-    if (!IsLeader)
-    {
-        aIController = CreateDefaultSubobject<AAIController>(TEXT("aIController"));
-
-        this->bUseControllerRotationYaw = false;
-    }
+    actorAIController = nullptr;
 }

@@ -102,11 +102,11 @@ void ASpawnnableActor::Tick(float DeltaTime)
 
     this->GetSprite()->SetFlipbook(newFlipbook);
 
-    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Velocity: X=" + FString::SanitizeFloat(x) + ", Y=" + FString::SanitizeFloat(y));
+    // GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Velocity: X=" + FString::SanitizeFloat(x) + ", Y=" + FString::SanitizeFloat(y));
 
-    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Turquoise, "Angle: " + FString::SanitizeFloat(angle));
+    // GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Turquoise, "Angle: " + FString::SanitizeFloat(angle));
 
-    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::White, "Direction: " + direction);
+    // GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::White, "Direction: " + direction);
 }
 
 ASpawnnableActor::ASpawnnableActor()

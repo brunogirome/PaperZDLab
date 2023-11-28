@@ -30,6 +30,8 @@ class PAPERZDLAB_API ASpawnnableActor : public APaperCharacter
 	FString direction;
 
 public:
+	FName HeroName;
+
 	bool IsMoving;
 
 	class UPaperFlipbook *IdleUpFlipbook;
