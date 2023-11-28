@@ -35,4 +35,6 @@ ACombatActor::ACombatActor()
     this->TargetPawn = nullptr;
 
     this->bUseControllerRotationYaw = false;
+
+    this->GetCapsuleComponent()->SetCollisionProfileName(TEXT("CharacterMesh"));
 }
