@@ -29,6 +29,14 @@ class PAPERZDLAB_API ASpawnnableActor : public APaperCharacter
 
 	FString direction;
 
+	float const UP_LEFT = -135.f;
+
+	float const DOWN_LEFT = 135.f;
+
+	float const UP_RIGHT = -45.f;
+
+	float const DOWN_RIGHT = 45.f;
+
 public:
 	FName HeroName;
 

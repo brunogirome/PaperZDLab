@@ -1,0 +1,12 @@
+up = -90
+left = 180
+down = 90
+right = 0
+
+up = angle <= -80 && angle >= -100
+
+down = angle >= 80 && angle <= 100
+
+right = angle > angle <= 80 && angle >= -100
+
+left = else

@@ -40,6 +40,8 @@ void ASpawnnableActor::Tick(float DeltaTime)
 
     float angle = FMath::Atan2(y, x) * 180.0f / PI;
 
+    float angle360 = FMath::Atan2(y, x) * 360.0f / PI;
+
     UPaperFlipbook *newFlipbook = nullptr;
 
     if (velocity.IsNearlyZero())
@@ -66,7 +68,9 @@ void ASpawnnableActor::Tick(float DeltaTime)
     }
     else
     {
-        if (angle <= -70 && angle >= -110)
+        float const TOLERANCE = 20.0f;
+
+        if (angle <= UP_RIGHT - TOLERANCE && angle >= UP_LEFT + TOLERANCE)
         {
             this->CurrentDirection = CHARACTER_UP;
 
@@ -74,7 +78,7 @@ void ASpawnnableActor::Tick(float DeltaTime)
 
             direction = "CHARACTER_UP";
         }
-        else if (angle >= 70 && angle <= 110)
+        else if (angle >= this->DOWN_RIGHT + TOLERANCE && angle <= this->DOWN_LEFT - TOLERANCE)
         {
             this->CurrentDirection = CHARACTER_DOWN;
 
@@ -82,7 +86,7 @@ void ASpawnnableActor::Tick(float DeltaTime)
 
             direction = "CHARACTER_DOWN";
         }
-        else if (angle <= 70 && angle >= -110)
+        else if (angle <= this->DOWN_RIGHT + TOLERANCE && angle >= -(this->DOWN_LEFT - TOLERANCE))
         {
             this->CurrentDirection = CHARACTER_RIGHT;
 
@@ -102,11 +106,16 @@ void ASpawnnableActor::Tick(float DeltaTime)
 
     this->GetSprite()->SetFlipbook(newFlipbook);
 
-    // GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Velocity: X=" + FString::SanitizeFloat(x) + ", Y=" + FString::SanitizeFloat(y));
+    if (this->HeroName == "Karina")
+    {
+        GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Velocity: X=" + FString::SanitizeFloat(x) + ", Y=" + FString::SanitizeFloat(y));
 
-    // GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Turquoise, "Angle: " + FString::SanitizeFloat(angle));
+        GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Turquoise, "Angle 180: " + FString::SanitizeFloat(angle));
 
-    // GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::White, "Direction: " + direction);
+        GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Turquoise, "Angle 360: " + FString::SanitizeFloat(angle360));
+
+        GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::White, "Direction: " + direction);
+    }
 }
 
 ASpawnnableActor::ASpawnnableActor()
