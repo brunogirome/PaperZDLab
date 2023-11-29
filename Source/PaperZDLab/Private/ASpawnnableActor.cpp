@@ -2,30 +2,34 @@
 
 #include "ASpawnnableActor.h"
 
-#include "PaperFlipbook.h"
 #include "PaperFlipbookComponent.h"
 
 void ASpawnnableActor::BeginPlay()
 {
     Super::BeginPlay();
 
-    IdleUpFlipbook = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Idle_Up.FB_Karina_Idle_Up'"));
+    if (!this->ActorName.IsNone())
+    {
+        this->FlipBookCollection = FFlipbookCollection(this->ActorName.ToString());
 
-    IdleDownFlipbook = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Idle_Down.FB_Karina_Idle_Down'"));
+        this->IdleUpFlipbook = FlipBookCollection.IdleUpFlipbook;
 
-    IdleRightFlipbook = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Idle_Right.FB_Karina_Idle_Right'"));
+        this->IdleDownFlipbook = FlipBookCollection.IdleDownFlipbook;
 
-    IdleLeftFlipbook = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Idle_Left.FB_Karina_Idle_Left'"));
+        this->IdleRightFlipbook = FlipBookCollection.IdleRightFlipbook;
 
-    MoveUpFlipbook = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Move_Up.FB_Karina_Move_Up'"));
+        this->IdleLeftFlipbook = FlipBookCollection.IdleLeftFlipbook;
 
-    MoveDownFlipbook = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Move_Down.FB_Karina_Move_Down'"));
+        this->MoveUpFlipbook = FlipBookCollection.MoveUpFlipbook;
 
-    MoveLeftFlipbook = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Move_Left.FB_Karina_Move_Left'"));
+        this->MoveDownFlipbook = FlipBookCollection.MoveDownFlipbook;
 
-    MoveRightFlipbook = LoadObject<UPaperFlipbook>(nullptr, TEXT("PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/Karina/FB_Karina_Move_Right.FB_Karina_Move_Right'"));
+        this->MoveLeftFlipbook = FlipBookCollection.MoveLeftFlipbook;
 
-    this->GetSprite()->SetFlipbook(IdleDownFlipbook);
+        this->MoveRightFlipbook = FlipBookCollection.MoveRightFlipbook;
+
+        this->GetSprite()->SetFlipbook(IdleDownFlipbook);
+    }
 }
 
 void ASpawnnableActor::Tick(float DeltaTime)
@@ -39,8 +43,6 @@ void ASpawnnableActor::Tick(float DeltaTime)
     float y = velocity.Y;
 
     float angle = FMath::Atan2(y, x) * 180.0f / PI;
-
-    float angle360 = FMath::Atan2(y, x) * 360.0f / PI;
 
     UPaperFlipbook *newFlipbook = nullptr;
 
@@ -76,7 +78,7 @@ void ASpawnnableActor::Tick(float DeltaTime)
 
             newFlipbook = this->MoveUpFlipbook;
 
-            direction = "CHARACTER_UP";
+            // direction = "CHARACTER_UP";
         }
         else if (angle >= this->DOWN_RIGHT + TOLERANCE && angle <= this->DOWN_LEFT - TOLERANCE)
         {
@@ -84,7 +86,7 @@ void ASpawnnableActor::Tick(float DeltaTime)
 
             newFlipbook = this->MoveDownFlipbook;
 
-            direction = "CHARACTER_DOWN";
+            // direction = "CHARACTER_DOWN";
         }
         else if (angle <= this->DOWN_RIGHT + TOLERANCE && angle >= -(this->DOWN_LEFT - TOLERANCE))
         {
@@ -92,7 +94,7 @@ void ASpawnnableActor::Tick(float DeltaTime)
 
             newFlipbook = this->MoveRightFlipbook;
 
-            direction = "CHARACTER_RIGHT";
+            // direction = "CHARACTER_RIGHT";
         }
         else
         {
@@ -100,22 +102,20 @@ void ASpawnnableActor::Tick(float DeltaTime)
 
             newFlipbook = this->MoveLeftFlipbook;
 
-            direction = "CHARACTER_LEFT";
+            // direction = "CHARACTER_LEFT";
         }
     }
 
     this->GetSprite()->SetFlipbook(newFlipbook);
 
-    if (this->HeroName == "Karina")
-    {
-        GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Velocity: X=" + FString::SanitizeFloat(x) + ", Y=" + FString::SanitizeFloat(y));
+    // if (this->ActorName == "Karina")
+    // {
+    //     GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Velocity: X=" + FString::SanitizeFloat(x) + ", Y=" + FString::SanitizeFloat(y));
 
-        GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Turquoise, "Angle 180: " + FString::SanitizeFloat(angle));
+    //     GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Turquoise, "Angle 180: " + FString::SanitizeFloat(angle));
 
-        GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Turquoise, "Angle 360: " + FString::SanitizeFloat(angle360));
-
-        GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::White, "Direction: " + direction);
-    }
+    //     GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::White, "Direction: " + direction);
+    // }
 }
 
 ASpawnnableActor::ASpawnnableActor()

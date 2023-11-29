@@ -484,7 +484,7 @@ void AMyGameMode::BeginPlay()
 
   AHeroActor *partyLeader = Cast<AHeroActor>(GetWorld()->GetFirstPlayerController()->GetPawn());
 
-  partyLeader->HeroName = this->gameInstance->PartyRowNames[0];
+  partyLeader->ActorName = this->gameInstance->PartyRowNames[0];
 
   this->actorsPointers.Emplace(partyLeader);
 
@@ -500,7 +500,7 @@ void AMyGameMode::BeginPlay()
 
     partyMember->TargetPawn = this->actorsPointers[i - 1];
 
-    partyMember->HeroName = this->gameInstance->PartyRowNames[i];
+    partyMember->ActorName = this->gameInstance->PartyRowNames[i];
 
     partyMember->BeginPlay();
 

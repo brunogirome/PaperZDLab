@@ -29,5 +29,5 @@ public:
 
     virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent);
 
-    void Move(const FInputActionValue &Value);
+    void Move(const struct FInputActionValue &Value);
 };
