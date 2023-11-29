@@ -20,7 +20,7 @@ Also the experiments of Art, using HD-2D sytle inspired by Square Enix **Octopat
 
 - [x] Finish the battle logic;
 
-- [ ] Improve the character movimentation;
+- [x] Improve the character movimentation;
 
 - [ ] Create a nice look battle UI;
 
