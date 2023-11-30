@@ -484,7 +484,7 @@ void AMyGameMode::BeginPlay()
 
   AHeroActor *partyLeader = Cast<AHeroActor>(GetWorld()->GetFirstPlayerController()->GetPawn());
 
-  partyLeader->ActorName = this->gameInstance->PartyRowNames[0];
+  // partyLeader->ActorName = this->gameInstance->PartyRowNames[0];
 
   this->actorsPointers.Emplace(partyLeader);
 

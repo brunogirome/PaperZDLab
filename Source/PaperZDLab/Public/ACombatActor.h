@@ -6,8 +6,6 @@
 
 #include "TypeOfActorEnum.h"
 
-#include "GameFramework/CharacterMovementComponent.h"
-
 #include "ACombatActor.generated.h"
 
 /**
@@ -17,8 +15,6 @@ UCLASS()
 class PAPERZDLAB_API ACombatActor : public ASpawnnableActor
 {
     GENERATED_BODY()
-
-    class AAIController *actorAIController;
 
 public:
     APawn *TargetPawn;

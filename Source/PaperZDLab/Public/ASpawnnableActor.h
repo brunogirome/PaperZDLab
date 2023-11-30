@@ -5,32 +5,18 @@
 #include "CoreMinimal.h"
 #include "PaperCharacter.h"
 
+#include "Components/CapsuleComponent.h"
+
+#include "GameFramework/CharacterMovementComponent.h"
+
 #include "PaperFlipbook.h"
 
-#include "Components/CapsuleComponent.h"
+#include "AIController.h"
 
 #include "ASpawnnableActor.generated.h"
 
 struct FFlipbookCollection
 {
-private:
-	FString IdleUpFlipbookText;
-
-	FString IdleDownFlipbookText;
-
-	FString IdleRightFlipbookText;
-
-	FString IdleLeftFlipbookText;
-
-	FString MoveUpFlipbookText;
-
-	FString MoveDownFlipbookText;
-
-	FString MoveLeftFlipbookText;
-
-	FString MoveRightFlipbookText;
-
-public:
 	UPaperFlipbook *IdleUpFlipbook;
 
 	UPaperFlipbook *IdleDownFlipbook;
@@ -47,23 +33,62 @@ public:
 
 	UPaperFlipbook *MoveRightFlipbook;
 
-	FFlipbookCollection(FString ActorName)
+	FFlipbookCollection(FString actorName, bool tempUniqueSprite = false)
 	{
-		IdleUpFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + ActorName + "/FB_" + ActorName + "_Idle_Up.FB_" + ActorName + "_Idle_Up'";
+		FString IdleUpFlipbookText;
 
-		IdleDownFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + ActorName + "/FB_" + ActorName + "_Idle_Down.FB_" + ActorName + "_Idle_Down'";
+		FString IdleDownFlipbookText;
 
-		IdleRightFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + ActorName + "/FB_" + ActorName + "_Idle_Right.FB_" + ActorName + "_Idle_Right'";
+		FString IdleRightFlipbookText;
 
-		IdleLeftFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + ActorName + "/FB_" + ActorName + "_Idle_Left.FB_" + ActorName + "_Idle_Left'";
+		FString IdleLeftFlipbookText;
 
-		MoveUpFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + ActorName + "/FB_" + ActorName + "_Move_Up.FB_" + ActorName + "_Move_Up'";
+		FString MoveUpFlipbookText;
 
-		MoveDownFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + ActorName + "/FB_" + ActorName + "_Move_Down.FB_" + ActorName + "_Move_Down'";
+		FString MoveDownFlipbookText;
 
-		MoveLeftFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + ActorName + "/FB_" + ActorName + "_Move_Left.FB_" + ActorName + "_Move_Left'";
+		FString MoveLeftFlipbookText;
 
-		MoveRightFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + ActorName + "/FB_" + ActorName + "_Move_Right.FB_" + ActorName + "_Move_Right'";
+		FString MoveRightFlipbookText;
+
+		if (tempUniqueSprite)
+		{
+			FString defaultSpriteName = "PaperFlipbook'/Game/Character/FlipBooks/" + actorName + "/FB_" + actorName + ".FB_" + actorName + "'";
+
+			IdleUpFlipbookText = defaultSpriteName;
+
+			IdleDownFlipbookText = defaultSpriteName;
+
+			IdleRightFlipbookText = defaultSpriteName;
+
+			IdleLeftFlipbookText = defaultSpriteName;
+
+			MoveUpFlipbookText = defaultSpriteName;
+
+			MoveDownFlipbookText = defaultSpriteName;
+
+			MoveLeftFlipbookText = defaultSpriteName;
+
+			MoveRightFlipbookText = defaultSpriteName;
+		}
+		else
+		{
+			IdleUpFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + actorName + "/FB_" + actorName + "_Idle_Up.FB_" + actorName + "_Idle_Up'";
+
+			IdleDownFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + actorName + "/FB_" + actorName + "_Idle_Down.FB_" + actorName + "_Idle_Down'";
+
+			IdleRightFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + actorName + "/FB_" + actorName + "_Idle_Right.FB_" + actorName + "_Idle_Right'";
+
+			IdleLeftFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + actorName + "/FB_" + actorName + "_Idle_Left.FB_" + actorName + "_Idle_Left'";
+
+			MoveUpFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + actorName + "/FB_" + actorName + "_Move_Up.FB_" + actorName + "_Move_Up'";
+
+			MoveDownFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + actorName + "/FB_" + actorName + "_Move_Down.FB_" + actorName + "_Move_Down'";
+
+			MoveLeftFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + actorName + "/FB_" + actorName + "_Move_Left.FB_" + actorName + "_Move_Left'";
+
+			MoveRightFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + actorName + "/FB_" + actorName + "_Move_Right.FB_" + actorName + "_Move_Right'";
+		}
 
 		IdleUpFlipbook = Cast<UPaperFlipbook>(StaticLoadObject(UPaperFlipbook::StaticClass(), nullptr, *IdleUpFlipbookText));
 
@@ -93,6 +118,18 @@ enum ECharacterDirection
 	CHARACTER_RIGHT
 };
 
+enum ECharacterDirectionStatus
+{
+	IDLE_UP,
+	MOVE_UP,
+	IDLE_DOWN,
+	MOVE_DOWN,
+	IDLE_LEFT,
+	MOVE_LEFT,
+	IDLE_RIGHT,
+	MOVE_RIGHT
+};
+
 /**
  *
  */
@@ -101,7 +138,11 @@ class PAPERZDLAB_API ASpawnnableActor : public APaperCharacter
 {
 	GENERATED_BODY()
 
-	// FString direction;
+	bool isMoving;
+
+	TEnumAsByte<ECharacterDirectionStatus> lastDirection;
+
+	TEnumAsByte<ECharacterDirectionStatus> currentDirection;
 
 	float const UP_LEFT = -135.f;
 
@@ -111,28 +152,16 @@ class PAPERZDLAB_API ASpawnnableActor : public APaperCharacter
 
 	float const DOWN_RIGHT = 45.f;
 
+protected:
+	class AAIController *actorAIController;
+
+	FFlipbookCollection flipBookCollection;
+
+	void setupAIController();
+
 public:
+	UPROPERTY(Editanywhere)
 	FName ActorName;
-
-	FFlipbookCollection FlipBookCollection;
-
-	class UPaperFlipbook *IdleUpFlipbook;
-
-	class UPaperFlipbook *IdleDownFlipbook;
-
-	class UPaperFlipbook *IdleLeftFlipbook;
-
-	class UPaperFlipbook *IdleRightFlipbook;
-
-	class UPaperFlipbook *MoveUpFlipbook;
-
-	class UPaperFlipbook *MoveDownFlipbook;
-
-	class UPaperFlipbook *MoveLeftFlipbook;
-
-	class UPaperFlipbook *MoveRightFlipbook;
-
-	TEnumAsByte<ECharacterDirection> CurrentDirection;
 
 	virtual void BeginPlay() override;
 

@@ -10,25 +10,23 @@ void ASpawnnableActor::BeginPlay()
 
     if (!this->ActorName.IsNone())
     {
-        this->FlipBookCollection = FFlipbookCollection(this->ActorName.ToString());
+        this->flipBookCollection = FFlipbookCollection(this->ActorName.ToString());
 
-        this->IdleUpFlipbook = FlipBookCollection.IdleUpFlipbook;
+        this->GetSprite()->SetFlipbook(flipBookCollection.IdleDownFlipbook);
+    }
+}
 
-        this->IdleDownFlipbook = FlipBookCollection.IdleDownFlipbook;
+void ASpawnnableActor::setupAIController()
+{
+    if (!this->actorAIController)
+    {
+        this->actorAIController = GetWorld()->SpawnActor<AAIController>(AAIController::StaticClass(), FVector::ZeroVector, FRotator::ZeroRotator);
 
-        this->IdleRightFlipbook = FlipBookCollection.IdleRightFlipbook;
+        this->AIControllerClass = this->actorAIController->GetClass();
 
-        this->IdleLeftFlipbook = FlipBookCollection.IdleLeftFlipbook;
+        this->actorAIController->Possess(this);
 
-        this->MoveUpFlipbook = FlipBookCollection.MoveUpFlipbook;
-
-        this->MoveDownFlipbook = FlipBookCollection.MoveDownFlipbook;
-
-        this->MoveLeftFlipbook = FlipBookCollection.MoveLeftFlipbook;
-
-        this->MoveRightFlipbook = FlipBookCollection.MoveRightFlipbook;
-
-        this->GetSprite()->SetFlipbook(IdleDownFlipbook);
+        this->SpawnDefaultController();
     }
 }
 
@@ -38,84 +36,99 @@ void ASpawnnableActor::Tick(float DeltaTime)
 
     FVector velocity = this->GetVelocity();
 
-    float x = velocity.X;
-
-    float y = velocity.Y;
-
-    float angle = FMath::Atan2(y, x) * 180.0f / PI;
-
     UPaperFlipbook *newFlipbook = nullptr;
 
     if (velocity.IsNearlyZero())
     {
-        switch (this->CurrentDirection)
+
+        switch (this->currentDirection)
         {
-        case CHARACTER_UP:
-            newFlipbook = this->IdleUpFlipbook;
+        case MOVE_UP:
+            currentDirection = IDLE_UP;
 
             break;
-        case CHARACTER_DOWN:
-            newFlipbook = this->IdleDownFlipbook;
+        case MOVE_DOWN:
+            currentDirection = IDLE_DOWN;
 
             break;
-        case CHARACTER_LEFT:
-            newFlipbook = this->IdleLeftFlipbook;
+        case MOVE_LEFT:
+            currentDirection = IDLE_LEFT;
 
             break;
-        case CHARACTER_RIGHT:
-            newFlipbook = this->IdleRightFlipbook;
+        case MOVE_RIGHT:
+            currentDirection = IDLE_RIGHT;
 
             break;
         }
     }
     else
     {
+        float angle = FMath::Atan2(velocity.Y, velocity.X) * 180.0f / PI;
+
         float const TOLERANCE = 20.0f;
+
+        this->lastDirection = this->currentDirection;
 
         if (angle <= UP_RIGHT - TOLERANCE && angle >= UP_LEFT + TOLERANCE)
         {
-            this->CurrentDirection = CHARACTER_UP;
-
-            newFlipbook = this->MoveUpFlipbook;
-
-            // direction = "CHARACTER_UP";
+            this->currentDirection = MOVE_UP;
         }
         else if (angle >= this->DOWN_RIGHT + TOLERANCE && angle <= this->DOWN_LEFT - TOLERANCE)
         {
-            this->CurrentDirection = CHARACTER_DOWN;
-
-            newFlipbook = this->MoveDownFlipbook;
-
-            // direction = "CHARACTER_DOWN";
+            this->currentDirection = MOVE_DOWN;
         }
         else if (angle <= this->DOWN_RIGHT + TOLERANCE && angle >= -(this->DOWN_LEFT - TOLERANCE))
         {
-            this->CurrentDirection = CHARACTER_RIGHT;
-
-            newFlipbook = this->MoveRightFlipbook;
-
-            // direction = "CHARACTER_RIGHT";
+            this->currentDirection = MOVE_RIGHT;
         }
         else
         {
-            this->CurrentDirection = CHARACTER_LEFT;
-
-            newFlipbook = this->MoveLeftFlipbook;
-
-            // direction = "CHARACTER_LEFT";
+            this->currentDirection = MOVE_LEFT;
         }
     }
 
+    if (this->lastDirection == this->currentDirection)
+    {
+        return;
+    }
+
+    switch (this->currentDirection)
+    {
+    case IDLE_UP:
+        newFlipbook = this->flipBookCollection.IdleUpFlipbook;
+
+        break;
+    case IDLE_DOWN:
+        newFlipbook = this->flipBookCollection.IdleDownFlipbook;
+
+        break;
+    case IDLE_LEFT:
+        newFlipbook = this->flipBookCollection.IdleLeftFlipbook;
+
+        break;
+    case IDLE_RIGHT:
+        newFlipbook = this->flipBookCollection.IdleRightFlipbook;
+
+        break;
+    case MOVE_UP:
+        newFlipbook = this->flipBookCollection.MoveUpFlipbook;
+
+        break;
+    case MOVE_DOWN:
+        newFlipbook = this->flipBookCollection.MoveDownFlipbook;
+
+        break;
+    case MOVE_LEFT:
+        newFlipbook = this->flipBookCollection.MoveLeftFlipbook;
+
+        break;
+    case MOVE_RIGHT:
+        newFlipbook = this->flipBookCollection.MoveRightFlipbook;
+
+        break;
+    }
+
     this->GetSprite()->SetFlipbook(newFlipbook);
-
-    // if (this->ActorName == "Karina")
-    // {
-    //     GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "Velocity: X=" + FString::SanitizeFloat(x) + ", Y=" + FString::SanitizeFloat(y));
-
-    //     GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Turquoise, "Angle 180: " + FString::SanitizeFloat(angle));
-
-    //     GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::White, "Direction: " + direction);
-    // }
 }
 
 ASpawnnableActor::ASpawnnableActor()
@@ -132,5 +145,13 @@ ASpawnnableActor::ASpawnnableActor()
 
     this->GetCapsuleComponent()->SetCapsuleRadius(30.0f);
 
-    this->CurrentDirection = CHARACTER_DOWN;
+    this->currentDirection = IDLE_DOWN;
+
+    this->lastDirection = IDLE_DOWN;
+
+    this->isMoving = false;
+
+    this->bUseControllerRotationYaw = false;
+
+    this->actorAIController = nullptr;
 }
