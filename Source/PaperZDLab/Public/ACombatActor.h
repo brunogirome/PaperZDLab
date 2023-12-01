@@ -14,17 +14,14 @@
 UCLASS()
 class PAPERZDLAB_API ACombatActor : public ASpawnnableActor
 {
-    GENERATED_BODY()
+  GENERATED_BODY()
 
 public:
-    APawn *TargetPawn;
+  TEnumAsByte<TypeOfActorEnum> TypeOfActor;
 
-    UPROPERTY(BlueprintReadOnly)
-    TEnumAsByte<TypeOfActorEnum> TypeOfActor;
+  virtual void BeginPlay() override;
 
-    virtual void BeginPlay() override;
+  virtual void Tick(float DeltaTime) override;
 
-    virtual void Tick(float DeltaTime) override;
-
-    ACombatActor();
+  ACombatActor();
 };

@@ -4,18 +4,20 @@
 
 #include "ASpawnnableActor.h"
 
-#include "AHeroActor.generated.h"
+#include "AProtagonistActor.generated.h"
 
 /**
  *
  */
 UCLASS()
-class PAPERZDLAB_API AHeroActor : public ASpawnnableActor
+class PAPERZDLAB_API AProtagonistActor : public ACombatActor
 {
     GENERATED_BODY()
 
+    class UMyGameInstance *myGameInstance;
+
 public:
-    AHeroActor();
+    AProtagonistActor();
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     class USpringArmComponent *SpringArmComp;

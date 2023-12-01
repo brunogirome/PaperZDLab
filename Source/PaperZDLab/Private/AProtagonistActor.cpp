@@ -1,4 +1,4 @@
-#include "AHeroActor.h"
+#include "AProtagonistActor.h"
 
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -10,7 +10,11 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 
-void AHeroActor::BeginPlay()
+#include "Kismet/GameplayStatics.h"
+
+#include "MyGameInstance.h"
+
+void AProtagonistActor::BeginPlay()
 {
     Super::BeginPlay();
 
@@ -23,12 +27,12 @@ void AHeroActor::BeginPlay()
     Subsystem->AddMappingContext(MapContext, 0);
 }
 
-void AHeroActor::Tick(float DeltaTime)
+void AProtagonistActor::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 }
 
-void AHeroActor::SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent)
+void AProtagonistActor::SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent)
 {
     Super::SetupPlayerInputComponent(PlayerInputComponent);
 
@@ -36,12 +40,17 @@ void AHeroActor::SetupPlayerInputComponent(class UInputComponent *PlayerInputCom
 
     if (UEnhancedInputComponent *EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
     {
-        EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AHeroActor::Move);
+        EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AProtagonistActor::Move);
     }
 }
 
-void AHeroActor::Move(const FInputActionValue &Value)
+void AProtagonistActor::Move(const FInputActionValue &Value)
 {
+    if (this->myGameInstance->CurrentGameState != OVERWORLD)
+    {
+        return;
+    }
+
     float x = Value[0];
 
     float y = Value[1];
@@ -51,9 +60,8 @@ void AHeroActor::Move(const FInputActionValue &Value)
     this->AddMovementInput(FVector(0.0f, -1.0f, 0.0f), y, false);
 }
 
-AHeroActor::AHeroActor()
+AProtagonistActor::AProtagonistActor()
 {
-
     CameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComp"));
 
     CameraComp->SetupAttachment(GetCapsuleComponent());
@@ -72,4 +80,6 @@ AHeroActor::AHeroActor()
     SpringArmComp->bDoCollisionTest = 0;
 
     CameraComp->AttachToComponent(SpringArmComp, FAttachmentTransformRules::KeepRelativeTransform);
+
+    this->myGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 }
