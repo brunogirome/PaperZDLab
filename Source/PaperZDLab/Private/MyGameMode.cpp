@@ -4,9 +4,9 @@
 
 #include "Kismet/GameplayStatics.h"
 
-#include "AHeroActor.h"
+#include "AProtagonistActor.h"
 
-#include "ACombatActor.h"
+#include "APartyMemberActor.h"
 
 #include "MyGameInstance.h"
 
@@ -482,7 +482,7 @@ void AMyGameMode::BeginPlay()
     this->gameInstance->InitParty();
   }
 
-  AHeroActor *partyLeader = Cast<AHeroActor>(GetWorld()->GetFirstPlayerController()->GetPawn());
+  AProtagonistActor *partyLeader = Cast<AProtagonistActor>(GetWorld()->GetFirstPlayerController()->GetPawn());
 
   // partyLeader->ActorName = this->gameInstance->PartyRowNames[0];
 
@@ -496,7 +496,7 @@ void AMyGameMode::BeginPlay()
 
     location.X -= 200 * i;
 
-    ACombatActor *partyMember = GetWorld()->SpawnActor<ACombatActor>(ACombatActor::StaticClass(), location, rotation);
+    APartyMemberActor *partyMember = GetWorld()->SpawnActor<APartyMemberActor>(APartyMemberActor::StaticClass(), location, rotation);
 
     partyMember->TargetPawn = this->actorsPointers[i - 1];
 

@@ -1,20 +1,20 @@
-#include "APartyMember.h"
+#include "APartyMemberActor.h"
 
-void APartyMember::BeginPlay()
+void APartyMemberActor::BeginPlay()
 {
     Super::BeginPlay();
 
     this->setupAIController();
 }
 
-void APartyMember::Tick(float DeltaTime)
+void APartyMemberActor::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 
     this->actorAIController->MoveToActor(this->TargetPawn, 75.0f, false);
 }
 
-APartyMember::APartyMember()
+APartyMemberActor::APartyMemberActor()
 {
     this->TargetPawn = nullptr;
 

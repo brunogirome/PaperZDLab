@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "ASpawnnableActor.h"
+#include "ACombatActor.h"
 
 #include "AProtagonistActor.generated.h"
 
