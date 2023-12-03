@@ -153,6 +153,7 @@ class PAPERZDLAB_API ASpawnnableActor : public APaperCharacter
 	float const DOWN_RIGHT = 45.f;
 
 protected:
+	UPROPERTY(BlueprintReadOnly)
 	class AAIController *actorAIController;
 
 	FFlipbookCollection flipBookCollection;

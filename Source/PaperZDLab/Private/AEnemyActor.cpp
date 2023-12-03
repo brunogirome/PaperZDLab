@@ -3,6 +3,8 @@
 void AEnemyActor::BeginPlay()
 {
   Super::BeginPlay();
+
+  this->setupAIController();
 }
 
 void AEnemyActor::Tick(float DeltaTime)
