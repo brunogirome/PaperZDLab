@@ -2,17 +2,17 @@
 
 #pragma once
 
-#include "ACombatActor.h"
+#include "Hero.h"
 
 #include "TypeOfActorEnum.h"
 
-#include "APartyMemberActor.generated.h"
+#include "PartyMember.generated.h"
 
 /**
  *
  */
 UCLASS()
-class PAPERZDLAB_API APartyMemberActor : public ACombatActor
+class PAPERZDLAB_API APartyMember : public AHero
 {
     GENERATED_BODY()
 
@@ -23,5 +23,5 @@ public:
 
     virtual void Tick(float DeltaTime) override;
 
-    APartyMemberActor();
+    APartyMember();
 };

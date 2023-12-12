@@ -4,9 +4,9 @@
 
 #include "Kismet/GameplayStatics.h"
 
-#include "AProtagonistActor.h"
+#include "Protagonist.h"
 
-#include "APartyMemberActor.h"
+#include "PartyMember.h"
 
 #include "MyGameInstance.h"
 
@@ -18,7 +18,7 @@ float AMyGameMode::getDefendingDamageReduction()
 void AMyGameMode::startStep()
 {
   this->attackOrder.Sort(
-      [](const UCombatActorClass &A, const UCombatActorClass &B)
+      [](const UCombatActorStats &A, const UCombatActorStats &B)
       {
         if (A.Speed != B.Speed)
         {
@@ -34,7 +34,7 @@ void AMyGameMode::startStep()
 
   while (!validActor)
   {
-    UCombatActorClass *currentAttacker = this->attackOrder[this->currentActorPointer];
+    UCombatActorStats *currentAttacker = this->attackOrder[this->currentActorPointer];
 
     if (currentAttacker->IsDead())
     {
@@ -168,7 +168,7 @@ void AMyGameMode::enemyTurn()
     this->TargetActor = getTarget();
   }
 
-  UEnemyClass *enemy = this->EnemyParty[this->CurrentActor->PositionForEnemyInBattle];
+  UEnemyStats *enemy = this->EnemyParty[this->CurrentActor->PositionForEnemyInBattle];
 
   uint8 choice;
 
@@ -359,7 +359,7 @@ void AMyGameMode::endOfTheTurn()
 
   uint8 currentTurnSize = 0;
 
-  for (UCombatActorClass *actor : this->attackOrder)
+  for (UCombatActorStats *actor : this->attackOrder)
   {
     if (!actor->IsDead())
     {
@@ -384,7 +384,7 @@ void AMyGameMode::endOfTheTurn()
 
   this->gameOver = true;
 
-  for (UCombatActorClass *actor : this->attackOrder)
+  for (UCombatActorStats *actor : this->attackOrder)
   {
     if (actor->TypeOfActor == ENEMY)
     {
@@ -482,7 +482,7 @@ void AMyGameMode::BeginPlay()
     this->gameInstance->InitParty();
   }
 
-  AProtagonistActor *partyLeader = Cast<AProtagonistActor>(GetWorld()->GetFirstPlayerController()->GetPawn());
+  AProtagonist *partyLeader = Cast<AProtagonist>(GetWorld()->GetFirstPlayerController()->GetPawn());
 
   // partyLeader->ActorName = this->gameInstance->PartyRowNames[0];
 
@@ -496,7 +496,7 @@ void AMyGameMode::BeginPlay()
 
     location.X -= 200 * i;
 
-    APartyMemberActor *partyMember = GetWorld()->SpawnActor<APartyMemberActor>(APartyMemberActor::StaticClass(), location, rotation);
+    APartyMember *partyMember = GetWorld()->SpawnActor<APartyMember>(APartyMember::StaticClass(), location, rotation);
 
     partyMember->TargetPawn = this->actorsPointers[i - 1];
 
@@ -583,7 +583,7 @@ void AMyGameMode::Tick(float DeltaSeconds)
 
     this->gameInstance->CurrentGameState = OVERWORLD;
 
-    for (UHeroClass *hero : *this->HeroParty)
+    for (UHeroStats *hero : *this->HeroParty)
     {
       hero->ActiveBuffs.Empty();
     }
@@ -631,19 +631,19 @@ void AMyGameMode::StartBattle(TArray<FName> enemyNames)
 
     FEnemyStruct *enemyStructPointer = this->gameInstance->EnemiesDataTable->FindRow<FEnemyStruct>(enemyRowName, "", true);
 
-    UEnemyClass *enemyInstance = NewObject<UEnemyClass>(UEnemyClass::StaticClass());
+    UEnemyStats *enemyInstance = NewObject<UEnemyStats>(UEnemyStats::StaticClass());
 
     enemyInstance->Init(enemyStructPointer, this->gameInstance, i);
 
     this->EnemyParty.Add(enemyInstance);
   }
 
-  for (UHeroClass *hero : *this->HeroParty)
+  for (UHeroStats *hero : *this->HeroParty)
   {
     this->attackOrder.Emplace(hero);
   }
 
-  for (UEnemyClass *enemy : this->EnemyParty)
+  for (UEnemyStats *enemy : this->EnemyParty)
   {
     this->attackOrder.Emplace(enemy);
 
@@ -686,7 +686,7 @@ AMyGameMode::AMyGameMode()
 // Debug Functions
 void AMyGameMode::PrintSort()
 {
-  for (UCombatActorClass *actor : attackOrder)
+  for (UCombatActorStats *actor : attackOrder)
   {
     FString isDead = actor->IsDead() ? "true" : "false";
 
@@ -696,12 +696,12 @@ void AMyGameMode::PrintSort()
 
 void AMyGameMode::PrintNames()
 {
-  for (UHeroClass *hero : *this->HeroParty)
+  for (UHeroStats *hero : *this->HeroParty)
   {
     GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Turquoise, hero->Name);
   }
 
-  for (UEnemyClass *enemy : this->EnemyParty)
+  for (UEnemyStats *enemy : this->EnemyParty)
   {
     GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Purple, enemy->Name);
   }

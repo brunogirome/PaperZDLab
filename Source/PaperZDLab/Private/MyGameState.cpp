@@ -7,12 +7,12 @@
 #include "MyGameInstance.h"
 #include "MyGameMode.h"
 
-TArray<UHeroClass *> AMyGameState::GetPartyMembers()
+TArray<UHeroStats *> AMyGameState::GetPartyMembers()
 {
   return this->GameInstance->Party->Members;
 }
 
-TArray<UEnemyClass *> AMyGameState::GetEnemyPartyMembers()
+TArray<UEnemyStats *> AMyGameState::GetEnemyPartyMembers()
 {
   return this->GameMode->EnemyParty;
 }
@@ -47,7 +47,7 @@ TEnumAsByte<SpellTypeEnum> AMyGameState::GetSpellCastedType()
   return this->GameMode->CastedSpell->SpellType;
 }
 
-UCombatActorClass *AMyGameState::GetCurrentActor()
+UCombatActorStats *AMyGameState::GetCurrentActor()
 {
   return this->GameMode->CurrentActor;
 }
@@ -57,12 +57,12 @@ void AMyGameState::SetBattleState(BattleStateEnum newBattleState)
   this->GameMode->SetBattleState(newBattleState);
 }
 
-UHeroClass *AMyGameState::GetHeroByPartyPosition(uint8 position)
+UHeroStats *AMyGameState::GetHeroByPartyPosition(uint8 position)
 {
   return (*this->GameMode->HeroParty)[position];
 }
 
-UEnemyClass *AMyGameState::GetEnemyByPartyPosition(uint8 position)
+UEnemyStats *AMyGameState::GetEnemyByPartyPosition(uint8 position)
 {
   return this->GameMode->EnemyParty[position];
 }
@@ -97,7 +97,7 @@ void AMyGameState::SetCurrentGameMode(CurrentGameState newCurrentGameState)
 
 void AMyGameState::SetEnemyAsTargetByPosition(uint8 enemyPosition)
 {
-  UCombatActorClass *enemy = (UCombatActorClass *)this->GameMode->EnemyParty[enemyPosition];
+  UCombatActorStats *enemy = (UCombatActorStats *)this->GameMode->EnemyParty[enemyPosition];
 
   this->GameMode->TargetActor = enemy;
 }
@@ -105,10 +105,10 @@ void AMyGameState::SetEnemyAsTargetByPosition(uint8 enemyPosition)
 void AMyGameState::SetHeroAsTargetByName(FString name)
 {
   int32 heroIndex =
-      (*this->GameMode->HeroParty).IndexOfByPredicate([&](UHeroClass *hero)
+      (*this->GameMode->HeroParty).IndexOfByPredicate([&](UHeroStats *hero)
                                                       { return hero->Name == name; });
 
-  UCombatActorClass *hero = (UCombatActorClass *)(*this->GameMode->HeroParty)[heroIndex];
+  UCombatActorStats *hero = (UCombatActorStats *)(*this->GameMode->HeroParty)[heroIndex];
 
   this->GameMode->TargetActor = hero;
 }
@@ -149,7 +149,7 @@ void AMyGameState::RemoveItemFromInventory(int32 position)
   this->GameInstance->RemoveItem(position);
 }
 
-void AMyGameState::ConsumeItemOnInventory(int32 position, UHeroClass *selectedHero)
+void AMyGameState::ConsumeItemOnInventory(int32 position, UHeroStats *selectedHero)
 {
   UItemClass *item = this->GameInstance->Inventory[position];
 
@@ -163,7 +163,7 @@ void AMyGameState::ConsumeItemOnInventory(int32 position, UHeroClass *selectedHe
   }
 }
 
-void AMyGameState::EquipItem(int32 position, UHeroClass *selectedHero)
+void AMyGameState::EquipItem(int32 position, UHeroStats *selectedHero)
 {
   UItemClass *item = this->GameInstance->Inventory[position];
 
@@ -184,7 +184,7 @@ void AMyGameState::EquipItem(int32 position, UHeroClass *selectedHero)
   selectedHero->CalculateStats();
 }
 
-void AMyGameState::UnequipItem(int32 position, UHeroClass *selectedHero)
+void AMyGameState::UnequipItem(int32 position, UHeroStats *selectedHero)
 {
   UItemClass *item = selectedHero->Equipaments[position];
 

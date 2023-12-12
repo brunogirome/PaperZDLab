@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "CombatActorClass.h"
+#include "CombatActorStats.h"
 
 #include "EnemyStruct.h"
 
-#include "EnemyClass.generated.h"
+#include "EnemyStats.generated.h"
 
 enum MoveTypeEnum
 {
@@ -33,7 +33,7 @@ struct AttackPatern
  *
  */
 UCLASS(BlueprintType)
-class PAPERZDLAB_API UEnemyClass : public UCombatActorClass
+class PAPERZDLAB_API UEnemyStats : public UCombatActorStats
 {
 	GENERATED_BODY()
 
@@ -48,7 +48,7 @@ public:
 
 	TArray<TArray<AttackPatern>> Movesets;
 
-	UEnemyClass();
+	UEnemyStats();
 
 	void Init(FEnemyStruct *enemyStructPointerParam, UMyGameInstance *myGameInstance, uint8 battleInstancePosition = -1);
 };

@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameStateBase.h"
 
-#include "HeroClass.h"
+#include "HeroStats.h"
 
 #include "MyGameInstance.h"
 #include "MyGameMode.h"
@@ -26,10 +26,10 @@ class PAPERZDLAB_API AMyGameState : public AGameStateBase
 
 public:
 	UFUNCTION(BlueprintCallable)
-	TArray<UHeroClass *> GetPartyMembers();
+	TArray<UHeroStats *> GetPartyMembers();
 
 	UFUNCTION(BlueprintCallable)
-	TArray<UEnemyClass *> GetEnemyPartyMembers();
+	TArray<UEnemyStats *> GetEnemyPartyMembers();
 
 	UFUNCTION(BlueprintCallable)
 	TArray<UItemClass *> GetInventory();
@@ -50,13 +50,13 @@ public:
 	TEnumAsByte<SpellTypeEnum> GetSpellCastedType();
 
 	UFUNCTION(BlueprintCallable)
-	UCombatActorClass *GetCurrentActor();
+	UCombatActorStats *GetCurrentActor();
 
 	UFUNCTION(BlueprintCallable)
-	UHeroClass *GetHeroByPartyPosition(uint8 position);
+	UHeroStats *GetHeroByPartyPosition(uint8 position);
 
 	UFUNCTION(BlueprintCallable)
-	UEnemyClass *GetEnemyByPartyPosition(uint8 position);
+	UEnemyStats *GetEnemyByPartyPosition(uint8 position);
 
 	UFUNCTION(BlueprintCallable)
 	float GetActorAccuracyByStrength(uint8 level);
@@ -98,13 +98,13 @@ public:
 	void RemoveItemFromInventory(int32 position);
 
 	UFUNCTION(BlueprintCallable)
-	void ConsumeItemOnInventory(int32 position, UHeroClass *selectedHero);
+	void ConsumeItemOnInventory(int32 position, UHeroStats *selectedHero);
 
 	UFUNCTION(BlueprintCallable)
-	void EquipItem(int32 position, UHeroClass *selectedHero);
+	void EquipItem(int32 position, UHeroStats *selectedHero);
 
 	UFUNCTION(BlueprintCallable)
-	void UnequipItem(int32 position, UHeroClass *selectedHero);
+	void UnequipItem(int32 position, UHeroStats *selectedHero);
 
 	AMyGameState();
 };

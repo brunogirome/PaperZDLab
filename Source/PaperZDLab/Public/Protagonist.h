@@ -2,22 +2,22 @@
 
 #pragma once
 
-#include "ACombatActor.h"
+#include "Hero.h"
 
-#include "AProtagonistActor.generated.h"
+#include "Protagonist.generated.h"
 
 /**
  *
  */
 UCLASS()
-class PAPERZDLAB_API AProtagonistActor : public ACombatActor
+class PAPERZDLAB_API AProtagonist : public AHero
 {
     GENERATED_BODY()
 
     class UMyGameInstance *myGameInstance;
 
 public:
-    AProtagonistActor();
+    AProtagonist();
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     class USpringArmComponent *SpringArmComp;

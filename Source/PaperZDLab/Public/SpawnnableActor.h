@@ -13,7 +13,7 @@
 
 #include "AIController.h"
 
-#include "ASpawnnableActor.generated.h"
+#include "SpawnnableActor.generated.h"
 
 struct FFlipbookCollection
 {

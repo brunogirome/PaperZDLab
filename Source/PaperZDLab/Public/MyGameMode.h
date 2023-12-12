@@ -5,8 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 
-#include "HeroClass.h"
-#include "EnemyClass.h"
+#include "HeroStats.h"
+#include "EnemyStats.h"
 #include "ItemClass.h"
 
 #include "BattleStateEnum.h"
@@ -25,7 +25,7 @@ class PAPERZDLAB_API AMyGameMode : public AGameModeBase
 
 	const float ESCAPE_CHANCE = 0.85f;
 
-	TArray<UCombatActorClass *> attackOrder;
+	TArray<UCombatActorStats *> attackOrder;
 
 	class UMyGameInstance *gameInstance;
 
@@ -66,9 +66,9 @@ class PAPERZDLAB_API AMyGameMode : public AGameModeBase
 	TArray<APawn *> actorsPointers;
 
 public:
-	TArray<UHeroClass *> *HeroParty;
+	TArray<UHeroStats *> *HeroParty;
 
-	TArray<UEnemyClass *> EnemyParty;
+	TArray<UEnemyStats *> EnemyParty;
 
 	TArray<FActiveBuffStruct> ActivePartyBuffs;
 
@@ -76,9 +76,9 @@ public:
 
 	TEnumAsByte<BattleStateEnum> LastBattleState;
 
-	UCombatActorClass *TargetActor;
+	UCombatActorStats *TargetActor;
 
-	UCombatActorClass *CurrentActor;
+	UCombatActorStats *CurrentActor;
 
 	USpellClass *CastedSpell;
 

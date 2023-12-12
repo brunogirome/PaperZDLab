@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 
-#include "HeroClass.h"
+#include "HeroStats.h"
 
 #include "PartyClass.generated.h"
 
@@ -19,13 +19,9 @@ class PAPERZDLAB_API UPartyClass : public UObject
 
 public:
 	UPROPERTY(BlueprintReadOnly)
-	TArray<UHeroClass *> Members;
-	
-	void Init(class UMyGameInstance *myGameInstance);
+	TArray<UHeroStats *> Members;
 
-	// Debug functions
-	UFUNCTION(BlueprintCallable)
-	void PrintHeroes();
+	void Init(class UMyGameInstance *myGameInstance);
 
 	UPartyClass();
 };

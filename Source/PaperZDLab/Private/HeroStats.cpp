@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "HeroClass.h"
+#include "HeroStats.h"
 
 #include "MyGameInstance.h"
 
-void UHeroClass::Init(FHeroStruct *heroStructPointer, int32 level, UMyGameInstance *myGameInstance)
+void UHeroStats::Init(FHeroStruct *heroStructPointer, int32 level, UMyGameInstance *myGameInstance)
 {
     FHeroStruct heroStructRef(heroStructPointer, level);
 
@@ -12,7 +12,7 @@ void UHeroClass::Init(FHeroStruct *heroStructPointer, int32 level, UMyGameInstan
 
     this->Level = level;
 
-    this->UCombatActorClass::init(&this->HeroStruct, myGameInstance);
+    this->UCombatActorStats::init(&this->HeroStruct, myGameInstance);
 }
 
-UHeroClass::UHeroClass() {}
+UHeroStats::UHeroStats() {}

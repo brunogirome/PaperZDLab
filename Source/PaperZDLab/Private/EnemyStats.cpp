@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "EnemyClass.h"
+#include "EnemyStats.h"
 
 #include "Kismet/KismetStringLibrary.h"
 
-void UEnemyClass::Init(FEnemyStruct *enemyStructPointerParam, UMyGameInstance *myGameInstance, uint8 battleInstancePosition)
+void UEnemyStats::Init(FEnemyStruct *enemyStructPointerParam, UMyGameInstance *myGameInstance, uint8 battleInstancePosition)
 {
   this->EnemyStructPointer = enemyStructPointerParam;
 
@@ -54,7 +54,7 @@ void UEnemyClass::Init(FEnemyStruct *enemyStructPointerParam, UMyGameInstance *m
     this->PositionForEnemyInBattle = battleInstancePosition;
   }
 
-  this->UCombatActorClass::init(this->EnemyStructPointer, myGameInstance);
+  this->UCombatActorStats::init(this->EnemyStructPointer, myGameInstance);
 }
 
-UEnemyClass::UEnemyClass() {}
+UEnemyStats::UEnemyStats() {}

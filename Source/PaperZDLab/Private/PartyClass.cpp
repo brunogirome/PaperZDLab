@@ -12,32 +12,11 @@ void UPartyClass::Init(UMyGameInstance *myGameInstance)
 
         FHeroStruct *heroStructPointer = myGameInstance->HeroesDataTable->FindRow<FHeroStruct>(memberName, "", true);
 
-        UHeroClass *heroInstance = NewObject<UHeroClass>(UHeroClass::StaticClass());
+        UHeroStats *heroInstance = NewObject<UHeroStats>(UHeroStats::StaticClass());
 
         heroInstance->Init(heroStructPointer, level, myGameInstance);
 
         this->Members.Add(heroInstance);
-    }
-}
-
-void UPartyClass::PrintHeroes()
-{
-    for (auto *hero : this->Members)
-    {
-        GEngine->AddOnScreenDebugMessage(-1, 35.0f, FColor::Yellow, hero->Name);
-
-        FString spells = TEXT("(");
-
-        GEngine->AddOnScreenDebugMessage(-1, 35.0f, FColor::Blue, FString::FromInt(hero->Spells.Num()));
-
-        for (auto &spellName : hero->Spells)
-        {
-            spells += spellName->Name + TEXT(", ");
-        }
-
-        spells += TEXT(")");
-
-        GEngine->AddOnScreenDebugMessage(-1, 35.0f, FColor::Blue, spells);
     }
 }
 

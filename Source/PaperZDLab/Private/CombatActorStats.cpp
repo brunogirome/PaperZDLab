@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "CombatActorClass.h"
+#include "CombatActorStats.h"
 
 #include "MyGameInstance.h"
 
-void UCombatActorClass::init(FCombatActorStruct *combatActorStructPointer, UMyGameInstance *myGameInstance)
+void UCombatActorStats::init(FCombatActorStruct *combatActorStructPointer, UMyGameInstance *myGameInstance)
 {
     this->gameInstance = myGameInstance;
 
@@ -49,7 +49,7 @@ void UCombatActorClass::init(FCombatActorStruct *combatActorStructPointer, UMyGa
     }
 }
 
-void UCombatActorClass::CalculateStats()
+void UCombatActorStats::CalculateStats()
 {
     auto getEquipamentStats = [&](BuffTypeEnum itemBuff)
     {
@@ -222,58 +222,58 @@ void UCombatActorClass::CalculateStats()
     this->StrongAccuracy = accuracyCalculation(2);
 }
 
-bool UCombatActorClass::IsDead()
+bool UCombatActorStats::IsDead()
 {
     return this->HpCurrent <= 0;
 }
 
-bool UCombatActorClass::IsOutOfStamina()
+bool UCombatActorStats::IsOutOfStamina()
 {
     return this->StaminaCurrent <= 0;
 }
 
-void UCombatActorClass::HealHp(int32 amount)
+void UCombatActorStats::HealHp(int32 amount)
 {
     this->HpCurrent = FMath::Clamp(amount + this->HpCurrent, 0, this->Hp);
 }
 
-void UCombatActorClass::TakeDamage(int32 amount)
+void UCombatActorStats::TakeDamage(int32 amount)
 {
     int32 damageTaken = amount > this->HpCurrent ? this->HpCurrent : amount;
 
     this->HpCurrent -= damageTaken;
 }
 
-void UCombatActorClass::ReduceStamina(uint8 amount)
+void UCombatActorStats::ReduceStamina(uint8 amount)
 {
     this->StaminaCurrent -= amount;
 }
 
-void UCombatActorClass::HealStamina(uint8 amount, bool full)
+void UCombatActorStats::HealStamina(uint8 amount, bool full)
 {
     uint8 amountHealed = full ? this->Stamina : amount;
 
     this->StaminaCurrent += FMath::Clamp(amount, 0, amountHealed);
 }
 
-void UCombatActorClass::UseMana(int32 amount)
+void UCombatActorStats::UseMana(int32 amount)
 {
     int32 amountSpent = FMath::Clamp(amount, 0, this->Mana);
 
     this->ManaCurrent -= amountSpent;
 }
 
-void UCombatActorClass::AddBuff(USpellClass *buffSpell)
+void UCombatActorStats::AddBuff(USpellClass *buffSpell)
 {
     this->ActiveBuffs.Emplace(FActiveBuffStruct(buffSpell));
 }
 
-void UCombatActorClass::RemoveBuff(uint8 position)
+void UCombatActorStats::RemoveBuff(uint8 position)
 {
     this->ActiveBuffs.RemoveAt(position);
 }
 
-UCombatActorClass::UCombatActorClass()
+UCombatActorStats::UCombatActorStats()
 {
     this->IsDefending = false;
 

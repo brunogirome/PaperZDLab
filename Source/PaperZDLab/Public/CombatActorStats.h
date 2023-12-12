@@ -10,7 +10,7 @@
 #include "ItemClass.h"
 #include "ActiveBuffStruct.h"
 
-#include "CombatActorClass.generated.h"
+#include "CombatActorStats.generated.h"
 
 struct EquipamentBuffStruct
 {
@@ -23,7 +23,7 @@ struct EquipamentBuffStruct
  *
  */
 UCLASS(BlueprintType)
-class PAPERZDLAB_API UCombatActorClass : public UObject
+class PAPERZDLAB_API UCombatActorStats : public UObject
 {
 	GENERATED_BODY()
 
@@ -130,7 +130,7 @@ public:
 	UPROPERTY(BluePrintReadOnly)
 	bool IsDefending;
 
-	UCombatActorClass();
+	UCombatActorStats();
 
 	UFUNCTION(BlueprintCallable)
 	void CalculateStats();

@@ -3,17 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "CombatActorClass.h"
+#include "CombatActorStats.h"
 
 #include "HeroStruct.h"
 
-#include "HeroClass.generated.h"
+#include "HeroStats.generated.h"
 
 /**
  *
  */
 UCLASS(BlueprintType)
-class PAPERZDLAB_API UHeroClass : public UCombatActorClass
+class PAPERZDLAB_API UHeroStats : public UCombatActorStats
 {
 	GENERATED_BODY()
 
@@ -28,5 +28,5 @@ public:
 
 	void Init(FHeroStruct *heroStructPointer, int32 level, class UMyGameInstance *myGameInstance);
 
-	UHeroClass();
+	UHeroStats();
 };
