@@ -13,9 +13,9 @@ void APartyMember::Tick(float DeltaTime)
 
     float distance = (this->GetActorLocation() - this->TargetPawn->GetActorLocation()).Size();
 
-    if (distance >= 105)
+    if (distance >= 50)
     {
-        this->actorAIController->MoveToActor(this->TargetPawn, 75.0f, false);
+        this->actorAIController->MoveToActor(this->TargetPawn, 50.0f, false);
     }
 }
 

@@ -4,10 +4,13 @@
 
 #include "Kismet/GameplayStatics.h"
 
-// TArray<UHeroStats *> AMyGameState::GetPartyMembers()
-// {
-//   return this->GameInstance->Party->Members;
-// }
+#include "PartyManager.h"
+#include "Hero.h"
+
+TArray<AHero *> AMyGameState::GetPartyMembers()
+{
+  return this->gameInstance->PartyManager->Heroes;
+}
 
 // TArray<UEnemyStats *> AMyGameState::GetEnemyPartyMembers()
 // {
@@ -199,7 +202,7 @@
 
 AMyGameState::AMyGameState()
 {
-  this->GameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+  this->gameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-  this->GameMode = Cast<AMyGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+  this->gameMode = Cast<AMyGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 }

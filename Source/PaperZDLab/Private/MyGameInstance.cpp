@@ -8,9 +8,9 @@
 
 void UMyGameInstance::InitializeParty(AMyGameMode *gameMode)
 {
-  UPartyManager *partyManager = NewObject<UPartyManager>(UPartyManager::StaticClass());
+  this->PartyManager = NewObject<UPartyManager>(UPartyManager::StaticClass());
 
-  partyManager->Start(this, gameMode);
+  this->PartyManager->Start(this, gameMode);
 }
 
 void UMyGameInstance::AddItem(FName itemName, uint8 amount)

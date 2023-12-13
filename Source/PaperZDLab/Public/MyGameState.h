@@ -10,6 +10,12 @@
 
 #include "MyGameState.generated.h"
 
+// class UMyGameInstance;
+
+// class AMyGameMode;
+
+class AHero;
+
 /**
  *
  */
@@ -18,13 +24,13 @@ class PAPERZDLAB_API AMyGameState : public AGameStateBase
 {
 	GENERATED_BODY()
 
-	UMyGameInstance *GameInstance;
+	UMyGameInstance *gameInstance;
 
-	AMyGameMode *GameMode;
+	AMyGameMode *gameMode;
 
 public:
-	// UFUNCTION(BlueprintCallable)
-	// TArray<UHeroStats *> GetPartyMembers();
+	UFUNCTION(BlueprintCallable)
+	TArray<AHero *> GetPartyMembers();
 
 	// UFUNCTION(BlueprintCallable)
 	// TArray<UEnemyStats *> GetEnemyPartyMembers();
