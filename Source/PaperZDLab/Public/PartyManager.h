@@ -6,9 +6,17 @@
 #include "UObject/NoExportTypes.h"
 #include "PartyManager.generated.h"
 
-class AProtagonistActor;
+class AHero;
 
-class APartyMemberActor;
+class APartyLeader;
+
+class APartyMember;
+
+class UMyGameInstance;
+
+class AMyGameMode;
+
+// Hero refs, spawn, add hero, remove hero, change order
 
 /**
  *
@@ -18,12 +26,20 @@ class PAPERZDLAB_API UPartyManager : public UObject
 {
 	GENERATED_BODY()
 
-public:
-	AProtagonistActor *AProtagonist;
+	void spawnAIHero();
 
-	TArray<APartyMemberActor *> APartyMembers;
+	UMyGameInstance *gameInstance;
+
+	AMyGameMode *gameMode;
+
+public:
+	APartyLeader *Leader;
+
+	TArray<APartyMember *> AIMembers;
+
+	TArray<AHero *> Heroes;
+
+	void Start(UMyGameInstance *gameInstanceRef, AMyGameMode *gameModeRef);
 
 	UPartyManager();
-
-	void Start();
 };

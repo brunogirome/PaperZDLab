@@ -4,20 +4,20 @@
 
 #include "Hero.h"
 
-#include "Protagonist.generated.h"
+#include "PartyLeader.generated.h"
 
 /**
  *
  */
 UCLASS()
-class PAPERZDLAB_API AProtagonist : public AHero
+class PAPERZDLAB_API APartyLeader : public AHero
 {
     GENERATED_BODY()
 
     class UMyGameInstance *myGameInstance;
 
 public:
-    AProtagonist();
+    APartyLeader();
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     class USpringArmComponent *SpringArmComp;

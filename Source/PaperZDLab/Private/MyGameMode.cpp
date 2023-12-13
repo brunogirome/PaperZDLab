@@ -4,11 +4,13 @@
 
 #include "Kismet/GameplayStatics.h"
 
-#include "Protagonist.h"
+#include "PartyLeader.h"
 
 #include "PartyMember.h"
 
 #include "MyGameInstance.h"
+
+#include "PartyManager.h"
 
 float AMyGameMode::getDefendingDamageReduction()
 {
@@ -482,30 +484,34 @@ void AMyGameMode::BeginPlay()
     this->gameInstance->InitParty();
   }
 
-  AProtagonist *partyLeader = Cast<AProtagonist>(GetWorld()->GetFirstPlayerController()->GetPawn());
+  UPartyManager *partyManager = NewObject<UPartyManager>(UPartyManager::StaticClass());
 
-  // partyLeader->ActorName = this->gameInstance->PartyRowNames[0];
+  partyManager->Start(this->gameInstance, this);
 
-  this->actorsPointers.Emplace(partyLeader);
+  // APartyLeader *partyLeader = Cast<APartyLeader>(GetWorld()->GetFirstPlayerController()->GetPawn());
 
-  for (int i = 1; i < this->gameInstance->PartyRowNames.Num(); i++)
-  {
-    FVector location = partyLeader->GetActorLocation();
+  // // partyLeader->ActorName = this->gameInstance->PartyRowNames[0];
 
-    FRotator rotation = partyLeader->GetActorRotation();
+  // this->actorsPointers.Emplace(partyLeader);
 
-    location.X -= 200 * i;
+  // for (int i = 1; i < this->gameInstance->PartyRowNames.Num(); i++)
+  // {
+  //   FVector location = partyLeader->GetActorLocation();
 
-    APartyMember *partyMember = GetWorld()->SpawnActor<APartyMember>(APartyMember::StaticClass(), location, rotation);
+  //   FRotator rotation = partyLeader->GetActorRotation();
 
-    partyMember->TargetPawn = this->actorsPointers[i - 1];
+  //   location.X -= 200 * i;
 
-    partyMember->ActorName = this->gameInstance->PartyRowNames[i];
+  //   APartyMember *partyMember = GetWorld()->SpawnActor<APartyMember>(APartyMember::StaticClass(), location, rotation);
 
-    partyMember->BeginPlay();
+  //   partyMember->TargetPawn = this->actorsPointers[i - 1];
 
-    this->actorsPointers.Emplace(partyMember);
-  }
+  //   partyMember->ActorName = this->gameInstance->PartyRowNames[i];
+
+  //   partyMember->BeginPlay();
+
+  //   this->actorsPointers.Emplace(partyMember);
+  // }
 
   this->gameInstance->AddItem("HpPotion", 5);
 

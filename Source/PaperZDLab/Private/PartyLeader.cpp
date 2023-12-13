@@ -1,4 +1,4 @@
-#include "Protagonist.h"
+#include "PartyLeader.h"
 
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -14,7 +14,7 @@
 
 #include "MyGameInstance.h"
 
-void AProtagonist::BeginPlay()
+void APartyLeader::BeginPlay()
 {
     Super::BeginPlay();
 
@@ -27,12 +27,12 @@ void AProtagonist::BeginPlay()
     Subsystem->AddMappingContext(MapContext, 0);
 }
 
-void AProtagonist::Tick(float DeltaTime)
+void APartyLeader::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 }
 
-void AProtagonist::SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent)
+void APartyLeader::SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent)
 {
     Super::SetupPlayerInputComponent(PlayerInputComponent);
 
@@ -40,11 +40,11 @@ void AProtagonist::SetupPlayerInputComponent(class UInputComponent *PlayerInputC
 
     if (UEnhancedInputComponent *EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
     {
-        EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AProtagonist::Move);
+        EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &APartyLeader::Move);
     }
 }
 
-void AProtagonist::Move(const FInputActionValue &Value)
+void APartyLeader::Move(const FInputActionValue &Value)
 {
     if (this->myGameInstance->CurrentGameState != OVERWORLD)
     {
@@ -60,7 +60,7 @@ void AProtagonist::Move(const FInputActionValue &Value)
     this->AddMovementInput(FVector(0.0f, -1.0f, 0.0f), y, false);
 }
 
-AProtagonist::AProtagonist()
+APartyLeader::APartyLeader()
 {
     CameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComp"));
 

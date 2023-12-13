@@ -16,4 +16,7 @@ UCLASS()
 class PAPERZDLAB_API AHero : public ASpawnnableActor, public ICombatActor
 {
 	GENERATED_BODY()
+
+public:
+	uint8 positonInParty;
 };
