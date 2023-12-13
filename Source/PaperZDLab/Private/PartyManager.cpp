@@ -4,15 +4,24 @@
 
 #include "Kismet/GameplayStatics.h"
 
+#include "MyGameInstance.h"
+
 #include "PartyLeader.h"
 
 #include "PartyMember.h"
 
-#include "MyGameInstance.h"
+#include "HeroStruct.h"
 
 #include "MyGameMode.h"
 
-void UPartyManager::spawnAIHero()
+FHeroStruct *UPartyManager::getHeroStruct(FName heroName)
+{
+    FHeroStruct *heroPointer = this->gameInstance->HeroesDataTable->FindRow<FHeroStruct>(heroName, "", true);
+
+    return heroPointer ? heroPointer : nullptr;
+}
+
+void UPartyManager::spawnAIHero(FHeroStruct *heroStruct)
 {
     int32 currentPartySize = this->Heroes.Num();
 
@@ -29,9 +38,7 @@ void UPartyManager::spawnAIHero()
 
     partyMember->TargetPawn = heroReferance;
 
-    partyMember->ActorName = this->gameInstance->PartyRowNames[currentPartySize];
-
-    partyMember->BeginPlay();
+    partyMember->Initialize(heroStruct, 1);
 
     this->Heroes.Emplace(partyMember);
 }
@@ -42,15 +49,26 @@ void UPartyManager::Start(UMyGameInstance *gameInstanceRef, AMyGameMode *gameMod
 
     this->gameMode = gameModeRef;
 
-    this->Leader = Cast<APartyLeader>(this->gameMode->GetWorld()->GetFirstPlayerController()->GetPawn());
+    bool isTheLeader = true;
 
-    this->Leader->ActorName = this->gameInstance->PartyRowNames[0];
-
-    this->Heroes.Emplace(this->Leader);
-
-    for (int i = 1; i < this->gameInstance->PartyRowNames.Num(); i++)
+    for (FName heroName : this->gameInstance->PartyRowNames)
     {
-        this->spawnAIHero();
+        FHeroStruct *heroStruct = this->getHeroStruct(heroName);
+
+        if (isTheLeader)
+        {
+            this->Leader = Cast<APartyLeader>(this->gameMode->GetWorld()->GetFirstPlayerController()->GetPawn());
+
+            this->Leader->Initialize(heroStruct, 1);
+
+            isTheLeader = false;
+
+            this->Heroes.Emplace(this->Leader);
+
+            continue;
+        }
+
+        this->spawnAIHero(heroStruct);
     }
 }
 

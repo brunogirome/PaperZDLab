@@ -5,12 +5,15 @@
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
 
-#include "PartyClass.h"
-#include "ItemClass.h"
-
 #include "CurrentGameState.h"
 
 #include "MyGameInstance.generated.h"
+
+class UPartyManager;
+
+class UItemClass;
+
+class AMyGameMode;
 
 /**
  *
@@ -40,7 +43,7 @@ public:
 
 	TArray<float> ATTACK_STRENGTH_ACCURACY_BASE;
 
-	UPartyClass *Party;
+	UPartyManager *PartyManager;
 
 	UMyGameInstance();
 
@@ -50,7 +53,7 @@ public:
 
 	void RemoveItem(int32 positon);
 
-	void InitParty();
+	void InitializeParty(AMyGameMode *gameMode);
 
 	TEnumAsByte<CurrentGameState> CurrentGameState;
 };

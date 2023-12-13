@@ -16,6 +16,8 @@ class UMyGameInstance;
 
 class AMyGameMode;
 
+struct FHeroStruct;
+
 // Hero refs, spawn, add hero, remove hero, change order
 
 /**
@@ -26,7 +28,9 @@ class PAPERZDLAB_API UPartyManager : public UObject
 {
 	GENERATED_BODY()
 
-	void spawnAIHero();
+	FHeroStruct *getHeroStruct(FName heroName);
+
+	void spawnAIHero(FHeroStruct *heroStruct);
 
 	UMyGameInstance *gameInstance;
 
@@ -40,6 +44,8 @@ public:
 	TArray<AHero *> Heroes;
 
 	void Start(UMyGameInstance *gameInstanceRef, AMyGameMode *gameModeRef);
+
+	void AddHero(FName name);
 
 	UPartyManager();
 };

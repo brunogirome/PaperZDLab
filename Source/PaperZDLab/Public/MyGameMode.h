@@ -5,13 +5,13 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 
-#include "HeroStats.h"
-#include "EnemyStats.h"
 #include "ItemClass.h"
 
 #include "BattleStateEnum.h"
 
 #include "MyGameMode.generated.h"
+
+class UMyGameInstance;
 
 /**
  *
@@ -21,93 +21,93 @@ class PAPERZDLAB_API AMyGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 
-	const float DEFENDING_DAMAGE_REDUCTION = 0.75f;
+	// const float DEFENDING_DAMAGE_REDUCTION = 0.75f;
 
-	const float ESCAPE_CHANCE = 0.85f;
+	// const float ESCAPE_CHANCE = 0.85f;
 
-	TArray<UCombatActorStats *> attackOrder;
+	// TArray<UCombatActorStats *> attackOrder;
 
-	class UMyGameInstance *gameInstance;
+	UMyGameInstance *gameInstance;
 
-	int32 turnCurrent;
+	// int32 turnCurrent;
 
-	int32 turnSize;
+	// int32 turnSize;
 
-	int32 currentActorPointer;
+	// int32 currentActorPointer;
 
-	bool alreadyAttacked;
+	// bool alreadyAttacked;
 
-	bool victory;
+	// bool victory;
 
-	bool gameOver;
+	// bool gameOver;
 
-	bool escaped;
+	// bool escaped;
 
-	float getDefendingDamageReduction();
+	// float getDefendingDamageReduction();
 
-	void startStep();
+	// void startStep();
 
-	void physicalDamage();
+	// void physicalDamage();
 
-	void castSpell();
+	// void castSpell();
 
-	void castSpellDamage();
+	// void castSpellDamage();
 
-	void castItem();
+	// void castItem();
 
-	void enemyTurn();
+	// void enemyTurn();
 
-	void endOfTheTurn();
+	// void endOfTheTurn();
 
-	void tryToEscape();
+	// void tryToEscape();
 
-	void incrementActorPointer();
+	// void incrementActorPointer();
 
-	TArray<APawn *> actorsPointers;
+	// TArray<APawn *> actorsPointers;
 
 public:
-	TArray<UHeroStats *> *HeroParty;
+	// TArray<UHeroStats *> *HeroParty;
 
-	TArray<UEnemyStats *> EnemyParty;
+	// TArray<UEnemyStats *> EnemyParty;
 
-	TArray<FActiveBuffStruct> ActivePartyBuffs;
+	// TArray<FActiveBuffStruct> ActivePartyBuffs;
 
-	TEnumAsByte<BattleStateEnum> BattleState;
+	// TEnumAsByte<BattleStateEnum> BattleState;
 
-	TEnumAsByte<BattleStateEnum> LastBattleState;
+	// TEnumAsByte<BattleStateEnum> LastBattleState;
 
-	UCombatActorStats *TargetActor;
+	// UCombatActorStats *TargetActor;
 
-	UCombatActorStats *CurrentActor;
+	// UCombatActorStats *CurrentActor;
 
-	USpellClass *CastedSpell;
+	// USpellClass *CastedSpell;
 
-	UItemClass *SelectedItem;
+	// UItemClass *SelectedItem;
 
-	uint8 AttackStrengthChoice;
+	// uint8 AttackStrengthChoice;
 
-	uint8 CastedSpellPositon;
+	// uint8 CastedSpellPositon;
 
-	bool AlreadyAttacked;
+	// bool AlreadyAttacked;
 
 	UFUNCTION(BlueprintCallable)
 	virtual void BeginPlay() override;
 
-	UFUNCTION(BlueprintCallable)
-	virtual void Tick(float DeltaSeconds) override;
+	// UFUNCTION(BlueprintCallable)
+	// virtual void Tick(float DeltaSeconds) override;
 
-	float GetActorAccuracyByStrength(uint8 level);
+	// float GetActorAccuracyByStrength(uint8 level);
 
-	void StartBattle(TArray<FName> enemyPartyNames);
+	// void StartBattle(TArray<FName> enemyPartyNames);
 
-	void SetBattleState(BattleStateEnum newState);
+	// void SetBattleState(BattleStateEnum newState);
 
 	AMyGameMode();
 
 	// Debug functions
-	UFUNCTION(BlueprintCallable)
-	void PrintSort();
+	// UFUNCTION(BlueprintCallable)
+	// void PrintSort();
 
-	UFUNCTION(BlueprintCallable)
-	void PrintNames();
+	// UFUNCTION(BlueprintCallable)
+	// void PrintNames();
 };

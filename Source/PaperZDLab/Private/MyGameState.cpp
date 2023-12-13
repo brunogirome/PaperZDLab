@@ -4,201 +4,198 @@
 
 #include "Kismet/GameplayStatics.h"
 
-#include "MyGameInstance.h"
-#include "MyGameMode.h"
+// TArray<UHeroStats *> AMyGameState::GetPartyMembers()
+// {
+//   return this->GameInstance->Party->Members;
+// }
 
-TArray<UHeroStats *> AMyGameState::GetPartyMembers()
-{
-  return this->GameInstance->Party->Members;
-}
+// TArray<UEnemyStats *> AMyGameState::GetEnemyPartyMembers()
+// {
+//   return this->GameMode->EnemyParty;
+// }
 
-TArray<UEnemyStats *> AMyGameState::GetEnemyPartyMembers()
-{
-  return this->GameMode->EnemyParty;
-}
+// TArray<float> AMyGameState::GetATTACK_STRENGTH_ACCURACY()
+// {
+//   return this->GameInstance->ATTACK_STRENGTH_ACCURACY_BASE;
+// }
 
-TArray<float> AMyGameState::GetATTACK_STRENGTH_ACCURACY()
-{
-  return this->GameInstance->ATTACK_STRENGTH_ACCURACY_BASE;
-}
+// TArray<UItemClass *> AMyGameState::GetInventory()
+// {
+//   return this->GameInstance->Inventory;
+// }
 
-TArray<UItemClass *> AMyGameState::GetInventory()
-{
-  return this->GameInstance->Inventory;
-}
+// TEnumAsByte<CurrentGameState> AMyGameState::GetCurrentGameState()
+// {
+//   return this->GameInstance->CurrentGameState;
+// }
 
-TEnumAsByte<CurrentGameState> AMyGameState::GetCurrentGameState()
-{
-  return this->GameInstance->CurrentGameState;
-}
+// TEnumAsByte<BattleStateEnum> AMyGameState::GetBattleState()
+// {
+//   return this->GameMode->BattleState;
+// }
 
-TEnumAsByte<BattleStateEnum> AMyGameState::GetBattleState()
-{
-  return this->GameMode->BattleState;
-}
+// TEnumAsByte<BattleStateEnum> AMyGameState::GetLastBattleState()
+// {
+//   return this->GameMode->LastBattleState;
+// }
 
-TEnumAsByte<BattleStateEnum> AMyGameState::GetLastBattleState()
-{
-  return this->GameMode->LastBattleState;
-}
+// TEnumAsByte<SpellTypeEnum> AMyGameState::GetSpellCastedType()
+// {
+//   return this->GameMode->CastedSpell->SpellType;
+// }
 
-TEnumAsByte<SpellTypeEnum> AMyGameState::GetSpellCastedType()
-{
-  return this->GameMode->CastedSpell->SpellType;
-}
+// UCombatActorStats *AMyGameState::GetCurrentActor()
+// {
+//   return this->GameMode->CurrentActor;
+// }
 
-UCombatActorStats *AMyGameState::GetCurrentActor()
-{
-  return this->GameMode->CurrentActor;
-}
+// void AMyGameState::SetBattleState(BattleStateEnum newBattleState)
+// {
+//   this->GameMode->SetBattleState(newBattleState);
+// }
 
-void AMyGameState::SetBattleState(BattleStateEnum newBattleState)
-{
-  this->GameMode->SetBattleState(newBattleState);
-}
+// UHeroStats *AMyGameState::GetHeroByPartyPosition(uint8 position)
+// {
+//   return (*this->GameMode->HeroParty)[position];
+// }
 
-UHeroStats *AMyGameState::GetHeroByPartyPosition(uint8 position)
-{
-  return (*this->GameMode->HeroParty)[position];
-}
+// UEnemyStats *AMyGameState::GetEnemyByPartyPosition(uint8 position)
+// {
+//   return this->GameMode->EnemyParty[position];
+// }
 
-UEnemyStats *AMyGameState::GetEnemyByPartyPosition(uint8 position)
-{
-  return this->GameMode->EnemyParty[position];
-}
+// float AMyGameState::GetActorAccuracyByStrength(uint8 level)
+// {
+//   return this->GameMode->GetActorAccuracyByStrength(level);
+// }
 
-float AMyGameState::GetActorAccuracyByStrength(uint8 level)
-{
-  return this->GameMode->GetActorAccuracyByStrength(level);
-}
+// bool AMyGameState::GetAlreadyAttacked()
+// {
+//   return this->GameMode->AlreadyAttacked;
+// }
 
-bool AMyGameState::GetAlreadyAttacked()
-{
-  return this->GameMode->AlreadyAttacked;
-}
+// bool AMyGameState::IsPartyBuffActive(PartyBuffTypeEnum partyBuffType)
+// {
+//   for (FActiveBuffStruct partyBuff : this->GameMode->ActivePartyBuffs)
+//   {
+//     if (partyBuff.SpellPointer->PartyBuffType == partyBuffType)
+//     {
+//       return true;
+//     }
+//   }
 
-bool AMyGameState::IsPartyBuffActive(PartyBuffTypeEnum partyBuffType)
-{
-  for (FActiveBuffStruct partyBuff : this->GameMode->ActivePartyBuffs)
-  {
-    if (partyBuff.SpellPointer->PartyBuffType == partyBuffType)
-    {
-      return true;
-    }
-  }
+//   return false;
+// }
 
-  return false;
-}
+// void AMyGameState::SetCurrentGameMode(CurrentGameState newCurrentGameState)
+// {
+//   this->GameInstance->CurrentGameState = newCurrentGameState;
+// }
 
-void AMyGameState::SetCurrentGameMode(CurrentGameState newCurrentGameState)
-{
-  this->GameInstance->CurrentGameState = newCurrentGameState;
-}
+// void AMyGameState::SetEnemyAsTargetByPosition(uint8 enemyPosition)
+// {
+//   UCombatActorStats *enemy = (UCombatActorStats *)this->GameMode->EnemyParty[enemyPosition];
 
-void AMyGameState::SetEnemyAsTargetByPosition(uint8 enemyPosition)
-{
-  UCombatActorStats *enemy = (UCombatActorStats *)this->GameMode->EnemyParty[enemyPosition];
+//   this->GameMode->TargetActor = enemy;
+// }
 
-  this->GameMode->TargetActor = enemy;
-}
+// void AMyGameState::SetHeroAsTargetByName(FString name)
+// {
+//   int32 heroIndex =
+//       (*this->GameMode->HeroParty).IndexOfByPredicate([&](UHeroStats *hero)
+//                                                       { return hero->Name == name; });
 
-void AMyGameState::SetHeroAsTargetByName(FString name)
-{
-  int32 heroIndex =
-      (*this->GameMode->HeroParty).IndexOfByPredicate([&](UHeroStats *hero)
-                                                      { return hero->Name == name; });
+//   UCombatActorStats *hero = (UCombatActorStats *)(*this->GameMode->HeroParty)[heroIndex];
 
-  UCombatActorStats *hero = (UCombatActorStats *)(*this->GameMode->HeroParty)[heroIndex];
+//   this->GameMode->TargetActor = hero;
+// }
 
-  this->GameMode->TargetActor = hero;
-}
+// void AMyGameState::SetAttackStrengthChoice(uint8 choice)
+// {
+//   this->GameMode->AttackStrengthChoice = choice;
 
-void AMyGameState::SetAttackStrengthChoice(uint8 choice)
-{
-  this->GameMode->AttackStrengthChoice = choice;
+//   this->SetBattleState(PHYSICAL_ATTACK);
+// }
 
-  this->SetBattleState(PHYSICAL_ATTACK);
-}
+// void AMyGameState::StartBattle(TArray<FName> enemiesRowNames)
+// {
+//   this->GameMode->StartBattle(enemiesRowNames);
+// }
 
-void AMyGameState::StartBattle(TArray<FName> enemiesRowNames)
-{
-  this->GameMode->StartBattle(enemiesRowNames);
-}
+// void AMyGameState::CastSpell(uint8 position)
+// {
+//   this->GameMode->CastedSpellPositon = position;
 
-void AMyGameState::CastSpell(uint8 position)
-{
-  this->GameMode->CastedSpellPositon = position;
+//   this->SetBattleState(SPELL_CAST);
+// }
 
-  this->SetBattleState(SPELL_CAST);
-}
+// void AMyGameState::AddItemToInventory(FName itemName, uint8 amount)
+// {
+//   this->GameInstance->AddItem(itemName, amount);
+// }
 
-void AMyGameState::AddItemToInventory(FName itemName, uint8 amount)
-{
-  this->GameInstance->AddItem(itemName, amount);
-}
+// void AMyGameState::SelectItemToConsume(uint8 positonOnInventory)
+// {
+//   this->GameMode->SelectedItem = this->GameInstance->Inventory[positonOnInventory];
 
-void AMyGameState::SelectItemToConsume(uint8 positonOnInventory)
-{
-  this->GameMode->SelectedItem = this->GameInstance->Inventory[positonOnInventory];
+//   this->SetBattleState(SELECT_TARGET);
+// }
 
-  this->SetBattleState(SELECT_TARGET);
-}
+// void AMyGameState::RemoveItemFromInventory(int32 position)
+// {
+//   this->GameInstance->RemoveItem(position);
+// }
 
-void AMyGameState::RemoveItemFromInventory(int32 position)
-{
-  this->GameInstance->RemoveItem(position);
-}
+// void AMyGameState::ConsumeItemOnInventory(int32 position, UHeroStats *selectedHero)
+// {
+//   UItemClass *item = this->GameInstance->Inventory[position];
 
-void AMyGameState::ConsumeItemOnInventory(int32 position, UHeroStats *selectedHero)
-{
-  UItemClass *item = this->GameInstance->Inventory[position];
+//   switch (item->ConsumableType)
+//   {
+//   case POTION_HP:
+//     selectedHero->HealHp(item->ConsumableHealing);
 
-  switch (item->ConsumableType)
-  {
-  case POTION_HP:
-    selectedHero->HealHp(item->ConsumableHealing);
+//     item->Consume();
+//     break;
+//   }
+// }
 
-    item->Consume();
-    break;
-  }
-}
+// void AMyGameState::EquipItem(int32 position, UHeroStats *selectedHero)
+// {
+//   UItemClass *item = this->GameInstance->Inventory[position];
 
-void AMyGameState::EquipItem(int32 position, UHeroStats *selectedHero)
-{
-  UItemClass *item = this->GameInstance->Inventory[position];
+//   uint8 positionHeroEquipament = selectedHero->Equipaments.Num();
 
-  uint8 positionHeroEquipament = selectedHero->Equipaments.Num();
+//   FItemStruct *itemStructPointer = this->GameInstance->ItemsDataTable->FindRow<FItemStruct>(FName(item->Name.Replace(TEXT(" "), TEXT(""))), "", true);
 
-  FItemStruct *itemStructPointer = this->GameInstance->ItemsDataTable->FindRow<FItemStruct>(FName(item->Name.Replace(TEXT(" "), TEXT(""))), "", true);
+//   UItemClass *newItem = NewObject<UItemClass>(UItemClass::StaticClass());
 
-  UItemClass *newItem = NewObject<UItemClass>(UItemClass::StaticClass());
+//   newItem->Create(positionHeroEquipament, 1, itemStructPointer, this->GameInstance);
 
-  newItem->Create(positionHeroEquipament, 1, itemStructPointer, this->GameInstance);
+//   newItem->HeroEquipped = selectedHero;
 
-  newItem->HeroEquipped = selectedHero;
+//   item->Consume();
 
-  item->Consume();
+//   selectedHero->Equipaments.Emplace(newItem);
 
-  selectedHero->Equipaments.Emplace(newItem);
+//   selectedHero->CalculateStats();
+// }
 
-  selectedHero->CalculateStats();
-}
+// void AMyGameState::UnequipItem(int32 position, UHeroStats *selectedHero)
+// {
+//   UItemClass *item = selectedHero->Equipaments[position];
 
-void AMyGameState::UnequipItem(int32 position, UHeroStats *selectedHero)
-{
-  UItemClass *item = selectedHero->Equipaments[position];
+//   this->GameInstance->AddItem(FName(item->Name.Replace(TEXT(" "), TEXT(""))), 1);
 
-  this->GameInstance->AddItem(FName(item->Name.Replace(TEXT(" "), TEXT(""))), 1);
+//   selectedHero->Equipaments.RemoveAt(position);
 
-  selectedHero->Equipaments.RemoveAt(position);
+//   for (uint8 i = 0; i < selectedHero->Equipaments.Num(); i++)
+//   {
+//     UItemClass *equipament = selectedHero->Equipaments[i];
 
-  for (uint8 i = 0; i < selectedHero->Equipaments.Num(); i++)
-  {
-    UItemClass *equipament = selectedHero->Equipaments[i];
-
-    equipament->PositionInInventory = i;
-  }
-}
+//     equipament->PositionInInventory = i;
+//   }
+// }
 
 AMyGameState::AMyGameState()
 {

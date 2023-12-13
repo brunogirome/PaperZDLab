@@ -15,6 +15,8 @@
 
 #include "SpawnnableActor.generated.h"
 
+class UMyGameInstance;
+
 struct FFlipbookCollection
 {
 	UPaperFlipbook *IdleUpFlipbook;
@@ -154,11 +156,15 @@ class PAPERZDLAB_API ASpawnnableActor : public APaperCharacter
 
 protected:
 	UPROPERTY(BlueprintReadOnly)
-	class AAIController *actorAIController;
+	AAIController *actorAIController;
 
 	FFlipbookCollection flipBookCollection;
 
+	UMyGameInstance *gameInstance;
+
 	void setupAIController();
+
+	void initialize(FName actorName);
 
 public:
 	UPROPERTY(Editanywhere)

@@ -4,8 +4,9 @@
 
 #include "CoreMinimal.h"
 
-#include "SpawnnableActor.h"
 #include "CombatActor.h"
+
+#include "HeroStruct.h"
 
 #include "Hero.generated.h"
 
@@ -13,10 +14,16 @@
  *
  */
 UCLASS()
-class PAPERZDLAB_API AHero : public ASpawnnableActor, public ICombatActor
+class PAPERZDLAB_API AHero : public ACombatActor
 {
 	GENERATED_BODY()
 
+	FHeroStruct HeroStruct;
+
 public:
-	uint8 positonInParty;
+	uint8 Level;
+
+	void Initialize(FHeroStruct *heroStruct, uint8 level);
+
+	AHero();
 };

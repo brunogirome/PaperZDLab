@@ -2,11 +2,15 @@
 
 #include "MyGameInstance.h"
 
-void UMyGameInstance::InitParty()
-{
-  this->Party = NewObject<UPartyClass>(UPartyClass::StaticClass());
+#include "ItemClass.h"
+#include "PartyManager.h"
+#include "MyGameMode.h"
 
-  this->Party->Init(this);
+void UMyGameInstance::InitializeParty(AMyGameMode *gameMode)
+{
+  UPartyManager *partyManager = NewObject<UPartyManager>(UPartyManager::StaticClass());
+
+  partyManager->Start(this, gameMode);
 }
 
 void UMyGameInstance::AddItem(FName itemName, uint8 amount)
@@ -48,7 +52,7 @@ UMyGameInstance::UMyGameInstance()
 {
   this->CurrentGameState = OVERWORLD;
 
-  this->Party = nullptr;
+  this->PartyManager = nullptr;
 
   const float DEFAULT_WEAK_ATTACK_ACCURAY = 92.f;
 

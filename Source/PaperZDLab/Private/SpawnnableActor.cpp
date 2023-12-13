@@ -2,14 +2,23 @@
 
 #include "SpawnnableActor.h"
 
+#include "Kismet/GameplayStatics.h"
+
 #include "PaperFlipbookComponent.h"
+
+#include "MyGameInstance.h"
 
 void ASpawnnableActor::BeginPlay()
 {
     Super::BeginPlay();
+}
 
-    if (!this->ActorName.IsNone())
+void ASpawnnableActor::initialize(FName actorName)
+{
+    if (!actorName.IsNone())
     {
+        this->ActorName = actorName;
+
         this->flipBookCollection = FFlipbookCollection(this->ActorName.ToString());
 
         this->GetSprite()->SetFlipbook(flipBookCollection.IdleDownFlipbook);
@@ -20,7 +29,7 @@ void ASpawnnableActor::setupAIController()
 {
     if (!this->actorAIController)
     {
-        this->actorAIController = GetWorld()->SpawnActor<AAIController>(AAIController::StaticClass(), FVector::ZeroVector, FRotator::ZeroRotator);
+        this->actorAIController = this->GetWorld()->SpawnActor<AAIController>(AAIController::StaticClass(), FVector::ZeroVector, FRotator::ZeroRotator);
 
         this->AIControllerClass = this->actorAIController->GetClass();
 
@@ -40,7 +49,6 @@ void ASpawnnableActor::Tick(float DeltaTime)
 
     if (velocity.IsNearlyZero())
     {
-
         switch (this->currentDirection)
         {
         case MOVE_UP:
@@ -133,6 +141,8 @@ void ASpawnnableActor::Tick(float DeltaTime)
 
 ASpawnnableActor::ASpawnnableActor()
 {
+    this->gameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
     this->GetSprite()->SetCastShadow(true);
 
     UMaterialInterface *MaskedLitSpriteMaterial = LoadObject<UMaterialInterface>(nullptr, TEXT("MaterialInstanceConstant'/Paper2D/MaskedLitSpriteMaterial.MaskedLitSpriteMaterial'"));

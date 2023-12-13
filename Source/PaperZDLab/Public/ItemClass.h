@@ -26,8 +26,8 @@ public:
   UPROPERTY(BluePrintReadOnly)
   bool IsEquiped;
 
-  UPROPERTY(BluePrintReadOnly)
-  class UHeroStats *HeroEquipped;
+  // UPROPERTY(BluePrintReadOnly)
+  // class UHeroStats *HeroEquipped;
 
   UPROPERTY(BluePrintReadOnly)
   FString Name;
