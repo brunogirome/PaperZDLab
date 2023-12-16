@@ -3,6 +3,7 @@
 #include "EnemyLeader.h"
 
 #include "Kismet/GameplayStatics.h"
+#include "Blueprint/AIBlueprintHelperLibrary.h"
 
 #include "MyGameInstance.h"
 
@@ -59,6 +60,8 @@ void AEnemyLeader::PositionHeroes()
     TArray<AHero *> *HeroesPointer = &localGameInstance->PartyManager->Heroes;
 
     APartyLeader *Leader = localGameInstance->PartyManager->Leader;
+
+    UAIBlueprintHelperLibrary::SimpleMoveToLocation(Leader->GetController(), getPosition(0));
 
     for (int32 i = 1; i < (*HeroesPointer).Num(); i++)
     {
