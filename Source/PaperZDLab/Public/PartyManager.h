@@ -41,6 +41,7 @@ public:
 
 	TArray<APartyMember *> AIMembers;
 
+	UPROPERTY(BlueprintReadOnly)
 	TArray<AHero *> Heroes;
 
 	void Start(UMyGameInstance *gameInstanceRef, AMyGameMode *gameModeRef);

@@ -6,6 +6,8 @@
 #include "Enemy.h"
 #include "EnemyLeader.generated.h"
 
+class UMyGameInstance;
+
 /**
  *
  */
@@ -14,7 +16,16 @@ class PAPERZDLAB_API AEnemyLeader : public AEnemy
 {
 	GENERATED_BODY()
 
+	UMyGameInstance *localGameInstance;
+
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<FName> EnemyNames;
+
+	UFUNCTION(BlueprintCallable)
+	void PositionHeroes();
+
+	virtual void BeginPlay() override;
+
+	AEnemyLeader();
 };

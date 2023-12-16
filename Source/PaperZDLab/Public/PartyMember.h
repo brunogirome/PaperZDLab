@@ -8,6 +8,8 @@
 
 #include "PartyMember.generated.h"
 
+class UMyGameInstance;
+
 /**
  *
  */
@@ -15,6 +17,8 @@ UCLASS()
 class PAPERZDLAB_API APartyMember : public AHero
 {
     GENERATED_BODY()
+
+    UMyGameInstance *localGameInstance;
 
 public:
     APawn *TargetPawn;

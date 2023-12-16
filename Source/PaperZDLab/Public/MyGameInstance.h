@@ -43,6 +43,7 @@ public:
 
 	TArray<float> ATTACK_STRENGTH_ACCURACY_BASE;
 
+	UPROPERTY(BlueprintReadOnly)
 	UPartyManager *PartyManager;
 
 	UMyGameInstance();

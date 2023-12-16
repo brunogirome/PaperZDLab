@@ -14,6 +14,11 @@
 
 #include "MyGameInstance.h"
 
+void APartyLeader::SetupControllerForBattle()
+{
+    this->setupAIController();
+}
+
 void APartyLeader::BeginPlay()
 {
     Super::BeginPlay();
@@ -30,6 +35,12 @@ void APartyLeader::BeginPlay()
 void APartyLeader::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
+
+    FVector currentPositon = this->GetActorLocation();
+
+    // GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::White, this->gameInstance->PartyManager);
+
+    // GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::White, "Location: X=" + FString::SanitizeFloat(currentPositon.X) + ", Y=" + FString::SanitizeFloat(currentPositon.Y));
 }
 
 void APartyLeader::SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent)
@@ -46,7 +57,7 @@ void APartyLeader::SetupPlayerInputComponent(class UInputComponent *PlayerInputC
 
 void APartyLeader::Move(const FInputActionValue &Value)
 {
-    if (this->myGameInstance->CurrentGameState != OVERWORLD)
+    if (this->gameInstance->CurrentGameState != OVERWORLD)
     {
         return;
     }
@@ -75,11 +86,8 @@ APartyLeader::APartyLeader()
     SpringArmComp->SetupAttachment(GetCapsuleComponent());
 
     SpringArmComp->SetRelativeRotation(FRotator(-25.0f, -90.0f, 0.0f));
-    // FRotator = Y, Z, X
 
     SpringArmComp->bDoCollisionTest = 0;
 
     CameraComp->AttachToComponent(SpringArmComp, FAttachmentTransformRules::KeepRelativeTransform);
-
-    this->myGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 }

@@ -6,6 +6,10 @@
 
 #include "PartyLeader.generated.h"
 
+class USpringArmComponent;
+
+class UCameraComponent;
+
 /**
  *
  */
@@ -14,16 +18,16 @@ class PAPERZDLAB_API APartyLeader : public AHero
 {
     GENERATED_BODY()
 
-    class UMyGameInstance *myGameInstance;
-
 public:
     APartyLeader();
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-    class USpringArmComponent *SpringArmComp;
+    USpringArmComponent *SpringArmComp;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-    class UCameraComponent *CameraComp;
+    UCameraComponent *CameraComp;
+
+    void SetupControllerForBattle();
 
     virtual void BeginPlay() override;
 

@@ -10,10 +10,6 @@
 
 #include "MyGameState.generated.h"
 
-// class UMyGameInstance;
-
-// class AMyGameMode;
-
 class AHero;
 
 /**
@@ -41,8 +37,8 @@ public:
 	// UFUNCTION(BlueprintCallable)
 	// TArray<float> GetATTACK_STRENGTH_ACCURACY();
 
-	// UFUNCTION(BlueprintCallable)
-	// TEnumAsByte<CurrentGameState> GetCurrentGameState();
+	UFUNCTION(BlueprintCallable)
+	TEnumAsByte<CurrentGameState> GetCurrentGameState();
 
 	// UFUNCTION(BlueprintCallable)
 	// TEnumAsByte<BattleStateEnum> GetLastBattleState();
@@ -77,8 +73,8 @@ public:
 	// UFUNCTION(BlueprintCallable)
 	// void SetAttackStrengthChoice(uint8 choice);
 
-	// UFUNCTION(BlueprintCallable)
-	// void SetCurrentGameMode(CurrentGameState newCurrentGameState);
+	UFUNCTION(BlueprintCallable)
+	void SetCurrentGameMode(CurrentGameState newCurrentGameState);
 
 	// UFUNCTION(BlueprintCallable)
 	// void SetBattleState(BattleStateEnum newBattleState);

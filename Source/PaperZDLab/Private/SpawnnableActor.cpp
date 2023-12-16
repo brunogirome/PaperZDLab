@@ -27,13 +27,13 @@ void ASpawnnableActor::initialize(FName actorName)
 
 void ASpawnnableActor::setupAIController()
 {
-    if (!this->actorAIController)
+    if (!this->ActorAIController)
     {
-        this->actorAIController = this->GetWorld()->SpawnActor<AAIController>(AAIController::StaticClass(), FVector::ZeroVector, FRotator::ZeroRotator);
+        this->ActorAIController = this->GetWorld()->SpawnActor<AAIController>(AAIController::StaticClass(), FVector::ZeroVector, FRotator::ZeroRotator);
 
-        this->AIControllerClass = this->actorAIController->GetClass();
+        this->AIControllerClass = this->ActorAIController->GetClass();
 
-        this->actorAIController->Possess(this);
+        this->ActorAIController->Possess(this);
 
         this->SpawnDefaultController();
     }
@@ -163,5 +163,5 @@ ASpawnnableActor::ASpawnnableActor()
 
     this->bUseControllerRotationYaw = false;
 
-    this->actorAIController = nullptr;
+    this->ActorAIController = nullptr;
 }

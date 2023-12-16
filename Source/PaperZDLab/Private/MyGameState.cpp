@@ -27,10 +27,10 @@ TArray<AHero *> AMyGameState::GetPartyMembers()
 //   return this->GameInstance->Inventory;
 // }
 
-// TEnumAsByte<CurrentGameState> AMyGameState::GetCurrentGameState()
-// {
-//   return this->GameInstance->CurrentGameState;
-// }
+TEnumAsByte<CurrentGameState> AMyGameState::GetCurrentGameState()
+{
+  return this->gameInstance->CurrentGameState;
+}
 
 // TEnumAsByte<BattleStateEnum> AMyGameState::GetBattleState()
 // {
@@ -90,10 +90,10 @@ TArray<AHero *> AMyGameState::GetPartyMembers()
 //   return false;
 // }
 
-// void AMyGameState::SetCurrentGameMode(CurrentGameState newCurrentGameState)
-// {
-//   this->GameInstance->CurrentGameState = newCurrentGameState;
-// }
+void AMyGameState::SetCurrentGameMode(CurrentGameState newCurrentGameState)
+{
+  this->gameInstance->CurrentGameState = newCurrentGameState;
+}
 
 // void AMyGameState::SetEnemyAsTargetByPosition(uint8 enemyPosition)
 // {

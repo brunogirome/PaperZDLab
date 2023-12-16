@@ -155,18 +155,18 @@ class PAPERZDLAB_API ASpawnnableActor : public APaperCharacter
 	float const DOWN_RIGHT = 45.f;
 
 protected:
-	UPROPERTY(BlueprintReadOnly)
-	AAIController *actorAIController;
+	UMyGameInstance *gameInstance;
 
 	FFlipbookCollection flipBookCollection;
-
-	UMyGameInstance *gameInstance;
 
 	void setupAIController();
 
 	void initialize(FName actorName);
 
 public:
+	UPROPERTY(BlueprintReadOnly)
+	AAIController *ActorAIController;
+
 	UPROPERTY(Editanywhere)
 	FName ActorName;
 
