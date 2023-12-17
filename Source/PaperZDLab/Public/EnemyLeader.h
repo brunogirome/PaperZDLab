@@ -8,6 +8,8 @@
 
 class UMyGameInstance;
 
+class APartyLeader;
+
 class AHero;
 
 struct FheroesGoalLocation
@@ -29,6 +31,8 @@ UCLASS()
 class PAPERZDLAB_API AEnemyLeader : public AEnemy
 {
 	GENERATED_BODY()
+
+	APartyLeader *partyLeader;
 
 	TArray<AHero *> *heroesPointer;
 

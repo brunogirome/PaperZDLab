@@ -3,9 +3,9 @@
 #include "EnemyLeader.h"
 
 #include "Kismet/GameplayStatics.h"
-// #include "Kismet/KismetSystemLibrary.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "Engine/EngineTypes.h"
+#include "Camera/CameraComponent.h"
 
 #include "MyGameInstance.h"
 
@@ -61,13 +61,11 @@ void AEnemyLeader::PositionHeroes()
         return newPositon;
     };
 
-    APartyLeader *leader = localGameInstance->PartyManager->Leader;
-
     FVector location = getPosition(0);
 
     this->heroesGoalLocation.Emplace(location);
 
-    UAIBlueprintHelperLibrary::SimpleMoveToLocation(leader->GetController(), location);
+    UAIBlueprintHelperLibrary::SimpleMoveToLocation(this->partyLeader->GetController(), location);
 
     for (int32 i = 1; i < (*this->heroesPointer).Num(); i++)
     {
@@ -147,6 +145,12 @@ void AEnemyLeader::SetHeroDirections()
     this->positioning = false;
 
     GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "AMONGUS");
+
+    FVector newPosition = this->partyLeader->CameraComp->GetComponentLocation();
+
+    newPosition.X = this->GetActorLocation().X;
+
+    this->partyLeader->CameraComp->SetWorldLocation(newPosition);
 }
 
 void AEnemyLeader::BeginPlay()
@@ -161,6 +165,11 @@ void AEnemyLeader::BeginPlay()
     if (!this->heroesPointer)
     {
         this->heroesPointer = &this->localGameInstance->PartyManager->Heroes;
+    }
+
+    if (!this->partyLeader)
+    {
+        this->partyLeader = localGameInstance->PartyManager->Leader;
     }
 }
 

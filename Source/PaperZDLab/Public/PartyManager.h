@@ -37,6 +37,7 @@ class PAPERZDLAB_API UPartyManager : public UObject
 	AMyGameMode *gameMode;
 
 public:
+	UPROPERTY(BlueprintReadOnly)
 	APartyLeader *Leader;
 
 	TArray<APartyMember *> AIMembers;
