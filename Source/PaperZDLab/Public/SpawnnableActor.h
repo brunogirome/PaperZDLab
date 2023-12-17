@@ -140,8 +140,6 @@ class PAPERZDLAB_API ASpawnnableActor : public APaperCharacter
 {
 	GENERATED_BODY()
 
-	bool isMoving;
-
 	TEnumAsByte<ECharacterDirectionStatus> lastDirection;
 
 	TEnumAsByte<ECharacterDirectionStatus> currentDirection;
@@ -173,6 +171,8 @@ public:
 	virtual void BeginPlay() override;
 
 	virtual void Tick(float DeltaTime) override;
+
+	void SetDirection(ECharacterDirectionStatus direction);
 
 	ASpawnnableActor();
 };

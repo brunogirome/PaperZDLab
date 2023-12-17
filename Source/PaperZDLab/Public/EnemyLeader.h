@@ -8,6 +8,20 @@
 
 class UMyGameInstance;
 
+class AHero;
+
+struct FheroesGoalLocation
+{
+	FVector Location;
+
+	bool Reached;
+
+	FheroesGoalLocation(FVector location) : Location(location)
+	{
+		this->Reached = false;
+	}
+};
+
 /**
  *
  */
@@ -16,7 +30,13 @@ class PAPERZDLAB_API AEnemyLeader : public AEnemy
 {
 	GENERATED_BODY()
 
+	TArray<AHero *> *heroesPointer;
+
 	UMyGameInstance *localGameInstance;
+
+	TArray<FheroesGoalLocation> heroesGoalLocation;
+
+	bool positioning;
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -24,6 +44,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void PositionHeroes();
+
+	void SetHeroDirections();
+
+	virtual void Tick(float DeltaSeconds) override;
 
 	virtual void BeginPlay() override;
 

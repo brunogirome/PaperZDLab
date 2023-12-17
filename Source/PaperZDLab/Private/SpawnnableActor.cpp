@@ -52,19 +52,19 @@ void ASpawnnableActor::Tick(float DeltaTime)
         switch (this->currentDirection)
         {
         case MOVE_UP:
-            currentDirection = IDLE_UP;
+            this->currentDirection = IDLE_UP;
 
             break;
         case MOVE_DOWN:
-            currentDirection = IDLE_DOWN;
+            this->currentDirection = IDLE_DOWN;
 
             break;
         case MOVE_LEFT:
-            currentDirection = IDLE_LEFT;
+            this->currentDirection = IDLE_LEFT;
 
             break;
         case MOVE_RIGHT:
-            currentDirection = IDLE_RIGHT;
+            this->currentDirection = IDLE_RIGHT;
 
             break;
         }
@@ -139,6 +139,11 @@ void ASpawnnableActor::Tick(float DeltaTime)
     this->GetSprite()->SetFlipbook(newFlipbook);
 }
 
+void ASpawnnableActor::SetDirection(ECharacterDirectionStatus direction)
+{
+    this->currentDirection = direction;
+}
+
 ASpawnnableActor::ASpawnnableActor()
 {
     this->gameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
@@ -158,8 +163,6 @@ ASpawnnableActor::ASpawnnableActor()
     this->currentDirection = IDLE_DOWN;
 
     this->lastDirection = IDLE_DOWN;
-
-    this->isMoving = false;
 
     this->bUseControllerRotationYaw = false;
 

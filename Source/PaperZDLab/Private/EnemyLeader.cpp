@@ -3,7 +3,9 @@
 #include "EnemyLeader.h"
 
 #include "Kismet/GameplayStatics.h"
+// #include "Kismet/KismetSystemLibrary.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
+#include "Engine/EngineTypes.h"
 
 #include "MyGameInstance.h"
 
@@ -19,6 +21,8 @@ void AEnemyLeader::PositionHeroes()
     }
 
     this->localGameInstance->CurrentGameState = BATTLE;
+
+    this->heroesGoalLocation.Empty();
 
     const float DISTANCE_X = 150.f;
 
@@ -57,21 +61,93 @@ void AEnemyLeader::PositionHeroes()
         return newPositon;
     };
 
-    TArray<AHero *> *HeroesPointer = &localGameInstance->PartyManager->Heroes;
+    APartyLeader *leader = localGameInstance->PartyManager->Leader;
 
-    APartyLeader *Leader = localGameInstance->PartyManager->Leader;
+    FVector location = getPosition(0);
 
-    UAIBlueprintHelperLibrary::SimpleMoveToLocation(Leader->GetController(), getPosition(0));
+    this->heroesGoalLocation.Emplace(location);
 
-    for (int32 i = 1; i < (*HeroesPointer).Num(); i++)
+    UAIBlueprintHelperLibrary::SimpleMoveToLocation(leader->GetController(), location);
+
+    for (int32 i = 1; i < (*this->heroesPointer).Num(); i++)
     {
-        (*HeroesPointer)[i]->GetController()->StopMovement();
+        (*this->heroesPointer)[i]->GetController()->StopMovement();
     }
 
-    for (int32 i = 1; i < (*HeroesPointer).Num(); i++)
+    for (int32 i = 1; i < (*this->heroesPointer).Num(); i++)
     {
-        (*HeroesPointer)[i]->ActorAIController->MoveToLocation(getPosition(i));
+        location = getPosition(i);
+
+        this->heroesGoalLocation.Emplace(location);
+
+        (*this->heroesPointer)[i]->ActorAIController->MoveToLocation(location);
     }
+
+    this->positioning = true;
+}
+
+void AEnemyLeader::Tick(float DeltaSeconds)
+{
+    Super::Tick(DeltaSeconds);
+
+    if (this->positioning)
+    {
+        for (int32 i = 0; i < this->heroesGoalLocation.Num(); i++)
+        {
+            FVector heroLocation = (*this->heroesPointer)[i]->GetActorLocation();
+
+            FheroesGoalLocation *goalLocation = &this->heroesGoalLocation[i];
+
+            if (goalLocation->Reached)
+            {
+                continue;
+            }
+
+            if (!FVector::PointsAreNear(goalLocation->Location, heroLocation, 40))
+            {
+                break;
+            }
+
+            goalLocation->Reached = true;
+
+            FTimerHandle TimerHandle;
+
+            this->GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AEnemyLeader::SetHeroDirections, 0.1, false);
+
+            GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Blue, (*this->heroesPointer)[i]->ActorName.ToString() + " is positioned!");
+        }
+    }
+}
+
+void AEnemyLeader::SetHeroDirections()
+{
+
+    bool everyoneInPosition = true;
+
+    for (int32 i = 0; i < this->heroesPointer->Num(); i++)
+    {
+        if (!this->heroesGoalLocation[i].Reached)
+        {
+            everyoneInPosition = false;
+
+            continue;
+        }
+
+        AHero *hero = (*this->heroesPointer)[i];
+
+        ECharacterDirectionStatus newDirection = i < 2 ? IDLE_RIGHT : IDLE_LEFT;
+
+        hero->SetDirection(newDirection);
+    }
+
+    if (!everyoneInPosition)
+    {
+        return;
+    }
+
+    this->positioning = false;
+
+    GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "AMONGUS");
 }
 
 void AEnemyLeader::BeginPlay()
@@ -82,9 +158,16 @@ void AEnemyLeader::BeginPlay()
     {
         this->localGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
     }
+
+    if (!this->heroesPointer)
+    {
+        this->heroesPointer = &this->localGameInstance->PartyManager->Heroes;
+    }
 }
 
 AEnemyLeader::AEnemyLeader()
 {
     this->localGameInstance = nullptr;
+
+    this->positioning = false;
 }
