@@ -105,7 +105,7 @@ void AEnemyLeader::Tick(float DeltaSeconds)
 
             if (!FVector::PointsAreNear(goalLocation->Location, heroLocation, 40))
             {
-                break;
+                continue;
             }
 
             goalLocation->Reached = true;
@@ -121,7 +121,6 @@ void AEnemyLeader::Tick(float DeltaSeconds)
 
 void AEnemyLeader::SetHeroDirections()
 {
-
     bool everyoneInPosition = true;
 
     for (int32 i = 0; i < this->heroesPointer->Num(); i++)
@@ -140,7 +139,7 @@ void AEnemyLeader::SetHeroDirections()
         hero->SetDirection(newDirection);
     }
 
-    if (!everyoneInPosition)
+    if (!everyoneInPosition || !this->positioning)
     {
         return;
     }
