@@ -13,6 +13,8 @@
 #include "PartyLeader.h"
 #include "Hero.h"
 
+#include "EnemyPartyMember.h"
+
 void AEnemyLeader::PositionHeroes()
 {
     if (this->localGameInstance->CurrentGameState != OVERWORLD)
@@ -24,9 +26,9 @@ void AEnemyLeader::PositionHeroes()
 
     this->heroesGoalLocation.Empty();
 
-    const float DISTANCE_X = 200.f;
+    const float DISTANCE_X = 220.f;
 
-    const float DISTANCE_Y = 350.f;
+    const float DISTANCE_Y = 420.f;
 
     FVector enemyPositon = this->GetActorLocation();
 
@@ -86,6 +88,59 @@ void AEnemyLeader::PositionHeroes()
     }
 
     this->positioning = true;
+}
+
+void AEnemyLeader::SetupEnemies()
+{
+    this->enemies.Emplace(this);
+
+    TArray<FName> otherEnemies;
+
+    otherEnemies.Add("Skull");
+
+    otherEnemies.Add("Skull");
+
+    otherEnemies.Add("Skull");
+
+    otherEnemies.Add("Skull");
+
+    FVector currentLocation = this->GetActorLocation();
+
+    FRotator currentRotation = this->GetActorRotation();
+
+    for (int32 i = 0; i < otherEnemies.Num(); i++)
+    {
+        FVector spawnLocation = currentLocation;
+
+        FVector battleLocation = currentLocation;
+
+        float DISTANCE_X = 200.f;
+
+        if (i == 0 || i % 2 == 0)
+        {
+            int32 multiplier = i == 0 ? 1 : i;
+
+            spawnLocation.X -= 50.f;
+
+            battleLocation.X -= DISTANCE_X * multiplier;
+        }
+        else
+        {
+            int32 multiplier = i == 1 ? 1 : i - 1;
+
+            spawnLocation.X += 50.f;
+
+            battleLocation.X += DISTANCE_X * multiplier;
+        }
+
+        AEnemyPartyMember *enemyPartyMember = this->GetWorld()->SpawnActor<AEnemyPartyMember>(AEnemyPartyMember::StaticClass(), currentLocation, currentRotation);
+
+        this->enemies.Emplace(enemyPartyMember);
+
+        this->enemies[i + 1]->TempStart();
+
+        this->enemies[i + 1]->ActorAIController->MoveToLocation(battleLocation);
+    }
 }
 
 void AEnemyLeader::Tick(float DeltaSeconds)
@@ -149,6 +204,8 @@ void AEnemyLeader::SetHeroDirections()
     this->positioning = false;
 
     GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Green, "AMONGUS");
+
+    this->SetupEnemies();
 
     FVector newPosition = this->partyLeader->CameraComp->GetComponentLocation();
 

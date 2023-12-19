@@ -36,6 +36,8 @@ class PAPERZDLAB_API AEnemyLeader : public AEnemy
 
 	TArray<AHero *> *heroesPointer;
 
+	TArray<AEnemy *> enemies;
+
 	UMyGameInstance *localGameInstance;
 
 	TArray<FheroesGoalLocation> heroesGoalLocation;
@@ -50,6 +52,8 @@ public:
 	void PositionHeroes();
 
 	void SetHeroDirections();
+
+	void SetupEnemies();
 
 	virtual void Tick(float DeltaSeconds) override;
 

@@ -64,4 +64,9 @@ AEnemy::AEnemy() {}
 void AEnemy::TempStart()
 {
     this->ASpawnnableActor::initialize("Skull");
+
+    if (!this->ActorAIController)
+    {
+        this->setupAIController();
+    }
 }
