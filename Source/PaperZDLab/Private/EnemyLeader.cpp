@@ -24,9 +24,9 @@ void AEnemyLeader::PositionHeroes()
 
     this->heroesGoalLocation.Empty();
 
-    const float DISTANCE_X = 150.f;
+    const float DISTANCE_X = 200.f;
 
-    const float DISTANCE_Y = 320.f;
+    const float DISTANCE_Y = 350.f;
 
     FVector enemyPositon = this->GetActorLocation();
 
@@ -45,9 +45,13 @@ void AEnemyLeader::PositionHeroes()
         case 1:
             newPositon.X -= DISTANCE_X * 0.5f;
 
+            newPositon.Y += 120.f;
+
             break;
         case 2:
             newPositon.X += DISTANCE_X * 0.5f;
+
+            newPositon.Y += 120.f;
 
             break;
         case 3:
@@ -110,7 +114,7 @@ void AEnemyLeader::Tick(float DeltaSeconds)
 
             FTimerHandle TimerHandle;
 
-            this->GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AEnemyLeader::SetHeroDirections, 0.1, false);
+            this->GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AEnemyLeader::SetHeroDirections, 0.2, false);
 
             GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Blue, (*this->heroesPointer)[i]->ActorName.ToString() + " is positioned!");
         }
@@ -171,6 +175,8 @@ void AEnemyLeader::BeginPlay()
     {
         this->partyLeader = localGameInstance->PartyManager->Leader;
     }
+
+    this->AEnemy::TempStart();
 }
 
 AEnemyLeader::AEnemyLeader()

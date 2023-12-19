@@ -51,5 +51,7 @@ public:
 
 	AEnemy();
 
+	void TempStart();
+
 	void Initialize(FEnemyStruct *enemyStruct, uint8 battleInstancePosition = -1);
 };

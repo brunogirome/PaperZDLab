@@ -60,3 +60,8 @@ void AEnemy::Initialize(FEnemyStruct *enemyStruct, uint8 battleInstancePosition)
 }
 
 AEnemy::AEnemy() {}
+
+void AEnemy::TempStart()
+{
+    this->ASpawnnableActor::initialize("Skull");
+}
