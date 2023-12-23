@@ -8,3 +8,7 @@ void AEnemyPartyMember::BeginPlay()
 
     // this->AEnemy::TempStart();
 }
+
+AEnemyPartyMember::AEnemyPartyMember()
+{
+}

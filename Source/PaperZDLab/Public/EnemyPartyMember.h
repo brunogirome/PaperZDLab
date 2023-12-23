@@ -14,5 +14,7 @@ class PAPERZDLAB_API AEnemyPartyMember : public AEnemy
 {
 	GENERATED_BODY()
 
+	AEnemyPartyMember();
+
 	virtual void BeginPlay() override;
 };

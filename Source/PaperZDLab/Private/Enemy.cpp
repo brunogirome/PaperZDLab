@@ -59,8 +59,6 @@ void AEnemy::Initialize(FEnemyStruct *enemyStruct, uint8 battleInstancePosition)
     this->ACombatActor::initialize(this->EnemyStruct);
 }
 
-AEnemy::AEnemy() {}
-
 void AEnemy::TempStart()
 {
     this->ASpawnnableActor::initialize("Skull");
@@ -69,4 +67,9 @@ void AEnemy::TempStart()
     {
         this->setupAIController();
     }
+}
+
+AEnemy::AEnemy()
+{
+    this->GetCapsuleComponent()->SetCollisionProfileName(TEXT("OverlapOnlyPawn"));
 }

@@ -152,6 +152,12 @@ ASpawnnableActor::ASpawnnableActor()
 
     UMaterialInterface *MaskedLitSpriteMaterial = LoadObject<UMaterialInterface>(nullptr, TEXT("MaterialInstanceConstant'/Paper2D/MaskedLitSpriteMaterial.MaskedLitSpriteMaterial'"));
 
+    FVector customLocation = this->GetSprite()->GetRelativeLocation();
+
+    customLocation.Z = -60;
+
+    this->GetSprite()->SetRelativeLocation(customLocation);
+
     this->GetSprite()->OverrideMaterials.Empty();
 
     this->GetSprite()->OverrideMaterials.Emplace(MaskedLitSpriteMaterial);
