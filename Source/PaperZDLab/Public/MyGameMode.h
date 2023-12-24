@@ -13,6 +13,8 @@
 
 class UMyGameInstance;
 
+class UBattleManager;
+
 /**
  *
  */
@@ -89,9 +91,13 @@ public:
 	// uint8 CastedSpellPositon;
 
 	// bool AlreadyAttacked;
+	UBattleManager *CurrentBattle;
 
 	UFUNCTION(BlueprintCallable)
 	virtual void BeginPlay() override;
+
+	UFUNCTION(BlueprintCallable)
+	void StartBattle(TArray<FName> enemies);
 
 	// UFUNCTION(BlueprintCallable)
 	// virtual void Tick(float DeltaSeconds) override;

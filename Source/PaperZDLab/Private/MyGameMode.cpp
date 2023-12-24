@@ -4,11 +4,9 @@
 
 #include "Kismet/GameplayStatics.h"
 
-#include "PartyLeader.h"
-
-#include "PartyMember.h"
-
 #include "MyGameInstance.h"
+
+#include "BattleManager.h"
 
 #include "PartyManager.h"
 
@@ -489,6 +487,11 @@ void AMyGameMode::BeginPlay()
   this->gameInstance->AddItem("OgreAxe", 3);
 
   this->gameInstance->AddItem("SimpleDagger", 1);
+}
+
+void AMyGameMode::StartBattle(TArray<FName> enemies)
+{
+  this->CurrentBattle = NewObject<UBattleManager>(UBattleManager::StaticClass());
 }
 
 // void AMyGameMode::Tick(float DeltaSeconds)
