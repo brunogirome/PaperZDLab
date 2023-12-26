@@ -35,62 +35,23 @@ struct FFlipbookCollection
 
 	UPaperFlipbook *MoveRightFlipbook;
 
-	FFlipbookCollection(FString actorName, bool tempUniqueSprite = false)
+	FFlipbookCollection(FString actorName)
 	{
-		FString IdleUpFlipbookText;
+		FString IdleUpFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + actorName + "/FB_" + actorName + "_Idle_Up.FB_" + actorName + "_Idle_Up'";
 
-		FString IdleDownFlipbookText;
+		FString IdleDownFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + actorName + "/FB_" + actorName + "_Idle_Down.FB_" + actorName + "_Idle_Down'";
 
-		FString IdleRightFlipbookText;
+		FString IdleRightFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + actorName + "/FB_" + actorName + "_Idle_Right.FB_" + actorName + "_Idle_Right'";
 
-		FString IdleLeftFlipbookText;
+		FString IdleLeftFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + actorName + "/FB_" + actorName + "_Idle_Left.FB_" + actorName + "_Idle_Left'";
 
-		FString MoveUpFlipbookText;
+		FString MoveUpFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + actorName + "/FB_" + actorName + "_Move_Up.FB_" + actorName + "_Move_Up'";
 
-		FString MoveDownFlipbookText;
+		FString MoveDownFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + actorName + "/FB_" + actorName + "_Move_Down.FB_" + actorName + "_Move_Down'";
 
-		FString MoveLeftFlipbookText;
+		FString MoveLeftFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + actorName + "/FB_" + actorName + "_Move_Left.FB_" + actorName + "_Move_Left'";
 
-		FString MoveRightFlipbookText;
-
-		if (tempUniqueSprite)
-		{
-			FString defaultSpriteName = "PaperFlipbook'/Game/Character/FlipBooks/" + actorName + "/FB_" + actorName + ".FB_" + actorName + "'";
-
-			IdleUpFlipbookText = defaultSpriteName;
-
-			IdleDownFlipbookText = defaultSpriteName;
-
-			IdleRightFlipbookText = defaultSpriteName;
-
-			IdleLeftFlipbookText = defaultSpriteName;
-
-			MoveUpFlipbookText = defaultSpriteName;
-
-			MoveDownFlipbookText = defaultSpriteName;
-
-			MoveLeftFlipbookText = defaultSpriteName;
-
-			MoveRightFlipbookText = defaultSpriteName;
-		}
-		else
-		{
-			IdleUpFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + actorName + "/FB_" + actorName + "_Idle_Up.FB_" + actorName + "_Idle_Up'";
-
-			IdleDownFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + actorName + "/FB_" + actorName + "_Idle_Down.FB_" + actorName + "_Idle_Down'";
-
-			IdleRightFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + actorName + "/FB_" + actorName + "_Idle_Right.FB_" + actorName + "_Idle_Right'";
-
-			IdleLeftFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + actorName + "/FB_" + actorName + "_Idle_Left.FB_" + actorName + "_Idle_Left'";
-
-			MoveUpFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + actorName + "/FB_" + actorName + "_Move_Up.FB_" + actorName + "_Move_Up'";
-
-			MoveDownFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + actorName + "/FB_" + actorName + "_Move_Down.FB_" + actorName + "_Move_Down'";
-
-			MoveLeftFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + actorName + "/FB_" + actorName + "_Move_Left.FB_" + actorName + "_Move_Left'";
-
-			MoveRightFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + actorName + "/FB_" + actorName + "_Move_Right.FB_" + actorName + "_Move_Right'";
-		}
+		FString MoveRightFlipbookText = "PaperFlipbook'/Game/Character/Aespa_Chars/FlipBooks/" + actorName + "/FB_" + actorName + "_Move_Right.FB_" + actorName + "_Move_Right'";
 
 		IdleUpFlipbook = Cast<UPaperFlipbook>(StaticLoadObject(UPaperFlipbook::StaticClass(), nullptr, *IdleUpFlipbookText));
 
@@ -157,11 +118,11 @@ protected:
 
 	FFlipbookCollection flipBookCollection;
 
-	void setupAIController();
-
 	void initialize(FName actorName);
 
 public:
+	void setupAIController();
+
 	UPROPERTY(BlueprintReadOnly)
 	AAIController *ActorAIController;
 

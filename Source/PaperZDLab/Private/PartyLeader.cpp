@@ -30,17 +30,13 @@ void APartyLeader::BeginPlay()
     UInputMappingContext *MapContext = LoadObject<UInputMappingContext>(nullptr, TEXT("InputMappingContext'/Game/Character/Input/IMC_TopDown.IMC_TopDown'"));
 
     Subsystem->AddMappingContext(MapContext, 0);
+
+    this->GetLocalViewingPlayerController()->bAutoManageActiveCameraTarget = false;
 }
 
 void APartyLeader::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
-
-    FVector currentPositon = this->GetActorLocation();
-
-    // GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::White, this->gameInstance->PartyManager);
-
-    // GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::White, "Location: X=" + FString::SanitizeFloat(currentPositon.X) + ", Y=" + FString::SanitizeFloat(currentPositon.Y));
 }
 
 void APartyLeader::SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent)
@@ -73,21 +69,21 @@ void APartyLeader::Move(const FInputActionValue &Value)
 
 APartyLeader::APartyLeader()
 {
-    CameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComp"));
+    this->SpringArmComp = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArmComp"));
 
-    CameraComp->SetupAttachment(GetCapsuleComponent());
+    this->SpringArmComp->SetupAttachment(this->RootComponent);
 
-    CameraComp->SetRelativeLocation(FVector(-350.f, 0.0f, 0.0f));
+    this->SpringArmComp->SetWorldRotation(FRotator(-25.0f, -90.0f, 0.0f));
 
-    CameraComp->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));
+    this->SpringArmComp->bDoCollisionTest = 0;
 
-    SpringArmComp = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArmComp"));
+    this->CameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComp"));
 
-    SpringArmComp->SetupAttachment(GetCapsuleComponent());
+    this->CameraComp->SetupAttachment(this->SpringArmComp);
 
-    SpringArmComp->SetRelativeRotation(FRotator(-25.0f, -90.0f, 0.0f));
+    this->CameraComp->SetRelativeLocation(FVector(-700.f, 0.0f, 0.0f));
 
-    SpringArmComp->bDoCollisionTest = 0;
+    // this->CameraComp->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));
 
-    CameraComp->AttachToComponent(SpringArmComp, FAttachmentTransformRules::KeepRelativeTransform);
+    // CameraComp->AttachToComponent(SpringArmComp, FAttachmentTransformRules::KeepRelativeTransform);
 }

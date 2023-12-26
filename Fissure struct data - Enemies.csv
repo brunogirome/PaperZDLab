@@ -1,3 +1,4 @@
 ---,XpDrop,Movesets,Name,Description,TypeOfActor,CombatType,Element,StrengthBase,AgilityBase,InteligenceBase,PhysicalDamageBase,MagicDamageBase,PhysicalDefenseBase,MagicDefenseBase,HpBase,ManaBase,SpeedBase,EvasionBase,StaminaBase,SpellsName
 Goblin,100,"(""W,W,M,M"", ""W,M,M"", ""H,H"", ""W,M,H"")",Goblin,Mischivious creature from the forests,ENEMY,AGILITY,EARTH,27,18,5,45,15,25,30,65,10,12,1,6,
 DemonEye,120,"(""W,M,M,S0"", ""M,H,S0"", ""S0"", ""W,M,H"")",Demon Eye,A bat demon with a giant eye,ENEMY,INTELIGENCE,FIRE,14,22,25,10,35,20,30,50,50,25,2,6,"(""Spark"")"
+Skull,50,"(""W,W,M"", ""W,W"")",Skull,The Skull of a baby demon,ENEMY,STRENGTH,DARK,16,15,3,22,5,12,20,32,1,15,3,5,

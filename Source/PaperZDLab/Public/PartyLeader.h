@@ -19,8 +19,6 @@ class PAPERZDLAB_API APartyLeader : public AHero
     GENERATED_BODY()
 
 public:
-    APartyLeader();
-
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     USpringArmComponent *SpringArmComp;
 
@@ -36,4 +34,6 @@ public:
     virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent);
 
     void Move(const struct FInputActionValue &Value);
+
+    APartyLeader();
 };

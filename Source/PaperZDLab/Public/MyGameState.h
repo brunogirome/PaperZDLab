@@ -5,12 +5,19 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameStateBase.h"
 
-#include "MyGameInstance.h"
-#include "MyGameMode.h"
+#include "CurrentGameState.h"
 
 #include "MyGameState.generated.h"
 
+class UMyGameInstance;
+
+class AMyGameMode;
+
 class AHero;
+
+class APartyLeader;
+
+class APartyMember;
 
 /**
  *
@@ -27,6 +34,12 @@ class PAPERZDLAB_API AMyGameState : public AGameStateBase
 public:
 	UFUNCTION(BlueprintCallable)
 	TArray<AHero *> GetPartyMembers();
+
+	UFUNCTION(BlueprintCallable)
+	APartyLeader *GetPartyLeader();
+
+	UFUNCTION(BlueprintCallable)
+	TArray<APartyMember *> GetAIMembers();
 
 	// UFUNCTION(BlueprintCallable)
 	// TArray<UEnemyStats *> GetEnemyPartyMembers();

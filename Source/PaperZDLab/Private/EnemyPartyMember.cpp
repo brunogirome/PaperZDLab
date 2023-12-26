@@ -9,6 +9,11 @@ void AEnemyPartyMember::BeginPlay()
     // this->AEnemy::TempStart();
 }
 
+void AEnemyPartyMember::Initialize(FEnemyStruct *enemyStruct)
+{
+    this->AEnemy::Initialize(enemyStruct);
+}
+
 AEnemyPartyMember::AEnemyPartyMember()
 {
 }

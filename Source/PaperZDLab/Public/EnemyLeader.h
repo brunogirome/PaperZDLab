@@ -12,6 +12,11 @@ class APartyLeader;
 
 class AHero;
 
+// temporary
+struct FAIRequestID;
+
+struct FPathFollowingResult;
+
 struct FheroesGoalLocation
 {
 	FVector Location;
@@ -54,6 +59,8 @@ public:
 	void SetHeroDirections();
 
 	void SetupEnemies();
+
+	void TempOnComplete(FAIRequestID RequestID, const FPathFollowingResult &Result);
 
 	virtual void Tick(float DeltaSeconds) override;
 

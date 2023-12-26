@@ -4,12 +4,25 @@
 
 #include "Kismet/GameplayStatics.h"
 
+#include "MyGameInstance.h"
+#include "MyGameMode.h"
+
 #include "PartyManager.h"
 #include "Hero.h"
 
 TArray<AHero *> AMyGameState::GetPartyMembers()
 {
   return this->gameInstance->PartyManager->Heroes;
+}
+
+APartyLeader *AMyGameState::GetPartyLeader()
+{
+  return this->gameInstance->PartyManager->Leader;
+}
+
+TArray<APartyMember *> AMyGameState::GetAIMembers()
+{
+  return this->gameInstance->PartyManager->AIMembers;
 }
 
 // TArray<UEnemyStats *> AMyGameState::GetEnemyPartyMembers()

@@ -2,6 +2,8 @@
 
 #include "CombatActor.h"
 
+#include "Kismet/GameplayStatics.h"
+
 #include "CombatActorStruct.h"
 #include "SpellClass.h"
 #include "ItemClass.h"
@@ -35,23 +37,31 @@ void ACombatActor::initialize(FCombatActorStruct *combatActorStruct)
 
     if (amountOfSpells == 0)
     {
-        return;
-    }
+        for (uint8 i = 0; i < amountOfSpells; i++)
+        {
+            FName spellName = this->CombatActorStructPointer->SpellsName[i];
 
-    for (uint8 i = 0; i < amountOfSpells; i++)
-    {
-        FName spellName = this->CombatActorStructPointer->SpellsName[i];
+            FSpellStruct *spellStruct = this->gameInstance->SpellsDataTable->FindRow<FSpellStruct>(spellName, "", true);
 
-        FSpellStruct *spellStruct = this->gameInstance->SpellsDataTable->FindRow<FSpellStruct>(spellName, "", true);
+            USpellClass *spellInstance = NewObject<USpellClass>(USpellClass::StaticClass());
 
-        USpellClass *spellInstance = NewObject<USpellClass>(USpellClass::StaticClass());
+            spellInstance->Init(spellStruct, i);
 
-        spellInstance->Init(spellStruct, i);
-
-        this->Spells.Emplace(spellInstance);
+            this->Spells.Emplace(spellInstance);
+        }
     }
 
     this->ASpawnnableActor::initialize(FName(this->Name));
+}
+
+void ACombatActor::BeginPlay()
+{
+    Super::BeginPlay();
+
+    if (!this->gameInstance)
+    {
+        this->gameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(this->GetWorld()));
+    }
 }
 
 void ACombatActor::CalculateStats()

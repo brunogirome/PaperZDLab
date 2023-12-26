@@ -31,11 +31,7 @@ void ASpawnnableActor::setupAIController()
     {
         this->ActorAIController = this->GetWorld()->SpawnActor<AAIController>(AAIController::StaticClass(), FVector::ZeroVector, FRotator::ZeroRotator);
 
-        this->AIControllerClass = this->ActorAIController->GetClass();
-
         this->ActorAIController->Possess(this);
-
-        this->SpawnDefaultController();
     }
 }
 

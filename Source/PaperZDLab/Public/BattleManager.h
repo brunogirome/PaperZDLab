@@ -10,7 +10,15 @@ class AHero;
 
 class AEnemy;
 
-class UMyGameState;
+class AEnemyLeader;
+
+class UMyGameInstance;
+
+class AMyGameMode;
+
+struct FAIRequestID;
+
+struct FPathFollowingResult;
 
 /**
  *
@@ -20,16 +28,18 @@ class PAPERZDLAB_API UBattleManager : public UObject
 {
 	GENERATED_BODY()
 
-	TArray<FVector> heroesGoalLocation;
+	UMyGameInstance *gameInstance;
 
-	UMyGameState *gameState;
+	AMyGameMode *gameMode;
+
+	TArray<AHero *> *heroParty;
+
+	TArray<AEnemy *> enemyParty;
 
 public:
-	TArray<AEnemy*> BattleEnemies;
+	void Intialize(TArray<FName> enemies, AEnemyLeader *enemyLeader, UMyGameInstance *myGameInstance, AMyGameMode *myGameMode);
 
-	TArray<AHero*> *HeroParty;
-
-	void Intialize(TArray<FName> enemies, UMyGameState *myGameStateRef, FVector enemyLocation);
+	void OnMoveComplete(FAIRequestID RequestID, const FPathFollowingResult &Result);
 
 	UBattleManager();
 };

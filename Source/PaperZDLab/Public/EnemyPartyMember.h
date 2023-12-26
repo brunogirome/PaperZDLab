@@ -6,6 +6,8 @@
 #include "Enemy.h"
 #include "EnemyPartyMember.generated.h"
 
+struct FEnemyStruct;
+
 /**
  *
  */
@@ -13,6 +15,9 @@ UCLASS()
 class PAPERZDLAB_API AEnemyPartyMember : public AEnemy
 {
 	GENERATED_BODY()
+
+public:
+	void Initialize(FEnemyStruct *enemyStruct);
 
 	AEnemyPartyMember();
 

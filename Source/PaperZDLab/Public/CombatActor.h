@@ -31,6 +31,15 @@ struct FEquipamentBuffStruct
 	float PercentageBonus;
 };
 
+enum FBattleAnimationState
+{
+	BATTLE_IDLE,
+	BATTLE_MOVING,
+	BATTLE_REACHED_LOCATION,
+	BATTLE_TAKE_DAMAGE,
+	BATTLE_ATACK
+};
+
 /**
  *
  */
@@ -139,6 +148,8 @@ public:
 	bool IsDefending;
 
 	uint8 PositionForEnemyInBattle;
+
+	virtual void BeginPlay() override;
 
 	UFUNCTION(BluePrintCallable)
 	bool IsDead();

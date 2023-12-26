@@ -7,6 +7,10 @@
 #include "Engine/EngineTypes.h"
 #include "Camera/CameraComponent.h"
 
+#include "GameFramework/SpringArmComponent.h"
+
+#include "Navigation/PathFollowingComponent.h"
+
 #include "MyGameInstance.h"
 
 #include "PartyManager.h"
@@ -14,6 +18,7 @@
 #include "Hero.h"
 
 #include "EnemyPartyMember.h"
+#include "EnemyStruct.h"
 
 void AEnemyLeader::PositionHeroes()
 {
@@ -71,7 +76,21 @@ void AEnemyLeader::PositionHeroes()
 
     this->heroesGoalLocation.Emplace(location);
 
-    UAIBlueprintHelperLibrary::SimpleMoveToLocation(this->partyLeader->GetController(), location);
+    AAIController *leaderController = this->GetWorld()->SpawnActor<AAIController>(AAIController::StaticClass(), FVector::ZeroVector, FRotator::ZeroRotator);
+
+    auto *controller1 = this->partyLeader->GetController();
+
+    // leaderController->bFindCameraComponentWhenViewTarget = false;
+
+    leaderController->Possess(this->partyLeader);
+
+    auto *controller2 = this->partyLeader->GetController();
+
+    leaderController->MoveToLocation(location);
+
+    // FDelegateHandle MoveCompletedHandle = leaderController->ReceiveMoveCompleted.Add(OnMoveCompleted);
+
+    // UAIBlueprintHelperLibrary::SimpleMoveToLocation(this->partyLeader->GetController(), location);
 
     for (int32 i = 1; i < (*this->heroesPointer).Num(); i++)
     {
@@ -80,14 +99,25 @@ void AEnemyLeader::PositionHeroes()
 
     for (int32 i = 1; i < (*this->heroesPointer).Num(); i++)
     {
+        AAIController *heroController = (*this->heroesPointer)[i]->ActorAIController;
+
         location = getPosition(i);
 
         this->heroesGoalLocation.Emplace(location);
 
-        (*this->heroesPointer)[i]->ActorAIController->MoveToLocation(location);
+        UPathFollowingComponent *followPath = heroController->GetPathFollowingComponent();
+
+        followPath->OnRequestFinished.AddUObject(this, &AEnemyLeader::TempOnComplete);
+
+        heroController->MoveToLocation(location);
     }
 
     this->positioning = true;
+}
+
+void AEnemyLeader::TempOnComplete(FAIRequestID RequestID, const FPathFollowingResult &Result)
+{
+    GEngine->AddOnScreenDebugMessage(-1, 50.0f, FColor::Yellow, "Complete yay");
 }
 
 void AEnemyLeader::SetupEnemies()
@@ -135,9 +165,14 @@ void AEnemyLeader::SetupEnemies()
 
         AEnemyPartyMember *enemyPartyMember = this->GetWorld()->SpawnActor<AEnemyPartyMember>(AEnemyPartyMember::StaticClass(), currentLocation, currentRotation);
 
-        this->enemies.Emplace(enemyPartyMember);
+        FEnemyStruct *enemyStruct = this->localGameInstance->EnemiesDataTable->FindRow<FEnemyStruct>(otherEnemies[i], "", true);
 
-        this->enemies[i + 1]->TempStart();
+        if (enemyStruct)
+        {
+            enemyPartyMember->Initialize(enemyStruct);
+        }
+
+        this->enemies.Emplace(enemyPartyMember);
 
         this->enemies[i + 1]->ActorAIController->MoveToLocation(battleLocation);
     }
@@ -220,7 +255,7 @@ void AEnemyLeader::BeginPlay()
 
     if (!this->localGameInstance)
     {
-        this->localGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+        this->localGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(this->GetWorld()));
     }
 
     if (!this->heroesPointer)
@@ -233,7 +268,9 @@ void AEnemyLeader::BeginPlay()
         this->partyLeader = localGameInstance->PartyManager->Leader;
     }
 
-    this->AEnemy::TempStart();
+    FEnemyStruct *enemyStruct = this->localGameInstance->EnemiesDataTable->FindRow<FEnemyStruct>(this->ActorName, "", true);
+
+    this->AEnemy::Initialize(enemyStruct);
 }
 
 AEnemyLeader::AEnemyLeader()

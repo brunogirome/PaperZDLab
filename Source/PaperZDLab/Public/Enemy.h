@@ -51,7 +51,7 @@ public:
 
 	AEnemy();
 
-	void TempStart();
+	virtual void BeginPlay() override;
 
 	void Initialize(FEnemyStruct *enemyStruct, uint8 battleInstancePosition = -1);
 };

@@ -59,9 +59,9 @@ void AEnemy::Initialize(FEnemyStruct *enemyStruct, uint8 battleInstancePosition)
     this->ACombatActor::initialize(this->EnemyStruct);
 }
 
-void AEnemy::TempStart()
+void AEnemy::BeginPlay()
 {
-    this->ASpawnnableActor::initialize("Skull");
+    Super::BeginPlay();
 
     if (!this->ActorAIController)
     {
