@@ -78,19 +78,15 @@ void AEnemyLeader::PositionHeroes()
 
     AAIController *leaderController = this->GetWorld()->SpawnActor<AAIController>(AAIController::StaticClass(), FVector::ZeroVector, FRotator::ZeroRotator);
 
-    auto *controller1 = this->partyLeader->GetController();
-
     // leaderController->bFindCameraComponentWhenViewTarget = false;
 
-    leaderController->Possess(this->partyLeader);
-
-    auto *controller2 = this->partyLeader->GetController();
+    // leaderController->Possess(this->partyLeader);
 
     leaderController->MoveToLocation(location);
 
     // FDelegateHandle MoveCompletedHandle = leaderController->ReceiveMoveCompleted.Add(OnMoveCompleted);
 
-    // UAIBlueprintHelperLibrary::SimpleMoveToLocation(this->partyLeader->GetController(), location);
+    UAIBlueprintHelperLibrary::SimpleMoveToLocation(this->partyLeader->GetController(), location);
 
     for (int32 i = 1; i < (*this->heroesPointer).Num(); i++)
     {

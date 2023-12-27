@@ -81,7 +81,7 @@ APartyLeader::APartyLeader()
 
     this->CameraComp->SetupAttachment(this->SpringArmComp);
 
-    this->CameraComp->SetRelativeLocation(FVector(-700.f, 0.0f, 0.0f));
+    this->CameraComp->SetRelativeLocation(FVector(-350.f, 0.0f, 0.0f));
 
     // this->CameraComp->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));
 
